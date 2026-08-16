@@ -78,6 +78,22 @@ body {
   }
 
   .small-screen {
-    display:none;
+    display: none;
+  }
+
+  #dock {
+    @apply absolute bottom-5 left-1/2 -translate-x-1/2 z-50 select-none max-md:hidden;
+    .dock-container {
+      @apply bg-white/20 dark:bg-black/40 backdrop-blur-2xl border border-white/20 dark:border-white/10 justify-between rounded-3xl p-2.5 flex items-end gap-2;
+    }
+    .tooltip {
+      @apply !py-1 !px-3 !w-fit !text-center !text-xs !rounded-md !bg-blue-200 !text-blue-900 dark:!bg-gray-800 dark:!text-white !shadow-2xl;
+    }
+    .dock-icon {
+      @apply size-14 3xl:size-20 cursor-pointer;
+      img {
+        @apply object-cover object-center;
+      }
+    }
   }
 }
