@@ -1,12 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Georama:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
-
+@import url("https://fonts.googleapis.com/css2?family=Georama:ital,wght@0,100..900;1,100..900&display=swap");
 
 @import "tailwindcss";
 
 html,
-body{
+body {
   width: 100dvw;
   overflow: hidden;
+  margin: 0;
   height: 100dvh;
   background-image: url("/images/wallpaper.jpg");
   background-size: cover;
@@ -14,22 +14,27 @@ body{
   background-position: center;
 }
 
-@theme {
-   --font-georama: "Georama", sans-serif;
-   --font-roboto: "Roboto", sans-serif;
-   --breakpoint-3xl: 1920px;
+#root {
+  width: 100%;
+  height: 100%;
 }
 
-@utility flex-center{
-  @apply flex items-center justify-center; 
+@theme {
+  --font-georama: "Georama", sans-serif;
+  --font-roboto: "Roboto", sans-serif;
+  --breakpoint-3xl: 1920px;
+}
+
+@utility flex-center {
+  @apply flex items-center justify-center;
 }
 
 @utility col-center {
   @apply flex flex-col items-center justify-center;
 }
 
-@utility abs-center{
-  @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2; 
+@utility abs-center {
+  @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
 }
 
 @layer base {
@@ -37,24 +42,42 @@ body{
     @apply w-dvw h-dvh overflow-hidden;
   }
 
-  nav{
-    @apply flex justify-between items-center bg-[#EBC6E7] backdrop-blur-3xl p-2 px-5 select-none; 
+  nav {
+    @apply flex justify-between items-center bg-[#EBC6E7] backdrop-blur-3xl p-2 px-5 select-none;
 
-      div{
-        @apply flex items-center max-sm:w-full max-sm:justify-center gap-5;
+    div {
+      @apply flex items-center max-sm:w-full max-sm:justify-center gap-5;
 
-
-        &:last-child{
-          @apply max-sm:hidden;
-        }
+      &:last-child {
+        @apply max-sm:hidden;
       }
+    }
 
-      ul{
-        @apply flex items-center gap-5 max-sm:hidden;
+    ul {
+      @apply flex items-center gap-5 max-sm:hidden;
 
-        p {
-          @apply text-sm cursor-pointer hover:underline transition-all;
-        }
+      p {
+        @apply text-sm cursor-pointer hover:underline transition-all;
       }
+    }
+    time {
+      @apply text-sm font-medium text-black dark:text-white;
+    }
+  }
+}
+
+@layer components {
+  #welcome {
+    @apply text-gray-200 flex flex-col justify-center items-center absolute top-[60vh] md:top-1/2 left-1/2 -translate-x-1/2 md:-translate-y-1/2 select-none w-full px-5 max-md:hidden;
+  }
+
+  #welcome p,
+  #welcome h1 {
+    display: inline-block;
+    will-change: font-variation-settings;
+  }
+
+  .small-screen {
+    display:none;
   }
 }
