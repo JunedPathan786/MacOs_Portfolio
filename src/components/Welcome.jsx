@@ -19,7 +19,7 @@ const renderText = (text, className, baseWeight = 400) => {
 }
 
 const setupTextHover = (container, type) => {
-  if (!container) return;
+  if (!container) return () => { };
 
   const letters = container.querySelectorAll("span")
   const { min, max, default: base } = FONT_WEIGHTS[type];
@@ -84,7 +84,20 @@ const Welcome = () => {
       </h1>
 
       <div className="small-screen">
-        <p>This Portfoliois design for desktop/tabled screens only.</p>
+        <div className="mobile-popup">
+          <span className="mobile-popup__number">01</span>
+
+          <h2>
+            Best viewed
+            <br />
+            on a larger screen.
+          </h2>
+
+          <p>
+            This portfolio is designed for desktop
+            and tablet screens.
+          </p>
+        </div>
       </div>
     </section>
   )
