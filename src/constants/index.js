@@ -51,17 +51,48 @@ const dockApps = [
   },
 ];
 
+const techStack = [
+  {
+    category: "Frontend:",
+    items: ["HTML", "CSS", "JS", "React", "Tailwind CSS"],
+  },
+  {
+    category: "Languages:",
+    items: ["C", "Python", "Bash"],
+  },
+  {
+    category: "Backend:",
+    items: ["Appwrite"],
+  },
+  {
+    category: "Creative:",
+    items: ["GSAP", "Blender", "DaVinci Resolve", "CapCut"],
+  },
+  {
+    category: "Env & Editor:",
+    items: ["Arch Linux", "Hyprland", "Neovim", "Ghostty"],
+  },
+  {
+    category: "(Learning):",
+    items: ["TS", "Next.js", "React Native"],
+  },
+  {
+    category: "(Planned):",
+    items: ["Three.js", "WebGL", "WebGPU"],
+  },
+];
+
 const INITIAL_Z_INDEX = 1000;
 
 const WINDOW_CONFIG = {
-  finder: { isOpen: false, isMaximized: false, zIndex: INITIAL_Z_INDEX, data: null },
-  contact: { isOpen: false, isMaximized: false, zIndex: INITIAL_Z_INDEX, data: null },
-  resume: { isOpen: false, isMaximized: false, zIndex: INITIAL_Z_INDEX, data: null },
-  safari: { isOpen: false, isMaximized: false, zIndex: INITIAL_Z_INDEX, data: null },
-  photos: { isOpen: false, isMaximized: false, zIndex: INITIAL_Z_INDEX, data: null },
-  terminal: { isOpen: false, isMaximized: false, zIndex: INITIAL_Z_INDEX, data: null },
-  txtfile: { isOpen: false, isMaximized: false, zIndex: INITIAL_Z_INDEX, data: null },
-  imgfile: { isOpen: false, isMaximized: false, zIndex: INITIAL_Z_INDEX, data: null }
+  finder: { isOpen: false, isMinimized: false, isMaximized: false, zIndex: INITIAL_Z_INDEX, data: null },
+  contact: { isOpen: false, isMinimized: false, isMaximized: false, zIndex: INITIAL_Z_INDEX, data: null },
+  resume: { isOpen: false, isMinimized: false, isMaximized: false, zIndex: INITIAL_Z_INDEX, data: null },
+  safari: { isOpen: false, isMinimized: false, isMaximized: false, zIndex: INITIAL_Z_INDEX, data: null },
+  photos: { isOpen: false, isMinimized: false, isMaximized: false, zIndex: INITIAL_Z_INDEX, data: null },
+  terminal: { isOpen: false, isMinimized: false, isMaximized: false, zIndex: INITIAL_Z_INDEX, data: null },
+  txtfile: { isOpen: false, isMinimized: false, isMaximized: false, zIndex: INITIAL_Z_INDEX, data: null },
+  imgfile: { isOpen: false, isMinimized: false, isMaximized: false, zIndex: INITIAL_Z_INDEX, data: null }
 };
 
-export { navLinks, navIcons, dockApps, INITIAL_Z_INDEX, WINDOW_CONFIG };
+export { navLinks, navIcons, dockApps, techStack,  INITIAL_Z_INDEX, WINDOW_CONFIG };
