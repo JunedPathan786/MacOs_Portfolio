@@ -235,6 +235,66 @@ body {
   max-md:bg-[#0A0B1A];
   }
 
+  .os-window {
+    @apply max-md:inset-0 max-md:w-full max-md:h-full max-md:rounded-none max-md:z-[100];
+    > div:last-child {
+      @apply max-md:h-full max-md:overflow-y-auto max-md:overflow-x-hidden max-md:pb-12;
+    }
+  }
+
+  #safari {
+    @apply w-4xl absolute top-40 left-2/12 bg-white/30 backdrop-blur-xl shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden max-md:inset-0 max-md:w-full max-md:h-full max-md:rounded-none max-md:bg-white;
+    .search {
+      @apply flex items-center gap-3 w-2/3 bg-white/30 backdrop-blur-xl border border-gray-300 rounded-lg px-3 py-2 max-md:flex-1 max-md:ml-0 max-md:h-10 max-md:bg-[#E3E3E6] max-md:rounded-xl max-md:px-3 max-md:justify-center max-md:border-none max-md:shadow-sm;
+      input {
+        @apply placeholder:text-gray-500 max-md:text-center max-md:text-[15px] max-md:w-full max-md:bg-transparent outline-none;
+      }
+    }
+    .blog {
+      @apply w-full h-full max-md:h-full max-md:overflow-y-auto max-md:bg-white;
+      .blog-container {
+        @apply p-10 max-w-3xl mx-auto max-md:p-6 max-md:w-full max-md:max-w-full pb-20;
+      }
+      h2 {
+        @apply text-xl font-bold text-black mb-10 mt-10 max-md:text-2xl max-md:text-black max-md:mb-6 text-center max-md:text-center;
+      }
+      .blog-post {
+        @apply relative grid grid-cols-12 space-x-12 max-md:flex max-md:flex-col max-md:gap-4 max-md:mb-10 max-md:ml-0 max-md:space-x-0 bg-white/50 max-md:bg-gray-50 max-md:p-3 rounded-3xl p-5 max-md:rounded-3xl shadow-sm transition-all duration-300;
+
+        &::before {
+          content: "";
+          @apply absolute inset-0 bg-black/5 rounded-3xl opacity-0 transition-opacity duration-300 z-0;
+        }
+        &:hover::before {
+          @apply opacity-100;
+        }
+
+        img {
+          @apply relative z-10 size-full rounded-md object-cover max-md:w-full max-md:h-auto max-md:object-contain max-md:rounded-2xl max-md:bg-gray-200 shadow-sm;
+        }
+        .content {
+          @apply relative z-10 col-span-10 space-y-3 max-md:py-2;
+          p {
+            @apply text-xs text-indigo-600 max-md:text-sm;
+          }
+          h3 {
+            @apply font-semibold text-base text-gray-800 max-md:text-lg max-md:leading-tight;
+          }
+          a {
+            @apply text-blue-600 text-xs hover:underline flex items-center gap-3 max-md:text-sm font-medium;
+          }
+        }
+      }
+    }
+    #window-header {
+      @apply max-md:pt-[52px] max-md:px-4 max-md:pb-3 max-md:bg-white/80 max-md:backdrop-blur-md max-md:border-gray-100;
+      > svg,
+      > div:not(.search):not(#window-controls) {
+        @apply max-md:hidden;
+      }
+    }
+  }
+
   #contact {
     @apply w-[650px] absolute top-60 left-5/12 bg-white/30 backdrop-blur-xl shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden max-md:inset-0 max-md:w-full max-md:h-full max-md:rounded-none max-md:bg-[#f2f2f7];
     h2 {
