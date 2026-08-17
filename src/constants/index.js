@@ -54,27 +54,23 @@ const dockApps = [
 const techStack = [
   {
     category: "Frontend:",
-    items: ["HTML", "CSS", "JS", "React", "Tailwind CSS"],
+    items: ["HTML5", "CSS3", "JS(ES6+)", "React", "Tailwind CSS"],
   },
   {
     category: "Languages:",
-    items: ["C", "Python", "Bash"],
+    items: ["C", "C++","Python", "SQL"],
   },
   {
     category: "Backend:",
-    items: ["Appwrite"],
+    items: ["Node.js", "Appwrite", "Express.js", "REST APIs", "Socket.IO"],
   },
   {
     category: "Creative:",
-    items: ["GSAP", "Blender", "DaVinci Resolve", "CapCut"],
-  },
-  {
-    category: "Env & Editor:",
-    items: ["Arch Linux", "Hyprland", "Neovim", "Ghostty"],
+    items: ["GSAP", "Framer Motion", "Three.js"],
   },
   {
     category: "(Learning):",
-    items: ["TS", "Next.js", "React Native"],
+    items: ["TS", "Next.js"],
   },
   {
     category: "(Planned):",
