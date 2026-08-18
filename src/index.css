@@ -456,11 +456,11 @@ body {
   }
 
  #home {
-  @apply relative z-0 w-full h-full;
+  @apply relative z-0 w-full h-full pointer-events-none;
 
   .desktop-projects {
     li {
-      @apply absolute z-0 select-none flex items-center flex-col cursor-pointer;
+      @apply absolute z-0 select-none flex items-center flex-col cursor-pointer pointer-events-auto;
 
       img {
         @apply p-1 rounded-md transition-all duration-200;
