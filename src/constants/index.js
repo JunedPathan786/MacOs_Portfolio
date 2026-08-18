@@ -54,6 +54,21 @@ const socials = [
   },
 ];
 
+const photosLinks = [
+  { id: 1, icon: "/icons/gicon1.svg", title: "Library" },
+  { id: 2, icon: "/icons/gicon2.svg", title: "Memories" },
+  { id: 3, icon: "/icons/file.svg", title: "Places" },
+  { id: 4, icon: "/icons/gicon4.svg", title: "People" },
+  { id: 5, icon: "/icons/gicon5.svg", title: "Favorites" },
+];
+
+const gallery = [
+  { id: 1, img: "/images/yousef-3.webp" },
+  { id: 2, img: "/images/yousef.webp" },
+  { id: 3, img: "/images/yousef-4.webp" },
+  { id: 4, img: "/images/yousef-2.webp" },
+];
+
 const dockApps = [
   {
     id: "finder",
@@ -357,4 +372,4 @@ const locations = {
 };
 
 
-export { navLinks, navIcons, dockApps, techStack,  INITIAL_Z_INDEX, WINDOW_CONFIG, blogPosts, locations, socials };
+export { navLinks, navIcons, dockApps, techStack,  INITIAL_Z_INDEX, WINDOW_CONFIG, blogPosts, locations, socials, photosLinks, gallery };
