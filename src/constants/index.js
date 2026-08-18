@@ -17,10 +17,109 @@ const navLinks = [
 ];
 
 const navIcons = [
-  { id: 1, img: "/icons/wifi.svg" },
-  { id: 1, img: "/icons/search.svg" },
-  { id: 1, img: "/icons/user.svg" },
-  { id: 1, img: "/icons/mode.svg" },
+  {
+    id: 1,
+    img: "/icons/wifi.svg",
+  },
+  {
+    id: 2,
+    img: "/icons/search.svg",
+  },
+  {
+    id: 3,
+    img: "/icons/user.svg",
+  },
+  {
+    id: 4,
+    img: "/icons/mode.svg",
+  },
+];
+
+const dockApps = [
+  {
+    id: "finder",
+    name: "Portfolio", // was "Finder"
+    icon: "finder.png",
+    canOpen: true,
+  },
+  {
+    id: "safari",
+    name: "Articles", // was "Safari"
+    icon: "safari.png",
+    canOpen: true,
+  },
+  {
+    id: "photos",
+    name: "Gallery", // was "Photos"
+    icon: "photos.png",
+    canOpen: true,
+  },
+  {
+    id: "contact",
+    name: "Contact", // or "Get in touch"
+    icon: "contact.png",
+    canOpen: true,
+  },
+  {
+    id: "terminal",
+    name: "Skills", // was "Terminal"
+    icon: "terminal.png",
+    canOpen: true,
+  },
+  {
+    id: "trash",
+    name: "Archive", // was "Trash"
+    icon: "trash.png",
+    canOpen: false,
+  },
+];
+
+const blogPosts = [
+  {
+    id: 1,
+    date: "Sep 2, 2025",
+    title:
+      "TypeScript Explained: What It Is, Why It Matters, and How to Master It",
+    image: "/images/blog1.png",
+    link: "https://jsmastery.com/blog/typescript-explained-what-it-is-why-it-matters-and-how-to-master-it",
+  },
+  {
+    id: 2,
+    date: "Aug 28, 2025",
+    title: "The Ultimate Guide to Mastering Three.js for 3D Development",
+    image: "/images/blog2.png",
+    link: "https://jsmastery.com/blog/the-ultimate-guide-to-mastering-three-js-for-3d-development",
+  },
+  {
+    id: 3,
+    date: "Aug 15, 2025",
+    title: "The Ultimate Guide to Mastering GSAP Animations",
+    image: "/images/blog3.png",
+    link: "https://jsmastery.com/blog/the-ultimate-guide-to-mastering-gsap-animations",
+  },
+];
+
+const techStack = [
+  {
+    category: "Frontend",
+    items: ["React.js", "Next.js", "TypeScript"],
+  },
+  {
+    category: "Styling",
+    items: ["Tailwind CSS", "Sass", "CSS"],
+  },
+  {
+    category: "Backend",
+    items: ["Node.js", "Express", "NestJS", "AppWrite"],
+  },
+  {
+    category: "Database",
+    items: ["MongoDB", "PostgreSQL"],
+  },
+  {
+    category: "Dev Tools",
+    items: ["Git", "GitHub", "Docker"],
+  },
 ];
 
 const socials = [
@@ -28,238 +127,252 @@ const socials = [
     id: 1,
     text: "Github",
     icon: "/icons/github.svg",
-    bg: "#1a1a3a",
-    link: "https://github.com/YoussefZidan-1/",
+    bg: "#f4656b",
+    link: "https://github.com/JunedPathan786",
   },
   {
     id: 2,
-    text: "Whatsapp",
+    text: "Platform",
     icon: "/icons/atom.svg",
     bg: "#4bcb63",
-    link: "https://wa.me/+201130765715",
+    link: "https://leetcode.com/u/juned_pathan/",
   },
   {
     id: 3,
-    text: "Instagram",
-    icon: "/icons/instagram.svg",
-    bg: "#c822d4",
-    link: "https://www.instagram.com/yousef__zedan1/",
+    text: "Twitter/X",
+    icon: "/icons/twitter.svg",
+    bg: "#ff866b",
+    link: "https://x.com/home",
   },
   {
     id: 4,
     text: "LinkedIn",
     icon: "/icons/linkedin.svg",
     bg: "#05b6f6",
-    link: "https://www.linkedin.com/in/yousef-zedan-6a275a400/",
+    link: "https://www.linkedin.com/in/junedpathan/",
   },
 ];
 
 const photosLinks = [
-  { id: 1, icon: "/icons/gicon1.svg", title: "Library" },
-  { id: 2, icon: "/icons/gicon2.svg", title: "Memories" },
-  { id: 3, icon: "/icons/file.svg", title: "Places" },
-  { id: 4, icon: "/icons/gicon4.svg", title: "People" },
-  { id: 5, icon: "/icons/gicon5.svg", title: "Favorites" },
-];
-
-const gallery = [
-  { id: 1, img: "/images/yousef-3.webp" },
-  { id: 2, img: "/images/yousef.webp" },
-  { id: 3, img: "/images/yousef-4.webp" },
-  { id: 4, img: "/images/yousef-2.webp" },
-];
-
-const dockApps = [
-  {
-    id: "finder",
-    name: "Portfolio",
-    icon: "finder.png",
-    canOpen: true,
-  },
-  {
-    id: "safari",
-    name: "Certificates",
-    icon: "safari.png",
-    canOpen: true,
-  },
-  {
-    id: "photos",
-    name: "Gallery",
-    icon: "photos.png",
-    canOpen: true,
-  },
-  {
-    id: "contact",
-    name: "Contact",
-    icon: "contact.png",
-    canOpen: true,
-  },
-  {
-    id: "terminal",
-    name: "Skills",
-    icon: "terminal.png",
-    canOpen: true,
-  },
-  {
-    id: "trash",
-    name: "Trash",
-    icon: "trash.png",
-    canOpen: true,
-  },
-];
-
-const techStack = [
-  {
-    category: "Frontend:",
-    items: ["HTML5", "CSS3", "JS(ES6+)", "React", "Tailwind CSS"],
-  },
-  {
-    category: "Languages:",
-    items: ["C", "C++","Python", "SQL"],
-  },
-  {
-    category: "Backend:",
-    items: ["Node.js", "Appwrite", "Express.js", "REST APIs", "Socket.IO"],
-  },
-  {
-    category: "Creative:",
-    items: ["GSAP", "Framer Motion", "Three.js"],
-  },
-  {
-    category: "(Learning):",
-    items: ["TS", "Next.js"],
-  },
-  {
-    category: "(Planned):",
-    items: ["Three.js", "WebGL", "WebGPU"],
-  },
-];
-
-const INITIAL_Z_INDEX = 1000;
-
-const WINDOW_CONFIG = {
-  finder: { isOpen: false, isMinimized: false, isMaximized: false, zIndex: INITIAL_Z_INDEX, data: null },
-  contact: { isOpen: false, isMinimized: false, isMaximized: false, zIndex: INITIAL_Z_INDEX, data: null },
-  resume: { isOpen: false, isMinimized: false, isMaximized: false, zIndex: INITIAL_Z_INDEX, data: null },
-  safari: { isOpen: false, isMinimized: false, isMaximized: false, zIndex: INITIAL_Z_INDEX, data: null },
-  photos: { isOpen: false, isMinimized: false, isMaximized: false, zIndex: INITIAL_Z_INDEX, data: null },
-  terminal: { isOpen: false, isMinimized: false, isMaximized: false, zIndex: INITIAL_Z_INDEX, data: null },
-  txtfile: { isOpen: false, isMinimized: false, isMaximized: false, zIndex: INITIAL_Z_INDEX, data: null },
-  imgfile: { isOpen: false, isMinimized: false, isMaximized: false, zIndex: INITIAL_Z_INDEX, data: null }
-};
-
-const blogPosts = [
   {
     id: 1,
-    date: "June 27, 2025",
-    title: "CS50x Certificate",
-    image: "/images/blog1.png",
-    link: "https://cs50.harvard.edu/certificates/4e5fe04c-408a-40f9-9da4-126af12a296f",
+    icon: "/icons/gicon1.svg",
+    title: "Library",
   },
   {
     id: 2,
-    date: "Jan 11, 2026",
-    title: "freeCodeCamp | Responsive Web Design Certificate",
-    image: "/images/blog2.png",
-    link: "https://www.freecodecamp.org/certification/youssef_zidan-1/responsive-web-design-v9",
+    icon: "/icons/gicon2.svg",
+    title: "Memories",
   },
   {
     id: 3,
-    date: "Feb 19, 2026",
-    title: "freeCodeCamp | JavaScript Algorithms and Data Structures",
-    image: "/images/blog3.png",
-    link: "https://www.freecodecamp.org/certification/youssef_zidan-1/javascript-v9",
+    icon: "/icons/file.svg",
+    title: "Places",
+  },
+  {
+    id: 4,
+    icon: "/icons/gicon4.svg",
+    title: "People",
+  },
+  {
+    id: 5,
+    icon: "/icons/gicon5.svg",
+    title: "Favorites",
   },
 ];
+
+const gallery = [
+  {
+    id: 1,
+    img: "/images/gal1.png",
+  },
+  {
+    id: 2,
+    img: "/images/gal2.png",
+  },
+  {
+    id: 3,
+    img: "/images/gal3.png",
+  },
+  {
+    id: 4,
+    img: "/images/gal4.png",
+  },
+];
+
+export {
+  navLinks,
+  navIcons,
+  dockApps,
+  blogPosts,
+  techStack,
+  socials,
+  photosLinks,
+  gallery,
+};
 
 const WORK_LOCATION = {
   id: 1,
   type: "work",
-  name: "Projects",
+  name: "Work",
   icon: "/icons/work.svg",
   kind: "folder",
   children: [
     // ▶ Project 1
     {
       id: 5,
-      name: "ZCinema",
+      name: "Nike Ecommerce Website Application",
       icon: "/images/folder.png",
       kind: "folder",
-      position: "top-10 left-5",
-      windowPosition: "top-[10vh] left-[5vw]",
+      position: "top-10 left-5", // icon position inside Finder
+      windowPosition: "top-[5vh] left-5", // optional: Finder window position
       children: [
         {
-          id: 51,
-          name: "ZCinema.txt",
+          id: 1,
+          name: "Nike Project.txt",
           icon: "/images/txt.png",
           kind: "file",
           fileType: "txt",
-          position: "top-10 left-5",
+          position: "top-5 left-10",
           description: [
-            "The ZCinema website is a sleek and modern platform designed for searching films and trending lists.",
-            "Instead of a simple online website, it delivers an immersive experience with bold visuals, interactive movie card display, and smooth navigation.",
-            "It's built with React.js and Tailwind, ensuring fast performance, responsive design, and a clean, premium look.",
+            "The Nike eCommerce website is a sleek and modern platform designed for shopping the latest Nike collections.",
+            "Instead of a simple online store, it delivers an immersive experience with bold visuals, interactive product displays, and smooth navigation.",
+            "Think of it like walking into a flagship Nike store—but right from your phone or laptop.",
+            "It's built with Next.js and Tailwind, ensuring fast performance, responsive design, and a clean, premium look.",
           ],
         },
         {
-          id: 52,
-          name: "z-cinema.vercel.app",
-          icon: "/images/zcinema.png",
+          id: 2,
+          name: "nike.com",
+          icon: "/images/safari.png",
           kind: "file",
           fileType: "url",
-          href: "https://z-cinema.vercel.app",
-          position: "top-10 left-40",
+          href: "https://youtu.be/fZdTYswuZjU?si=Awjl-pIst9e09_UU",
+          position: "top-10 right-20",
         },
         {
-          id: 53,
-          name: "ZCinema.png",
+          id: 4,
+          name: "nike.png",
           icon: "/images/image.png",
           kind: "file",
           fileType: "img",
-          position: "top-10 left-72",
-          imageUrl: "/images/project-1.webp",
+          position: "top-52 right-80",
+          imageUrl: "/images/project-1.png",
+        },
+        {
+          id: 5,
+          name: "Design.fig",
+          icon: "/images/plain.png",
+          kind: "file",
+          fileType: "fig",
+          href: "https://google.com",
+          position: "top-60 right-20",
         },
       ],
     },
+
     // ▶ Project 2
     {
       id: 6,
-      name: "ZProximity Engine",
+      name: "AI Resume Analyzer",
       icon: "/images/folder.png",
       kind: "folder",
-      position: "top-10 left-36", 
-      windowPosition: "top-[15vh] left-[15vw]",
+      position: "top-52 right-80",
+      windowPosition: "top-[20vh] left-7",
       children: [
         {
-          id: 61,
-          name: "ZProximity.txt",
+          id: 1,
+          name: "AI Resume Analyzer Project.txt",
           icon: "/images/txt.png",
           kind: "file",
           fileType: "txt",
-          position: "top-10 left-5",
+          position: "top-5 right-10",
           description: [
-            "The ZProximity Engine website is a sleek and modern platform designed to help programmers making high-performance organic animations.",
-            "Instead of simple static animations, it delivers an immersive experience with bold visuals, interactive presets, and smooth easing types.",
-            "It's built with React.js and GSAP, ensuring fast performance, responsive design, and a clean, premium look.",
+            "AI Resume Analyzer is a smart tool that helps you perfect your resume with instant feedback.",
+            "Instead of guessing what recruiters want, you get AI-powered insights on keywords, formatting, and overall impact.",
+            "Think of it like having a career coach—pointing out strengths, fixing weaknesses, and boosting your chances of landing interviews.",
+            "It's built with Next.js and Tailwind, so it runs fast, looks professional, and works seamlessly on any device.",
           ],
         },
         {
-          id: 62,
-          name: "z-proximity-engine.vercel.app",
-          icon: "/images/zproximity.svg",
+          id: 2,
+          name: "ai-resume-analyzer.com",
+          icon: "/images/safari.png",
           kind: "file",
           fileType: "url",
-          href: "https://z-proximity-engine.vercel.app",
-          position: "top-10 left-40",
+          href: "https://youtu.be/iYOz165wGkQ?si=R1hs8Legl200m0Cl",
+          position: "top-20 left-20",
         },
         {
-          id: 63,
-          name: "ZProximity.png",
+          id: 4,
+          name: "ai-resume-analyzer.png",
           icon: "/images/image.png",
           kind: "file",
           fileType: "img",
-          position: "top-10 left-72",
-          imageUrl: "/images/project-2.JPG",
+          position: "top-52 left-80",
+          imageUrl: "/images/project-2.png",
+        },
+        {
+          id: 5,
+          name: "Design.fig",
+          icon: "/images/plain.png",
+          kind: "file",
+          fileType: "fig",
+          href: "https://google.com",
+          position: "top-60 left-5",
+        },
+      ],
+    },
+
+    // ▶ Project 3
+    {
+      id: 7,
+      name: "Food Delivery App",
+      icon: "/images/folder.png",
+      kind: "folder",
+      position: "top-10 left-80",
+      windowPosition: "top-[33vh] left-7",
+      children: [
+        {
+          id: 1,
+          name: "Food Delivery App Project.txt",
+          icon: "/images/txt.png",
+          kind: "file",
+          fileType: "txt",
+          position: "top-5 left-10",
+          description: [
+            "Our Food Delivery App is a fast and convenient way to order meals from your favorite restaurants.",
+            "Instead of making calls or waiting in line, you can browse menus, customize orders, and track deliveries in real time.",
+            "Think of it like having your favorite restaurants in your pocket—ready to deliver anytime, anywhere.",
+            "It’s built with React Native, so it works smoothly on both iOS and Android with a clean, modern design.",
+          ],
+        },
+        {
+          id: 2,
+          name: "food-delivery-app.com",
+          icon: "/images/safari.png",
+          kind: "file",
+          fileType: "url",
+          href: "https://youtu.be/LKrX390fJMw?si=cExkuVhf2DTV9G2-",
+          position: "top-10 right-20",
+        },
+        {
+          id: 4,
+          name: "food-delivery-app.png",
+          icon: "/images/image.png",
+          kind: "file",
+          fileType: "img",
+          position: "top-52 right-80",
+          imageUrl: "/images/project-3.png",
+        },
+        {
+          id: 5,
+          name: "Design.fig",
+          icon: "/images/plain.png",
+          kind: "file",
+          fileType: "fig",
+          href: "https://google.com",
+          position: "top-60 right-20",
         },
       ],
     },
@@ -274,46 +387,47 @@ const ABOUT_LOCATION = {
   kind: "folder",
   children: [
     {
-      id: 21,
-      name: "me.png",
+      id: 1,
+      name: "juned.png",
       icon: "/images/image.png",
       kind: "file",
       fileType: "img",
       position: "top-10 left-5",
-      imageUrl: "/images/yousef-2.webp",
+      imageUrl: "/images/juned.jpg",
     },
     {
-      id: 22,
-      name: "casual-me.png",
+      id: 2,
+      name: "developer.png",
       icon: "/images/image.png",
       kind: "file",
       fileType: "img",
-      position: "top-10 left-32",
-      imageUrl: "/images/yousef-3.webp",
+      position: "top-28 right-72",
+      imageUrl: "/images/juned-2.jpg",
     },
     {
-      id: 23,
-      name: "ME!.png",
+      id: 3,
+      name: "workspace.png",
       icon: "/images/image.png",
       kind: "file",
       fileType: "img",
-      position: "top-10 left-60",
-      imageUrl: "/images/yousef-4.webp",
+      position: "top-52 left-80",
+      imageUrl: "/images/juned-3.jpg",
     },
     {
-      id: 24,
+      id: 4,
       name: "about-me.txt",
       icon: "/images/txt.png",
       kind: "file",
       fileType: "txt",
-      position: "top-40 left-5",
-      subtitle: "Meet the Developer Behind the Code",
-      image: "/images/yousef.webp",
+      position: "top-60 left-5",
+      subtitle: "Software Engineer & Full-Stack Developer",
+      image: "/images/juned.jpg",
       description: [
-        "Hey! I’m Youssef 👋, a Creative developer who enjoys building sleek, interactive websites that actually work well.",
-        "I specialize in JavaScript, React, and GSAP—and I love making things feel smooth, fast, and just a little bit delightful.",
-        "I’m big on clean UI, good UX, and writing code that doesn’t need a search party to debug.",
-        "Outside of dev work, you'll find me tweaking layouts at 2AM, sipping overpriced coffee, or impulse-buying gadgets I absolutely convinced myself I needed 😅",
+        "Hey! I’m Juned 👋, a software engineer specializing in MERN stack development and full-stack application engineering.",
+        "I work primarily with JavaScript, TypeScript, React.js, Node.js, Express.js, and MongoDB, with hands-on experience building RESTful APIs, scalable applications, and AI-powered web platforms.",
+        "I enjoy working on challenging products—from real-time developer platforms and scalable infrastructure to AI-powered interview and resume tools—with a strong focus on backend architecture, authentication, performance, and clean user experiences.",
+        "I’ve gained professional experience through web development internships at CodSoft and Infotact, while continuously strengthening my foundation in DSA, OOP, DBMS, Operating Systems, and Computer Networks.",
+        "Outside of building applications, I’m constantly experimenting with new technologies, solving DSA problems, and turning ideas into practical software.",
       ],
     },
   ],
@@ -327,11 +441,13 @@ const RESUME_LOCATION = {
   kind: "folder",
   children: [
     {
-      id: 31,
+      id: 1,
       name: "Resume.pdf",
       icon: "/images/pdf.png",
       kind: "file",
       fileType: "pdf",
+      // you can add `href` if you want to open a hosted resume
+      // href: "/your/resume/path.pdf",
     },
   ],
 };
@@ -344,32 +460,44 @@ const TRASH_LOCATION = {
   kind: "folder",
   children: [
     {
-      id: 41,
+      id: 1,
       name: "trash1.png",
       icon: "/images/image.png",
       kind: "file",
       fileType: "img",
       position: "top-10 left-10",
-      imageUrl: "/images/trash-1.webp",
+      imageUrl: "/images/trash-1.png",
     },
     {
-      id: 42,
+      id: 2,
       name: "trash2.png",
       icon: "/images/image.png",
       kind: "file",
       fileType: "img",
       position: "top-40 left-80",
-      imageUrl: "/images/trash-2.webp",
+      imageUrl: "/images/trash-2.png",
     },
   ],
 };
 
-const locations = {
+export const locations = {
   work: WORK_LOCATION,
   about: ABOUT_LOCATION,
   resume: RESUME_LOCATION,
   trash: TRASH_LOCATION,
 };
 
+const INITIAL_Z_INDEX = 1000;
 
-export { navLinks, navIcons, dockApps, techStack,  INITIAL_Z_INDEX, WINDOW_CONFIG, blogPosts, locations, socials, photosLinks, gallery };
+const WINDOW_CONFIG = {
+  finder: { isOpen: false, zIndex: INITIAL_Z_INDEX, data: null },
+  contact: { isOpen: false, zIndex: INITIAL_Z_INDEX, data: null },
+  resume: { isOpen: false, zIndex: INITIAL_Z_INDEX, data: null },
+  safari: { isOpen: false, zIndex: INITIAL_Z_INDEX, data: null },
+  photos: { isOpen: false, zIndex: INITIAL_Z_INDEX, data: null },
+  terminal: { isOpen: false, zIndex: INITIAL_Z_INDEX, data: null },
+  txtfile: { isOpen: false, zIndex: INITIAL_Z_INDEX, data: null },
+  imgfile: { isOpen: false, zIndex: INITIAL_Z_INDEX, data: null },
+};
+
+export { INITIAL_Z_INDEX, WINDOW_CONFIG };
