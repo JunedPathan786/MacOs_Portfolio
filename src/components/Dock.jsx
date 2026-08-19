@@ -7,7 +7,7 @@ import { useGSAP } from "@gsap/react";
 import usewindowstore from "#store/window.js";
 
 const Dock = () => {
-  const { openWindow, closeWindow, windows } = usewindowstore()
+  const { openWindow, closeWindow, focusWindow, windows } = usewindowstore()
   const dockRef = useRef(null);
 
   useGSAP(() => {
@@ -68,13 +68,14 @@ const Dock = () => {
 
     const window = windows[app.id];
 
-    if (window.isOpen) {
+    if (window.isOpen && window.isMinimized) {
+      // App is open but tucked away in the dock - bring it back instead of closing it.
+      focusWindow(app.id);
+    } else if (window.isOpen) {
       closeWindow(app.id);
     } else {
       openWindow(app.id)
     }
-
-    console.log(windows)
   }
 
   return (
@@ -97,6 +98,9 @@ const Dock = () => {
                 loading="lazy"
                 className={canOpen ? "" : "opacity-60"} />
             </button>
+            {windows[id]?.isOpen && (
+              <span className="dock-indicator" aria-hidden="true" />
+            )}
           </div>
         ))}
         <Tooltip id="dock-tooltip" place="top" className="tooltip" />

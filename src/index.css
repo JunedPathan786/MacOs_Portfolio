@@ -6,11 +6,17 @@ html,
 body {
   width: 100dvw;
   overflow: hidden;
+  margin: 0;
   height: 100dvh;
   background-image: url("/images/wallpaper.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
 }
 
 @theme {
@@ -82,7 +88,7 @@ body {
     @apply absolute bottom-5 left-1/2 -translate-x-1/2 z-50 select-none max-sm:hidden;
 
     .dock-container {
-      @apply bg-white/20 backdrop-blur-md justify-between rounded-2xl p-1.5 flex items-end gap-1.5;
+      @apply bg-white/20 backdrop-blur-2xl border border-white/20 justify-between rounded-3xl p-2.5 flex items-end gap-2;
     }
 
     .tooltip {
@@ -96,6 +102,42 @@ body {
         @apply object-cover object-center;
       }
     }
+
+    .dock-indicator {
+      @apply absolute -bottom-1.5 left-1/2 -translate-x-1/2 size-1 rounded-full bg-white/80;
+    }
+  }
+
+  /* Applied briefly (~320ms) whenever isMaximized toggles, so the resize
+     between windowed <-> fullscreen animates. Removed right after so it
+     never interferes with GSAP Draggable while the window is being dragged. */
+  .window-maximize-transition {
+    transition:
+      top 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      left 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      border-radius 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Forces the window to fill the viewport regardless of its own #id sizing
+     rules (#finder, #safari, etc). !important is required since those rules
+     set top/left/width directly. transform is neutralized so a previous
+     drag offset doesn't shift the fullscreen window - removing this class
+     later reveals the untouched inline transform Draggable still owns, so
+     the window snaps right back to wherever it was dragged to. */
+  .window-maximized {
+    position: fixed !important;
+    inset: 0 !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    max-width: none !important;
+    max-height: none !important;
+    border-radius: 0 !important;
+    transform: none !important;
   }
 
   #window-controls {
@@ -106,11 +148,11 @@ body {
     }
 
     .minimize {
-      @apply size-3.5 rounded-full bg-[#ffc030];
+      @apply size-3.5 rounded-full bg-[#ffc030] cursor-pointer;
     }
 
     .maximize {
-      @apply size-3.5 rounded-full bg-[#2acb42];
+      @apply size-3.5 rounded-full bg-[#2acb42] cursor-pointer;
     }
   }
 
@@ -163,7 +205,7 @@ body {
   }
 
   #terminal {
-    @apply w-xl absolute top-32 left-1/12 bg-white shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
+    @apply w-2xl absolute top-32 left-1/12 bg-white shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
 
     h2 {
       @apply font-bold text-sm text-center w-full;
@@ -181,15 +223,15 @@ body {
 
         li {
           .check {
-            @apply text-[#00A154] w-5;
+            @apply text-[#00A154] w-5 shrink-0;
           }
 
           h3 {
-            @apply font-semibold text-[#00A154] w-32 ms-5;
+            @apply font-semibold text-[#00A154] w-32 shrink-0 ms-5;
           }
 
           ul {
-            @apply flex items-center gap-3;
+            @apply flex items-center flex-wrap gap-x-2 gap-y-1;
           }
         }
       }
@@ -297,12 +339,16 @@ body {
   }
 
   #resume {
-    @apply w-fit h-fit absolute top-16 left-7/12 bg-white shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden;
+    @apply w-fit h-fit absolute top-16 left-7/12 bg-white shadow-2xl drop-shadow-2xl rounded-xl overflow-hidden flex flex-col;
 
     #window-header {
       h2 {
         @apply font-bold text-sm text-center flex-1;
       }
+    }
+
+    > *:not(#window-header) {
+      @apply flex-1 flex items-center justify-center overflow-auto;
     }
   }
 
@@ -379,12 +425,12 @@ body {
   #home {
     @apply relative z-0 max-sm:hidden;
 
-    ul {
+    .desktop-projects {
       li {
         @apply absolute z-0 select-none flex items-center flex-col;
 
         img {
-          @apply group-hover:bg-gray-950/10 p-1 rounded-md;
+          @apply group-hover:bg-gray-950/10 p-1 rounded-md transition-all duration-200;
         }
 
         p {
@@ -394,4 +440,3 @@ body {
     }
   }
 }
-
