@@ -71,7 +71,7 @@ const Loader = () => {
       {
         yPercent: -100,
         duration: 1.4,
-        ease: "power4.inOut",
+        ease: "power4.Out",
       },
       "-=0.35"
     )
