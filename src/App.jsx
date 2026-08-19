@@ -1,7 +1,7 @@
 import gsap from 'gsap'
 import { Draggable } from 'gsap/Draggable'
 
-import { Navbar, Welcome, Dock, Home, Loader } from '#components'
+import { Navbar, Welcome, Dock, Home, Loader, SearchOverlay  } from '#components'
 import { Terminal, Safari, Resume, Finder, Text, Image, Contact, Photos, } from '#windows'
 import { useState } from 'react'
 
@@ -26,7 +26,6 @@ const App = () => {
         <Navbar />
         <Welcome />
         <Dock />
-
         <Terminal />
         <Safari />
         <Resume />
@@ -36,6 +35,7 @@ const App = () => {
         <Contact />
         <Home />
         <Photos />
+        <SearchOverlay />
       </main>
     </>
   )
