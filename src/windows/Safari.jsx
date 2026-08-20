@@ -1,4 +1,3 @@
-import React from 'react'
 import { WindowControls } from '#components'
 import windowWrapper from '#hoc/windowWrapper.jsx'
 import { ChevronLeft, ChevronRight, PanelLeft, Search, ShieldHalf, Share, Plus, Copy, MoveRight } from 'lucide-react'
@@ -45,12 +44,12 @@ const Safari = () => {
             {blogPosts.map(({id ,image, title, date, link}) => (
               <div key={id} className='blog-post'>
                 <div className='col-span-2'>
-                    <img src={image} alt='title' />
+                    <img src={image} alt={title} loading="lazy" decoding="async" />
                 </div>
                 <div className='content'>
                   <p>{date}</p>
                   <h3>{title}</h3>
-                  <a href={link} target='_blank'>Check out the full post <MoveRight className="icon-hover" /></a>
+                  <a href={link} target='_blank' rel="noreferrer">Check out the full post <MoveRight className="icon-hover" /></a>
                 </div>
               </div>
             ))}

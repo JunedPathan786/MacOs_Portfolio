@@ -1,6 +1,8 @@
 import { useGSAP } from "@gsap/react"
 import gsap from "gsap"
 import { useRef } from "react"
+import { PROFILE } from "#constants"
+import useWindowStore from "#store/window"
 
 const FONT_WEIGHTS = {
   subtitle: { min: 100, max: 400, default: 100 },
@@ -45,7 +47,7 @@ const setupTextHover = (container, type) => {
     });
   };
 
-  const handleMouseLeave = (e) => letters.forEach((letter) =>
+  const handleMouseLeave = () => letters.forEach((letter) =>
     animateLetter(letter, base, 0.3));
 
   container.addEventListener("mousemove", handleMouseMove)
@@ -61,6 +63,7 @@ const Welcome = () => {
 
   const titleRef = useRef(null);
   const subtitleRef = useRef(null);
+  const { openWindow } = useWindowStore()
 
   useGSAP(() => {
     const titleCleanup = setupTextHover(titleRef.current, 'title');
@@ -73,31 +76,27 @@ const Welcome = () => {
   }, [])
   return (
     <section id="welcome">
-      <p ref={subtitleRef}>
+      <p ref={subtitleRef} className="welcome-kicker">
         {renderText(
-          "Hey, I'm Juned! Welcome to my",
-          'text-3xl font-georama',
+          `Hey, I'm ${PROFILE.name.split(" ")[0]}.`,
+          'text-xl font-georama',
           100)}
       </p>
-      <h1 ref={titleRef} className="mt-7">
-        {renderText("portfolio", "text-9xl italic font-georama")}
+      <h1 ref={titleRef} className="mt-5">
+        {renderText(PROFILE.role, "text-6xl font-georama")}
       </h1>
 
-      <div className="small-screen">
-        <div className="mobile-popup">
-          <span className="mobile-popup__number">01</span>
+      <p className="welcome-summary">
+        Building scalable web applications and AI-powered products.
+      </p>
 
-          <h2>
-            Best viewed
-            <br />
-            on a larger screen.
-          </h2>
-
-          <p>
-            This portfolio is designed for desktop
-            and tablet screens.
-          </p>
-        </div>
+      <div className="welcome-actions">
+        <button type="button" onClick={() => openWindow("finder")}>
+          View Projects
+        </button>
+        <button type="button" onClick={() => openWindow("resume")}>
+          Resume
+        </button>
       </div>
     </section>
   )

@@ -127,10 +127,6 @@ body {
     @apply hover:bg-black/5 dark:hover:bg-white/10;
   }
 
-  /* =========================
-     Search Overlay
-  ========================== */
-
   .search-overlay {
     @apply fixed inset-0 z-[999]
            flex items-start justify-center
@@ -158,8 +154,6 @@ body {
   .search-overlay__main {
     @apply min-w-0;
   }
-
-  /* Header */
 
   .search-overlay__header {
     @apply flex items-center gap-3
@@ -218,8 +212,6 @@ body {
   .search-overlay__close-icon {
     @apply size-4;
   }
-
-  /* Results */
 
   .search-overlay__results {
     @apply max-h-96
@@ -306,8 +298,6 @@ body {
     @apply text-blue-100;
   }
 
-  /* Preview */
-
   .search-overlay__preview {
     @apply hidden
            border-l border-black/10
@@ -371,13 +361,21 @@ body {
   }
 
   #welcome {
-    @apply text-gray-200 flex flex-col justify-center items-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 select-none max-sm:h-screen max-sm:w-full max-sm:px-10;
+    @apply text-gray-100 flex flex-col justify-center items-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 select-none text-center max-sm:hidden;
 
-    .small-screen {
-      @apply sm:hidden m-7 bg-red-300/20 backdrop-blur-lg p-3 rounded-md absolute top-10;
+    .welcome-kicker {
+      @apply text-white/90 drop-shadow;
+    }
 
-      p {
-        @apply flex-1 text-[16px] text-center font-roboto text-gray-400;
+    .welcome-summary {
+      @apply mt-5 max-w-xl text-xl leading-relaxed text-white/90 drop-shadow;
+    }
+
+    .welcome-actions {
+      @apply mt-8 flex items-center gap-4;
+
+      button {
+        @apply min-w-40 rounded-xl border border-white/35 bg-white/10 px-6 py-3 text-sm font-semibold text-white shadow-lg backdrop-blur-xl transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white;
       }
     }
   }
@@ -658,7 +656,7 @@ body {
   }
 
   #finder {
-    @apply absolute w-3xl left-40 top-20 shadow-2xl drop-shadow-2xl overflow-hidden rounded-xl;
+    @apply absolute w-3xl left-40 top-20 bg-white dark:bg-neutral-950 shadow-2xl drop-shadow-2xl overflow-hidden rounded-xl;
 
     .sidebar {
       @apply w-48 bg-gray-50 dark:bg-neutral-900 border-r border-gray-200 dark:border-white/10 flex flex-col p-5 space-y-3;
@@ -685,13 +683,13 @@ body {
     }
 
     .content {
-      @apply flex-1 p-8 bg-white dark:bg-neutral-950 max-w-2xl relative;
+      @apply flex-1 p-8 bg-white dark:bg-neutral-950 max-w-full relative;
 
       li {
         @apply absolute flex items-center flex-col gap-3;
 
         img {
-          @apply object-contain object-center size-16 relative group-hover:scale-105;
+          @apply object-contain object-center size-16 relative group-hover:scale-105 dark:invert;
         }
 
         p {

@@ -231,6 +231,9 @@ const SearchOverlay = () => {
       id="search-overlay"
       className="search-overlay"
       onClick={close}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Search portfolio"
     >
       <div
         className="search-overlay__panel"
@@ -252,6 +255,8 @@ const SearchOverlay = () => {
               placeholder="Search apps, projects, files, links..."
               className="search-overlay__input"
               spellCheck={false}
+              aria-label="Search apps, projects, files, and links"
+              aria-controls="search-results"
             />
 
             <div className="search-overlay__shortcut">
@@ -269,7 +274,7 @@ const SearchOverlay = () => {
             </button>
           </div>
 
-          <ul className="search-overlay__results">
+          <ul id="search-results" className="search-overlay__results" role="listbox">
             {results.length === 0 && (
               <li className="search-overlay__empty">
                 No results found.
@@ -279,6 +284,9 @@ const SearchOverlay = () => {
             {results.map((item, index) => (
               <li
                 key={item.id}
+                role="option"
+                aria-selected={index === selectedIndex}
+                tabIndex={-1}
                 ref={(node) => {
                   resultRefs.current[index] = node
                 }}

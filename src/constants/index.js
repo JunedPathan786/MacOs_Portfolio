@@ -16,11 +16,22 @@ const navLinks = [
   },
 ];
 
+const PROFILE = {
+  name: "Juned Pathan",
+  role: "Full-Stack Developer",
+  location: "Maharashtra, India",
+  email: "juned@example.com",
+  avatar: "/images/juned.png",
+  summary:
+    "Full-stack developer focused on scalable MERN applications, AI-powered products, clean interfaces, and production-minded backend architecture.",
+  availability: "Open to freelance and full-time opportunities",
+};
+
 const navIcons = [
   {
     id: 1,
-    img: "/icons/wifi.svg",
-    type: "wifi",
+    img: "/icons/battery.svg",
+    type: "battery",
   },
   {
     id: 2,
@@ -29,8 +40,8 @@ const navIcons = [
   },
   {
     id: 3,
-    img: "/icons/user.svg",
-    type: "user",
+    img: "/icons/wifi.svg",
+    type: "wifi",
   },
   {
     id: 4,
@@ -42,19 +53,19 @@ const navIcons = [
 const dockApps = [
   {
     id: "finder",
-    name: "Portfolio", // was "Finder"
+    name: "Finder", // was "Finder"
     icon: "finder.png",
     canOpen: true,
   },
   {
     id: "safari",
-    name: "Articles", // was "Safari"
+    name: "Safari", // was "Safari"
     icon: "safari.png",
     canOpen: true,
   },
   {
     id: "photos",
-    name: "Gallery", // was "Photos"
+    name: "Photos", // was "Photos"
     icon: "photos.png",
     canOpen: true,
   },
@@ -66,13 +77,13 @@ const dockApps = [
   },
   {
     id: "terminal",
-    name: "Skills", // was "Terminal"
+    name: "Terminal", // was "Terminal"
     icon: "terminal.png",
     canOpen: true,
   },
   {
     id: "trash",
-    name: "Archive", // was "Trash"
+    name: "Trash", // was "Trash"
     icon: "trash.png",
     canOpen: false,
   },
@@ -126,7 +137,7 @@ const techStack = [
   },
   {
     category: "Tools",
-    items: ["Git", "GitHub", "Postman", "Cloudinary", "VS Code", "Cursor IDE"],
+    items: ["Git", "GitHub", "Postman", "Cloudinary", "VS Code", "Antigravity IDE"],
   },
 ];
 
@@ -217,6 +228,7 @@ export {
   socials,
   photosLinks,
   gallery,
+  PROFILE,
 };
 
 const WORK_LOCATION = {
@@ -251,7 +263,7 @@ const WORK_LOCATION = {
         },
         {
           id: 2,
-          name: "github.com/JunedPathan786/Own_Software_Ai",
+          name: "Own_Software_Ai",
           icon: "/icons/github.svg",
           kind: "file",
           fileType: "url",
@@ -295,7 +307,7 @@ const WORK_LOCATION = {
         },
         {
           id: 2,
-          name: "github.com/JunedPathan786/Scalable-URL-Shortener",
+          name: "Scalable-URL-Shortener",
           icon: "/icons/github.svg",
           kind: "file",
           fileType: "url",
@@ -339,7 +351,7 @@ const WORK_LOCATION = {
         },
         {
           id: 2,
-          name: "github.com/JunedPathan786/AI-Interview-Preparation-Platform",
+          name: "AI-Interview-Preparation-Platform",
           icon: "/icons/github.svg",
           kind: "file",
           fileType: "url",
@@ -374,7 +386,7 @@ const ABOUT_LOCATION = {
       kind: "file",
       fileType: "img",
       position: "top-10 left-5",
-      imageUrl: "/images/juned.jpg",
+      imageUrl: "/images/juned.png",
     },
     {
       id: 2,
@@ -383,7 +395,7 @@ const ABOUT_LOCATION = {
       kind: "file",
       fileType: "img",
       position: "top-28 right-72",
-      imageUrl: "/images/juned-2.jpg",
+      imageUrl: "/images/juned-2.png",
     },
     {
       id: 3,
@@ -392,7 +404,7 @@ const ABOUT_LOCATION = {
       kind: "file",
       fileType: "img",
       position: "top-52 left-80",
-      imageUrl: "/images/juned-3.jpg",
+      imageUrl: "/images/juned-3.png",
     },
     {
       id: 4,
@@ -402,7 +414,7 @@ const ABOUT_LOCATION = {
       fileType: "txt",
       position: "top-60 left-5",
       subtitle: "Software Engineer & Full-Stack Developer",
-      image: "/images/juned.jpg",
+      image: "/images/juned.png",
       description: [
         "Hey! I’m Juned 👋, a software engineer specializing in MERN stack development and full-stack application engineering.",
         "I work primarily with JavaScript, TypeScript, React.js, Node.js, Express.js, and MongoDB, with hands-on experience building RESTful APIs, scalable applications, and AI-powered web platforms.",

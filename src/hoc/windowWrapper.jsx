@@ -11,6 +11,26 @@ const windowWrapper = (Component, windowKey) => {
     const ref = useRef(null)
     const draggableRef = useRef(null)
 
+    const getDockDelta = () => {
+      const el = ref.current;
+      const dockIcon = document.querySelector(`[data-window-id="${windowKey}"]`);
+
+      if (!el || !dockIcon) {
+        return {
+          x: -window.innerWidth * 0.2,
+          y: window.innerHeight * 0.55,
+        };
+      }
+
+      const windowRect = el.getBoundingClientRect();
+      const dockRect = dockIcon.getBoundingClientRect();
+
+      return {
+        x: dockRect.left + dockRect.width / 2 - (windowRect.left + windowRect.width / 2),
+        y: dockRect.top + dockRect.height / 2 - (windowRect.top + windowRect.height / 2),
+      };
+    };
+
     useGSAP(() => {
       const el = ref.current;
       if (!el || !isOpen) return;
@@ -35,30 +55,32 @@ const windowWrapper = (Component, windowKey) => {
       if (!el || !isOpen) return;
 
       if (isMinimized) {
+        const delta = getDockDelta();
         gsap.to(el, {
-          scale: 0.35,
+          scale: 0.15,
           opacity: 0,
-          y: window.innerHeight * 0.55,
-          x: -window.innerWidth * 0.2,
-          duration: 0.35,
-          ease: "power2.in",
+          x: delta.x,
+          y: delta.y,
+          duration: 0.45,
+          ease: "power3.inOut",
           onComplete: () => {
             el.style.display = "none";
           }
         });
       } else {
+        const delta = getDockDelta();
         el.style.display = "block";
         gsap.fromTo(el, {
-          scale: 0.35,
+          scale: 0.15,
           opacity: 0,
-          y: window.innerHeight * 0.55,
-          x: -window.innerWidth * 0.2,
+          x: delta.x,
+          y: delta.y,
         }, {
           scale: 1,
           opacity: 1,
           y: 0,
           x: 0,
-          duration: 0.35,
+          duration: 0.4,
           ease: "power3.out"
         });
       }
@@ -68,7 +90,12 @@ const windowWrapper = (Component, windowKey) => {
       const el = ref.current;
       if (!el) return;
 
-      const [instance] = Draggable.create(el, { onPress: () => focusWindow(windowKey) });
+      const [instance] = Draggable.create(el, {
+        trigger: el.querySelector("#window-header") ?? el,
+        bounds: "main",
+        edgeResistance: 0.85,
+        onPress: () => focusWindow(windowKey),
+      });
       draggableRef.current = instance;
 
       return () => instance.kill()
