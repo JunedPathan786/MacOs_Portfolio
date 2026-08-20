@@ -11,7 +11,6 @@ const windowWrapper = (Component, windowKey) => {
     const ref = useRef(null)
     const draggableRef = useRef(null)
 
-    // Open animation (fires when the window is opened)
     useGSAP(() => {
       const el = ref.current;
       if (!el || !isOpen) return;
@@ -31,8 +30,6 @@ const windowWrapper = (Component, windowKey) => {
       })
     }, [isOpen])
 
-    // Minimize / restore animation - only runs when isMinimized actually
-    // changes while the window is open, so it never fights the open effect above.
     useGSAP(() => {
       const el = ref.current;
       if (!el || !isOpen) return;
@@ -77,8 +74,6 @@ const windowWrapper = (Component, windowKey) => {
       return () => instance.kill()
     }, [])
 
-    // Maximize / restore: toggle a CSS class that overrides position/size, and
-    // briefly enable a transition so the resize animates smoothly.
     useLayoutEffect(() => {
       const el = ref.current;
       if (!el) return;
@@ -91,7 +86,6 @@ const windowWrapper = (Component, windowKey) => {
       return () => clearTimeout(timeout);
     }, [isMaximized])
 
-    // Dragging a maximized window doesn't make sense - lock it while maximized.
     useLayoutEffect(() => {
       const instance = draggableRef.current;
       if (!instance) return;

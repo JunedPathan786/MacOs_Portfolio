@@ -45,8 +45,6 @@ const getItemType = (item) => {
   return item.section;
 };
 
-// Builds a flat, searchable index out of constants/index.js so search stays
-// live without duplicating portfolio data in this component.
 const buildIndex = () => {
   const items = [];
 
@@ -231,46 +229,49 @@ const SearchOverlay = () => {
   return (
     <div
       id="search-overlay"
-      className="fixed inset-0 z-[999] flex items-start justify-center bg-black/30 px-4 pt-[12vh] backdrop-blur-sm dark:bg-black/50"
+      className="search-overlay"
       onClick={close}
     >
       <div
-        className="grid w-full max-w-3xl overflow-hidden rounded-2xl border border-white/50 bg-white/85 shadow-2xl backdrop-blur-2xl dark:border-white/10 dark:bg-neutral-950/85 md:grid-cols-[1fr_260px]"
+        className="search-overlay__panel"
         onClick={(e) => e.stopPropagation()}
       >
-        <div>
-          <div className="flex items-center gap-3 border-b border-black/10 px-4 py-3 dark:border-white/10">
-            <Search className="size-5 shrink-0 text-gray-500 dark:text-gray-400" />
+        <div className="search-overlay__main">
+          <div className="search-overlay__header">
+            <Search className="search-overlay__search-icon" />
+
             <input
               ref={inputRef}
               value={query}
               onChange={(e) => {
-                setQuery(e.target.value);
-                setSelectedIndex(0);
-                setHoveredItem(null);
+                setQuery(e.target.value)
+                setSelectedIndex(0)
+                setHoveredItem(null)
               }}
               onKeyDown={handleKeyDown}
               placeholder="Search apps, projects, files, links..."
-              className="min-w-0 flex-1 bg-transparent text-lg font-medium text-gray-900 outline-none placeholder:text-gray-400 dark:text-white dark:placeholder:text-gray-500"
+              className="search-overlay__input"
               spellCheck={false}
             />
-            <div className="hidden items-center gap-1 rounded-md bg-black/5 px-2 py-1 text-xs font-semibold text-gray-500 dark:bg-white/10 dark:text-gray-400 sm:flex">
-              <Command className="size-3.5" />
+
+            <div className="search-overlay__shortcut">
+              <Command className="search-overlay__command-icon" />
               <span>K</span>
             </div>
+
             <button
               type="button"
               onClick={close}
               aria-label="Close search"
-              className="rounded-md p-1 text-gray-500 transition-colors hover:bg-black/5 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-white/10 dark:hover:text-white"
+              className="search-overlay__close"
             >
-              <X className="size-4" />
+              <X className="search-overlay__close-icon" />
             </button>
           </div>
 
-          <ul className="max-h-96 overflow-y-auto py-2">
+          <ul className="search-overlay__results">
             {results.length === 0 && (
-              <li className="px-5 py-10 text-center text-sm text-gray-500 dark:text-gray-400">
+              <li className="search-overlay__empty">
                 No results found.
               </li>
             )}
@@ -279,46 +280,47 @@ const SearchOverlay = () => {
               <li
                 key={item.id}
                 ref={(node) => {
-                  resultRefs.current[index] = node;
+                  resultRefs.current[index] = node
                 }}
                 onMouseEnter={() => {
-                  setSelectedIndex(index);
-                  setHoveredItem(item);
+                  setSelectedIndex(index)
+                  setHoveredItem(item)
                 }}
                 onMouseLeave={() => setHoveredItem(null)}
                 onClick={() => handleSelect(item)}
-                className={`mx-2 flex cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 text-sm
-                    transition-[background-color,transform,box-shadow] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]
-                    ${index === selectedIndex
-                    ? "bg-blue-600 text-white shadow-sm"
-                    : "text-gray-800 hover:bg-black/5 hover:scale-[1.01] hover:shadow-[0_2px_8px_rgba(0,0,0,0.08)] dark:text-gray-200 dark:hover:bg-white/10"
+                className={`search-overlay__result ${index === selectedIndex
+                  ? "is-selected"
+                  : ""
                   }`}
               >
                 <span
-                  className={`flex size-10 shrink-0 items-center justify-center rounded-lg ${index === selectedIndex
-                    ? "bg-white/20"
-                    : "bg-gray-100 text-gray-600 dark:bg-white/10 dark:text-gray-300"
+                  className={`search-overlay__result-icon ${index === selectedIndex
+                    ? "is-selected"
+                    : ""
                     }`}
                 >
                   {getItemIcon(item)}
                 </span>
-                <span className="min-w-0 flex-1">
-                  <span className="block truncate font-semibold">
+
+                <span className="search-overlay__result-content">
+                  <span className="search-overlay__result-title">
                     {item.title}
                   </span>
+
                   <span
-                    className={`block truncate text-xs ${index === selectedIndex
-                      ? "text-blue-100"
-                      : "text-gray-500 dark:text-gray-400"
+                    className={`search-overlay__result-detail ${index === selectedIndex
+                      ? "is-selected"
+                      : ""
                       }`}
                   >
                     {item.detail}
                   </span>
                 </span>
+
                 <span
-                  className={`shrink-0 text-xs font-medium ${index === selectedIndex
-                    ? "text-blue-100"
-                    : "text-gray-400 dark:text-gray-500"
+                  className={`search-overlay__result-type ${index === selectedIndex
+                    ? "is-selected"
+                    : ""
                     }`}
                 >
                   {getItemType(item)}
@@ -328,22 +330,26 @@ const SearchOverlay = () => {
           </ul>
         </div>
 
-        <aside className="hidden border-l border-black/10 p-4 dark:border-white/10 md:block">
+        <aside className="search-overlay__preview">
           {previewItem ? (
-            <div className="sticky top-4 rounded-xl bg-black/5 p-4 text-gray-800 dark:bg-white/10 dark:text-gray-100">
-              <div className="mb-4 flex size-12 items-center justify-center rounded-xl bg-white/70 text-blue-600 shadow-sm dark:bg-black/30 dark:text-blue-300">
+            <div className="search-overlay__preview-card">
+              <div className="search-overlay__preview-icon">
                 {getItemIcon(previewItem)}
               </div>
-              <p className="text-xs font-semibold uppercase text-gray-500 dark:text-gray-400">
+
+              <p className="search-overlay__preview-section">
                 {previewItem.section}
               </p>
-              <h3 className="mt-1 text-base font-bold leading-snug">
+
+              <h3 className="search-overlay__preview-title">
                 {previewItem.title}
               </h3>
-              <p className="mt-2 line-clamp-5 text-sm leading-relaxed text-gray-600 dark:text-gray-300">
+
+              <p className="search-overlay__preview-detail">
                 {previewItem.detail}
               </p>
-              <p className="mt-4 text-xs font-medium text-blue-600 dark:text-blue-300">
+
+              <p className="search-overlay__preview-hint">
                 Press Enter or click to open
               </p>
             </div>
@@ -353,5 +359,7 @@ const SearchOverlay = () => {
     </div>
   );
 };
+
+
 
 export default SearchOverlay;

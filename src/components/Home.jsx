@@ -1,7 +1,9 @@
 import clsx from 'clsx'
-import { locations } from "#constants"
+
 import { useGSAP } from "@gsap/react"
 import { Draggable } from 'gsap/Draggable'
+
+import { locations } from "#constants"
 import useWindowStore from '#store/window.js'
 import useLocationStore from '#store/location.js'
 

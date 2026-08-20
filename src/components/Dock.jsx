@@ -1,9 +1,9 @@
 import { useRef } from "react"
 import { Tooltip } from "react-tooltip";
+import { useGSAP } from "@gsap/react";
 import gsap from 'gsap'
 
 import { dockApps } from "#constants/index.js";
-import { useGSAP } from "@gsap/react";
 import usewindowstore from "#store/window.js";
 
 const Dock = () => {
@@ -69,7 +69,6 @@ const Dock = () => {
     const window = windows[app.id];
 
     if (window.isOpen && window.isMinimized) {
-      // App is open but tucked away in the dock - bring it back instead of closing it.
       focusWindow(app.id);
     } else if (window.isOpen) {
       closeWindow(app.id);

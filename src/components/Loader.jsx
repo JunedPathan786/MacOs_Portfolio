@@ -1,38 +1,38 @@
-import { useGSAP } from "@gsap/react"
-import gsap from "gsap"
-import { useRef, useState } from "react"
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { useRef, useState } from "react";
 
 const Loader = () => {
-  const containerRef = useRef(null)
-  const svgRef = useRef(null)
-  const [visible, setVisible] = useState(true)
+  const containerRef = useRef(null);
+  const svgRef = useRef(null);
+  const [visible, setVisible] = useState(true);
 
   useGSAP(() => {
-    const paths = svgRef.current?.querySelectorAll("path")
+    const paths = svgRef.current?.querySelectorAll("path");
 
-    if (!paths || !paths.length) return
+    if (!paths || !paths.length) return;
 
     const tl = gsap.timeline({
       defaults: {
         ease: "power2.inOut",
       },
-      delay: 0.6,
+      delay: 0.4,
       onComplete: () => {
-        setVisible(false)
+        setVisible(false);
       },
-    })
+    });
 
     // 1. Prepare SVG paths
 
     paths.forEach((path) => {
-      const length = path.getTotalLength()
+      const length = path.getTotalLength();
 
       gsap.set(path, {
         strokeDasharray: length,
         strokeDashoffset: length,
         opacity: 0,
-      })
-    })
+      });
+    });
 
     // 2. Draw "hello"
 
@@ -45,15 +45,18 @@ const Loader = () => {
           duration: 0.9,
           ease: "power2.inOut",
         },
-        i * 0.55
-      )
-    })
+        i * 0.55,
+      );
+    });
 
     // 3. Small pause
 
-    tl.to({}, {
-      duration: 0.8,
-    })
+    tl.to(
+      {},
+      {
+        duration: 0.4,
+      },
+    );
 
     // 4. Hello moves upward
 
@@ -62,7 +65,7 @@ const Loader = () => {
       opacity: 0,
       duration: 1.2,
       ease: "power4.inOut",
-    })
+    });
 
     // 5. Black scren moves upward
 
@@ -73,51 +76,28 @@ const Loader = () => {
         duration: 1.4,
         ease: "power4.Out",
       },
-      "-=0.35"
-    )
-  }, [])
+      "-=0.35",
+    );
+  }, []);
 
-  if (!visible) return null
+  if (!visible) return null;
 
   return (
-    <div
-      id="loader"
-      ref={containerRef}
-      className="
-    fixed
-    inset-0
-    z-[9999]
-    flex
-    items-center
-    justify-center
-    overflow-hidden
-    bg-black/30
-    backdrop-blur-[30px]
-    backdrop-saturate-150
-    text-white
-  "
-    >
+    <div id="loader" ref={containerRef} className="loader">
       {/* Subtle glass gradient */}
-      <div
-        className="
-      pointer-events-none
-      absolute
-      inset-0
-      bg-[radial-gradient(circle_at_50%_45%,rgba(255,255,255,0.08),transparent_35%),linear-gradient(135deg,rgba(255,255,255,0.04),transparent_50%)]
-    "
-      />
+      <div className="loader-glass" />
 
       {/* Your SVG */}
       <svg
         ref={svgRef}
         className="
-      relative
-      z-10
-      loader-hello
-      w-[75vw]
-      max-w-[638px]
-      h-auto
-    "
+          relative
+          z-10
+          loader-hello
+          w-[75vw]
+          max-w-[638px]
+          h-auto
+        "
         viewBox="0 0 638 200"
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
@@ -139,7 +119,7 @@ const Loader = () => {
         />
       </svg>
     </div>
-  )
-}
+  );
+};
 
-export default Loader
+export default Loader;

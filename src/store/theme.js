@@ -17,7 +17,7 @@ const applyTheme = (mode) => {
 const useThemeStore = create(
   persist(
     (set, get) => ({
-      mode: getSystemMode(), // "light" | "dark"
+      mode: getSystemMode(), 
 
       toggleMode: () => {
         const next = get().mode === "light" ? "dark" : "light";
@@ -31,7 +31,7 @@ const useThemeStore = create(
       },
     }),
     {
-      name: "portfolio-theme", // localStorage key
+      name: "portfolio-theme", 
       onRehydrateStorage: () => (state) => {
         if (state) applyTheme(state.mode);
       },

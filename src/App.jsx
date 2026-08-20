@@ -9,6 +9,7 @@ import { useState } from 'react'
 gsap.registerPlugin(Draggable)
 
 const App = () => {
+  
   const [loading, setLoading] = useState(true);
 
   return (
