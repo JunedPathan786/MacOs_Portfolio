@@ -127,6 +127,10 @@ body {
     @apply hover:bg-black/5 dark:hover:bg-white/10;
   }
 
+  /* =========================
+     Search Overlay
+  ========================== */
+
   .search-overlay {
     @apply fixed inset-0 z-[999]
            flex items-start justify-center
@@ -154,6 +158,8 @@ body {
   .search-overlay__main {
     @apply min-w-0;
   }
+
+  /* Header */
 
   .search-overlay__header {
     @apply flex items-center gap-3
@@ -212,6 +218,8 @@ body {
   .search-overlay__close-icon {
     @apply size-4;
   }
+
+  /* Results */
 
   .search-overlay__results {
     @apply max-h-96
@@ -298,6 +306,8 @@ body {
     @apply text-blue-100;
   }
 
+  /* Preview */
+
   .search-overlay__preview {
     @apply hidden
            border-l border-black/10
@@ -360,7 +370,7 @@ body {
            dark:text-blue-300;
   }
 
-  #welcome {
+   #welcome {
     @apply text-gray-100 flex flex-col justify-center items-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 select-none text-center max-sm:hidden;
 
     .welcome-kicker {

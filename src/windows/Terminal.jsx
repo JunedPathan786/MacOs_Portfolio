@@ -1,7 +1,7 @@
 import windowWrapper from "#hoc/windowWrapper.jsx"
 import { techStack } from "#constants/index.js"
 import { Check, Flag } from "lucide-react"
-import WindowControls from "#components/WindowControls.jsx"
+import WindowControls from "#components/windowControls.jsx"
 
 const Terminal = () => {
   return (
@@ -38,10 +38,10 @@ const Terminal = () => {
 
         <div className="footnote">
           <p>
-            <Check size={20} /> {techStack.length} stack groups loaded successfully
+            <Check size={20} /> 5 of 5 stack loaded successfully (100%)
           </p>
-          <p className="text-gray-800 dark:text-gray-300">
-            <Flag size={15} fill="currentColor" /> Available for freelance and full-time opportunities
+          <p className="text-black">
+            <Flag size={15} fill="black" /> Render time: 6ms
           </p>
         </div>
       </div>

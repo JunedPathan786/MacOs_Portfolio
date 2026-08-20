@@ -1,7 +1,7 @@
 const navLinks = [
   {
     id: 1,
-    name: "Projects",
+    name: "Portfolio",
     type: "finder",
   },
   {
@@ -20,7 +20,7 @@ const PROFILE = {
   name: "Juned Pathan",
   role: "Full-Stack Developer",
   location: "Maharashtra, India",
-  email: "juned@example.com",
+  email: "junedp068@gamil.com",
   avatar: "/images/juned.png",
   summary:
     "Full-stack developer focused on scalable MERN applications, AI-powered products, clean interfaces, and production-minded backend architecture.",
@@ -53,37 +53,37 @@ const navIcons = [
 const dockApps = [
   {
     id: "finder",
-    name: "Finder", // was "Finder"
+    name: "Finder",
     icon: "finder.png",
     canOpen: true,
   },
   {
     id: "safari",
-    name: "Safari", // was "Safari"
+    name: "Safari",
     icon: "safari.png",
     canOpen: true,
   },
   {
     id: "photos",
-    name: "Photos", // was "Photos"
+    name: "Photos",
     icon: "photos.png",
     canOpen: true,
   },
   {
     id: "contact",
-    name: "Contact", // or "Get in touch"
+    name: "Contact",
     icon: "contact.png",
     canOpen: true,
   },
   {
     id: "terminal",
-    name: "Terminal", // was "Terminal"
+    name: "Terminal",
     icon: "terminal.png",
     canOpen: true,
   },
   {
     id: "trash",
-    name: "Trash", // was "Trash"
+    name: "Trash",
     icon: "trash.png",
     canOpen: false,
   },
@@ -137,7 +137,7 @@ const techStack = [
   },
   {
     category: "Tools",
-    items: ["Git", "GitHub", "Postman", "Cloudinary", "VS Code", "Antigravity IDE"],
+    items: ["Git", "GitHub", "Postman", "Cloudinary", "VS Code", "Cursor IDE"],
   },
 ];
 
@@ -263,7 +263,7 @@ const WORK_LOCATION = {
         },
         {
           id: 2,
-          name: "Own_Software_Ai",
+          name: "github.com/JunedPathan786/Own_Software_Ai",
           icon: "/icons/github.svg",
           kind: "file",
           fileType: "url",
@@ -307,7 +307,7 @@ const WORK_LOCATION = {
         },
         {
           id: 2,
-          name: "Scalable-URL-Shortener",
+          name: "github.com/JunedPathan786/Scalable-URL-Shortener",
           icon: "/icons/github.svg",
           kind: "file",
           fileType: "url",
@@ -351,7 +351,7 @@ const WORK_LOCATION = {
         },
         {
           id: 2,
-          name: "AI-Interview-Preparation-Platform",
+          name: "github.com/JunedPathan786/AI-Interview-Preparation-Platform",
           icon: "/icons/github.svg",
           kind: "file",
           fileType: "url",
