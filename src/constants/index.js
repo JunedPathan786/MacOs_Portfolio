@@ -1,7 +1,7 @@
 const navLinks = [
   {
     id: 1,
-    name: "Portfolio",
+    name: "Projects",
     type: "finder",
   },
   {
