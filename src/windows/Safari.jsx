@@ -1,4 +1,3 @@
-import React from 'react'
 import { WindowControls } from '#components'
 import windowWrapper from '#hoc/windowWrapper.jsx'
 import { ChevronLeft, ChevronRight, PanelLeft, Search, ShieldHalf, Share, Plus, Copy, MoveRight } from 'lucide-react'

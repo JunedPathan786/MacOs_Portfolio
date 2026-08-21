@@ -379,7 +379,7 @@ const WORK_LOCATION = {
         },
         {
           id: 2,
-          name: "github.com/JunedPathan786/Own_Software_Ai",
+          name: "Own_Software_Ai",
           icon: "/icons/github.svg",
           kind: "file",
           fileType: "url",
@@ -423,7 +423,7 @@ const WORK_LOCATION = {
         },
         {
           id: 2,
-          name: "github.com/JunedPathan786/Scalable-URL-Shortener",
+          name: "Scalable-URL-Shortener",
           icon: "/icons/github.svg",
           kind: "file",
           fileType: "url",
@@ -467,7 +467,7 @@ const WORK_LOCATION = {
         },
         {
           id: 2,
-          name: "github.com/JunedPathan786/AI-Interview-Preparation-Platform",
+          name: "AI-Interview-Preparation-Platform",
           icon: "/icons/github.svg",
           kind: "file",
           fileType: "url",
