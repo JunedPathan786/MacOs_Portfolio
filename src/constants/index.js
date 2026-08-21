@@ -151,8 +151,8 @@ const socials = [
   },
   {
     id: 2,
-    text: "Platform",
-    icon: "/icons/atom.svg",
+    text: "Leetcode",
+    icon: "/icons/leetcode.svg",
     bg: "#4bcb63",
     link: "https://leetcode.com/u/juned_pathan/",
   },
@@ -174,50 +174,166 @@ const socials = [
 
 const photosLinks = [
   {
-    id: 1,
-    icon: "/icons/gicon1.svg",
-    title: "Library",
+    id: "featured",
+    icon: "/icons/featured.svg",
+    title: "Featured",
   },
   {
-    id: 2,
-    icon: "/icons/gicon2.svg",
-    title: "Memories",
+    id: "experiments",
+    icon: "/icons/experiments.svg",
+    title: "Experiments",
   },
   {
-    id: 3,
-    icon: "/icons/file.svg",
-    title: "Places",
+    id: "ui-motion",
+    icon: "/icons/ui-motion.svg",
+    title: "UI & Motion",
   },
   {
-    id: 4,
-    icon: "/icons/gicon4.svg",
-    title: "People",
+    id: "journey",
+    icon: "/icons/journey.svg",
+    title: "Journey",
   },
   {
-    id: 5,
-    icon: "/icons/gicon5.svg",
+    id: "favorites",
+    icon: "/icons/favorites.svg",
     title: "Favorites",
   },
 ];
 
-const gallery = [
-  {
-    id: 1,
-    img: "/images/gal1.png",
-  },
-  {
-    id: 2,
-    img: "/images/gal2.png",
-  },
-  {
-    id: 3,
-    img: "/images/gal3.png",
-  },
-  {
-    id: 4,
-    img: "/images/gal4.png",
-  },
-];
+const gallery = {
+  featured: [
+    {
+      id: 1,
+      type: "image",
+      img: "/images/Dvetwon_Community.jpg",
+      title: "Community recognition",
+      size: "lg",
+    },
+    {
+      id: 2,
+      type: "image",
+      img: "/images/SQL50+.gif",
+      title: "LeetCode SQL 50 badge",
+    },
+    {
+      id: 3,
+      type: "image",
+      img: "/images/50+.gif",
+      title: "LeetCode 50+ problems badge",
+    },
+  ],
+  experiments: [
+    {
+      id: 1,
+      kind: "loader",
+      title: "Boot loader sequence",
+      description:
+        "SVG path-drawing intro animation, sequenced with a GSAP timeline.",
+    },
+    {
+      id: 2,
+      kind: "search",
+      title: "Command-K search overlay",
+      description:
+        "Custom fuzzy search across apps, files, and links with full keyboard navigation.",
+    },
+    {
+      id: 3,
+      kind: "dock",
+      title: "Dock magnification",
+      description:
+        "Cursor-proximity icon scaling on the dock, driven by GSAP quickTo.",
+    },
+  ],
+  "ui-motion": [
+    {
+      id: 1,
+      kind: "drag",
+      title: "Draggable windows",
+      description:
+        "GSAP Draggable with edge resistance, bounded to the desktop.",
+    },
+    {
+      id: 2,
+      kind: "window",
+      title: "Window controls",
+      description:
+        "Close, minimize, and maximize, with motion anchored back to the dock.",
+    },
+    {
+      id: 3,
+      kind: "theme",
+      title: "Theme transition",
+      description: "Light/dark mode switching across the whole interface.",
+    },
+  ],
+  journey: [
+    {
+      id: 1,
+      period: "2021 – 2025",
+      title: "B.E. in Computer Engineering",
+      place: "PVGCOE, Nashik",
+    },
+    {
+      id: 2,
+      period: "Jan 2024 – Feb 2024",
+      title: "Web Developer Intern",
+      place: "CodSoft (Remote)",
+    },
+    {
+      id: 3,
+      period: "Sep 2025 – Nov 2025",
+      title: "Web Developer Intern",
+      place: "Infotact (Remote)",
+    },
+    {
+      id: 4,
+      period: "",
+      title: "150+ DSA problems solved",
+      place: "LeetCode",
+      img: "/images/100+.gif",
+    },
+    {
+      id: 5,
+      period: "",
+      title: "TCS iON Young Professional Certification",
+      place: "TCS iON",
+      img: "/images/Certificate.jpg",
+    },
+  ],
+  favorites: [
+    {
+      id: 1,
+      title: "React.js",
+      note: "Primary frontend library across every project.",
+    },
+    {
+      id: 2,
+      title: "Node.js & Express.js",
+      note: "Go-to backend pairing for REST APIs.",
+    },
+    {
+      id: 3,
+      title: "MongoDB",
+      note: "Preferred database across the MERN stack.",
+    },
+    {
+      id: 4,
+      title: "TypeScript",
+      note: "For safer, more maintainable JavaScript.",
+    },
+    {
+      id: 5,
+      title: "GSAP",
+      note: "Animation engine behind this portfolio's motion.",
+    },
+    {
+      id: 6,
+      title: "Socket.IO",
+      note: "For real-time, collaborative features.",
+    },
+  ],
+};
 
 export {
   navLinks,
