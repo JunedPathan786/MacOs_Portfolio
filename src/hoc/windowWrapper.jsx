@@ -133,7 +133,7 @@ const windowWrapper = (Component, windowKey) => {
         id={windowKey}
         ref={ref}
         style={{ zIndex }}
-        className={`absolute${isMaximized ? " window-maximized" : ""}`}
+        className={`window absolute${isMaximized ? " window-maximized" : ""}`}
       >
         <Component {...props} />
       </section>

@@ -5,5 +5,15 @@ import WindowControls from "#components/WindowControls";
 import Home from "#components/Home.jsx";
 import Loader from "#components/Loader.jsx";
 import SearchOverlay from "#components/SearchOverlay";
+import MobileApp from "#components/MobileApp.jsx";
 
-export { Navbar, Welcome, Dock, WindowControls, Home, Loader, SearchOverlay };
+export {
+  Navbar,
+  Welcome,
+  Dock,
+  WindowControls,
+  Home,
+  Loader,
+  SearchOverlay,
+  MobileApp,
+};

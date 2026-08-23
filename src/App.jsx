@@ -1,16 +1,31 @@
 import gsap from 'gsap'
 import { Draggable } from 'gsap/Draggable'
 
-import { Navbar, Welcome, Dock, Home, Loader, SearchOverlay  } from '#components'
+import { Navbar, Welcome, Dock, Home, Loader, SearchOverlay, MobileApp } from '#components'
 import { Terminal, Safari, Resume, Finder, Text, Image, Contact, Photos, } from '#windows'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 
 gsap.registerPlugin(Draggable)
 
+// Below this width the draggable-window desktop simulation gives way to a
+// dedicated touch-friendly (iOS-style) experience — see MobileApp.jsx.
+const MOBILE_QUERY = '(max-width: 768px)'
+
 const App = () => {
-  
+
   const [loading, setLoading] = useState(true);
+  const [isMobile, setIsMobile] = useState(
+    () => typeof window !== 'undefined' && window.matchMedia(MOBILE_QUERY).matches
+  );
+
+  useEffect(() => {
+    const mql = window.matchMedia(MOBILE_QUERY);
+    const handleChange = (e) => setIsMobile(e.matches);
+
+    mql.addEventListener('change', handleChange);
+    return () => mql.removeEventListener('change', handleChange);
+  }, []);
 
   return (
     <>
@@ -23,21 +38,25 @@ const App = () => {
           />
         )
       }
-      <main>
-        <Navbar />
-        <Welcome />
-        <Dock />
-        <Terminal />
-        <Safari />
-        <Resume />
-        <Finder />
-        <Text />
-        <Image />
-        <Contact />
-        <Home />
-        <Photos />
-        <SearchOverlay />
-      </main>
+      {isMobile ? (
+        <MobileApp />
+      ) : (
+        <main>
+          <Navbar />
+          <Welcome />
+          <Dock />
+          <Terminal />
+          <Safari />
+          <Resume />
+          <Finder />
+          <Text />
+          <Image />
+          <Contact />
+          <Home />
+          <Photos />
+          <SearchOverlay />
+        </main>
+      )}
     </>
   )
 }
