@@ -59,7 +59,7 @@ body {
 
       p {
         @apply inline-flex p-1 items-center justify-center rounded-md cursor-pointer opacity-80 transition-all duration-150 hover:opacity-100 hover:bg-black/10 dark:hover:bg-white/10;
-      } 
+      }
     }
 
     time {
@@ -74,8 +74,10 @@ body {
     inset-0
     z-[9999]
     flex
+    flex-col
     items-center
     justify-center
+    gap-6
     overflow-hidden
     bg-black/30
     backdrop-blur-[30px]
@@ -103,12 +105,20 @@ body {
   }
 
   .mode-theme-menu {
-    @apply invisible absolute -right-23 top-full z-[9999] mt-2 flex w-max translate-y-1 items-center gap-1 rounded-xl border border-white/50 bg-white/90 p-1.5 text-xs font-medium text-gray-800 opacity-0 shadow-2xl backdrop-blur-2xl transition-all duration-150 dark:border-white/10 dark:bg-neutral-900/90 dark:text-white;
+    @apply invisible absolute -right-10 top-full z-[9999] mt-2 grid w-max
+         origin-top-right translate-y-1 scale-95 items-center gap-1
+         rounded-xl border border-white/50 bg-white/90 p-1.5 text-xs
+         font-medium text-gray-800 opacity-0 shadow-2xl backdrop-blur-2xl
+         transition-[opacity,transform,visibility]
+         duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]
+         dark:border-white/10 dark:bg-neutral-900/90 dark:text-white;
+
+    transition-behavior: allow-discrete;
   }
 
   .nav-icon-item:hover .mode-theme-menu,
   .nav-icon-item:focus-within .mode-theme-menu {
-    @apply visible translate-y-1 opacity-100;
+    @apply visible translate-y-0 scale-100 opacity-100;
   }
 
   .mode-theme-option {
@@ -811,4 +821,3 @@ body {
     }
   }
 }
-
