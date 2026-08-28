@@ -460,23 +460,49 @@ body {
   }
 
   #window-controls {
-    @apply flex gap-2;
+    @apply flex items-center gap-2;
+
+    button {
+      @apply relative flex size-3.5 items-center justify-center rounded-full cursor-pointer transition-[filter,transform] duration-150;
+
+      &:focus-visible {
+        @apply outline outline-2 outline-offset-2 outline-blue-500;
+      }
+
+      svg {
+        @apply size-2.5 opacity-0 transition-opacity duration-150;
+        stroke-width: 3;
+      }
+
+      &:hover svg,
+      &:focus-visible svg {
+        @apply opacity-100;
+      }
+
+      &:hover {
+        filter: brightness(0.9);
+      }
+
+      &:active {
+        @apply scale-90;
+      }
+    }
 
     .close {
-      @apply size-3.5 rounded-full bg-[#ff6157] cursor-pointer;
+      @apply bg-[#ff6157];
     }
 
     .minimize {
-      @apply size-3.5 rounded-full bg-[#ffc030] cursor-pointer;
+      @apply bg-[#ffc030];
     }
 
     .maximize {
-      @apply size-3.5 rounded-full bg-[#2acb42] cursor-pointer;
+      @apply bg-[#2acb42];
     }
   }
 
   #window-header {
-    @apply flex items-center justify-between px-4 py-3 rounded-t-lg bg-gray-50 dark:bg-neutral-900/90 border-b border-gray-200 dark:border-white/10 select-none text-sm text-gray-400 dark:text-gray-300;
+    @apply relative flex min-h-11 items-center justify-between rounded-t-xl border-b border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-400 select-none dark:border-white/10 dark:bg-neutral-900/90 dark:text-gray-300;
   }
 
   #safari {
@@ -734,45 +760,175 @@ body {
   }
 
   #finder {
-    @apply absolute w-3xl left-40 top-20 bg-white dark:bg-neutral-950 shadow-2xl drop-shadow-2xl overflow-hidden rounded-xl;
+    width: min(880px, calc(100vw - 48px));
+    height: max-content;
+    @apply absolute w-3xl left-1/2 top-20 -translate-x-1/2 flex flex-col bg-white dark:bg-neutral-950 shadow-2xl drop-shadow-2xl overflow-hidden rounded-xl;
+
+    #window-header {
+      @apply shrink-0;
+    }
+
+    .finder-titlebar {
+      @apply absolute left-1/2 flex -translate-x-1/2 items-center gap-2 font-semibold text-gray-700 dark:text-gray-200;
+    }
+
+    .finder-titlebar__dot {
+      @apply size-2 rounded-full bg-blue-500/80;
+    }
+
+    .finder-window-spacer {
+      @apply w-[52px];
+    }
+
+    .finder-body {
+      @apply flex min-h-0 flex-1;
+    }
 
     .sidebar {
-      @apply w-48 bg-gray-50 dark:bg-neutral-900 border-r border-gray-200 dark:border-white/10 flex flex-col p-5 space-y-3;
+      @apply flex h-full shrink-0 flex-col p-5 space-y-3 gap-5 w-48 overflow-y-auto bg-gray-50 dark:bg-neutral-900 border-r border-gray-200 dark:border-white/10;
+
+      .finder-sidebar-section {
+        @apply min-w-0;
+      }
 
       h3 {
-        @apply text-xs font-medium text-gray-400 mb-1;
+        @apply mb-1 px-2 text-[11px] font-semibold uppercase tracking-wide text-gray-400;
       }
 
       ul {
-        @apply space-y-1;
+        @apply space-y-0.5;
 
         .active {
-          @apply bg-blue-100 text-blue-700;
+          @apply bg-blue-500/15 text-blue-700 dark:bg-blue-400/20 dark:text-blue-200;
         }
 
         .not-active {
-          @apply text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-white/10;
+          @apply text-gray-700 hover:bg-black/5 dark:text-gray-200 dark:hover:bg-white/10;
         }
 
         li {
-          @apply flex items-center gap-2 px-3 py-2 rounded-md cursor-pointer transition-colors;
+          @apply flex min-w-0 items-center gap-2 px-2 py-1.5 rounded-md cursor-pointer transition-colors;
+        }
+
+        img {
+          @apply size-4 shrink-0 object-contain;
+        }
+
+        p {
+          @apply min-w-0 truncate text-[13px] font-medium;
         }
       }
     }
 
+    .finder-main {
+      @apply flex min-w-0 flex-1 flex-col;
+    }
+
+    .finder-toolbar {
+      @apply flex min-h-14 shrink-0 items-center gap-3 border-b border-gray-200/80 px-4 py-2.5 dark:border-white/10;
+    }
+
+    .finder-navigation {
+      @apply flex shrink-0 items-center gap-0.5;
+
+      button {
+        @apply flex size-7 items-center justify-center rounded-md text-gray-600 transition-colors hover:bg-black/5 hover:text-gray-950 disabled:cursor-default disabled:opacity-30 dark:text-gray-300 dark:hover:bg-white/10 dark:hover:text-white;
+
+        svg {
+          @apply size-4;
+        }
+      }
+    }
+
+    .finder-breadcrumbs {
+      @apply flex min-w-0 flex-1 items-center gap-1 overflow-hidden text-[13px] text-gray-500 dark:text-gray-400;
+
+      .finder-breadcrumb {
+        @apply flex min-w-0 shrink-0 items-center gap-1;
+      }
+
+      svg {
+        @apply size-3 shrink-0 text-gray-400;
+      }
+
+      button {
+        @apply max-w-36 truncate rounded px-1.5 py-1 transition-colors hover:bg-black/5 hover:text-gray-900 dark:hover:bg-white/10 dark:hover:text-white;
+      }
+
+      button.current {
+        @apply font-semibold text-gray-800 dark:text-gray-100;
+      }
+    }
+
+    .finder-search {
+      @apply flex w-36 shrink-0 items-center gap-1.5 rounded-md border border-gray-300/80 bg-white/70 px-2 py-1.5 text-gray-400 transition-colors focus-within:border-blue-400 focus-within:ring-2 focus-within:ring-blue-400/20 dark:border-white/10 dark:bg-white/5;
+
+      svg {
+        @apply size-3.5 shrink-0;
+      }
+
+      input {
+        @apply min-w-0 w-full bg-transparent text-xs text-gray-800 outline-none placeholder:text-gray-400 dark:text-gray-100;
+      }
+    }
+
+    .finder-content {
+      @apply min-h-0 flex-1 overflow-y-auto bg-white dark:bg-neutral-950;
+    }
+
     .content {
-      @apply flex-1 p-8 bg-white dark:bg-neutral-950 max-w-full relative;
+      @apply grid min-h-full max-w-full content-start gap-x-3 gap-y-5 p-6;
+      grid-template-columns: repeat(auto-fit, minmax(112px, 1fr));
 
       li {
-        @apply absolute flex items-center flex-col gap-3;
+        @apply flex min-w-0 cursor-default flex-col items-center gap-2 rounded-lg px-2 py-2 text-center transition-[background-color,transform] duration-150;
+        min-height: 116px;
+        outline: none;
 
-        img {
-          @apply object-contain object-center size-16 relative group-hover:scale-105 dark:invert;
+        &:hover,
+        &:focus-visible {
+          @apply bg-black/[0.045] dark:bg-white/[0.07];
+        }
+
+        &:active {
+          @apply scale-[0.98];
+        }
+
+        &.is-selected {
+          @apply bg-blue-500/15 dark:bg-blue-400/20;
+
+          p {
+            @apply text-blue-700 dark:text-blue-200;
+          }
+        }
+
+        .finder-item-icon {
+          @apply flex size-[72px] shrink-0 items-center justify-center;
+
+          img {
+            @apply size-16 object-contain object-center;
+          }
         }
 
         p {
-          @apply text-sm text-center font-medium w-40 text-gray-900 dark:text-gray-100;
+          @apply line-clamp-2 w-full max-w-32 break-words text-[13px] font-medium leading-snug text-gray-800 dark:text-gray-100;
         }
+      }
+    }
+
+    .finder-empty {
+      @apply flex h-full flex-col items-center justify-center gap-1 text-center text-gray-400;
+
+      svg {
+        @apply mb-2 size-8 text-gray-300 dark:text-gray-600;
+      }
+
+      p {
+        @apply text-sm font-medium text-gray-600 dark:text-gray-300;
+      }
+
+      span {
+        @apply text-xs;
       }
     }
   }
@@ -807,15 +963,28 @@ body {
     @apply relative z-0 max-sm:hidden;
 
     .desktop-projects {
+      @apply absolute left-6 top-20 flex flex-col gap-3;
+
       li {
-        @apply absolute z-0 select-none flex items-center flex-col;
+        @apply relative z-0 flex w-32 select-none flex-col items-center rounded-lg px-2 py-1 transition-colors;
+
+        &:hover,
+        &selected {
+          @apply bg-white/10;
+        }
+
+        &:active {
+          @apply scale-[0.98];
+        }
 
         img {
-          @apply group-hover:bg-gray-950/10 p-1 rounded-md transition-all duration-200;
+          @apply size-16 rounded-md object-contain p-1 transition-transform duration-200 group-hover:scale-105;
         }
 
         p {
-          @apply text-sm text-white text-center px-1 rounded-md group-hover:bg-blue-500 transition-colors max-w-40;
+          @apply line-clamp-2 w-full break-words text-sm text-white text-center px-1 rounded-md max-w-40 leading-snug;
+
+          @apply transition-colors group-hover:bg-blue-500/80;
         }
       }
     }

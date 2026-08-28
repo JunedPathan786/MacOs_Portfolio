@@ -24,12 +24,9 @@ import {
   dockApps,
 } from "#constants/index.js";
 
-// Apps that appear as a fixed dock at the bottom of the home screen —
-// mirrors the desktop Dock 1:1 (same ids/icons), minus the disabled trash.
 const DOCK_APP_IDS = ["finder", "safari", "photos", "contact"];
 const dockScreenApps = dockApps.filter((app) => DOCK_APP_IDS.includes(app.id));
 
-// Apps that sit in the home-screen grid above the dock.
 const gridApps = [
   { id: "resume", name: "Resume", icon: "/images/pdf.png" },
   { id: "about", name: "About Me", icon: "/icons/info.svg" },

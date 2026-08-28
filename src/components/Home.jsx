@@ -1,26 +1,26 @@
-import clsx from 'clsx'
+import clsx from "clsx";
 
-import { useGSAP } from "@gsap/react"
-import { Draggable } from 'gsap/Draggable'
+import { useGSAP } from "@gsap/react";
+import { Draggable } from "gsap/Draggable";
 
-import { locations } from "#constants"
-import useWindowStore from '#store/window.js'
-import useLocationStore from '#store/location.js'
+import { locations } from "#constants";
+import useWindowStore from "#store/window.js";
+import useLocationStore from "#store/location.js";
 
 const projects = locations.work?.children ?? [];
 
 const Home = () => {
-  const { activeLocation, setActiveLocation } = useLocationStore()
-  const { openWindow } = useWindowStore()
+  const { activeLocation, setActiveLocation } = useLocationStore();
+  const { openWindow } = useWindowStore();
 
   const handleOpenProjectFinder = (project) => {
-    setActiveLocation(project)
-    openWindow("finder")
-  }
+    setActiveLocation(project, { history: [locations.work] });
+    openWindow("finder");
+  };
 
   useGSAP(() => {
-    Draggable.create('.folder')
-  })
+    Draggable.create(".folder");
+  });
 
   return (
     <section id="home">
@@ -30,22 +30,18 @@ const Home = () => {
             key={project.id}
             className={clsx(
               "group folder",
-              project.windowPosition,
-              activeLocation?.id === project.id && "selected"
+              activeLocation?.id === project.id && "selected",
             )}
             onClick={() => handleOpenProjectFinder(project)}
           >
-            <img
-              src="/images/folder.png"
-              alt={project.name}
-            />
+            <img src="/images/folder.png" alt={project.name} />
 
             <p>{project.name}</p>
           </li>
         ))}
       </ul>
     </section>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

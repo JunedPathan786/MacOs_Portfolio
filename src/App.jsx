@@ -29,7 +29,7 @@ const App = () => {
 
   return (
     <>
-      {
+      {/* {
         loading && (
           <Loader
             onComplete={() => {
@@ -37,7 +37,7 @@ const App = () => {
             }}
           />
         )
-      }
+      } */}
       {isMobile ? (
         <MobileApp />
       ) : (

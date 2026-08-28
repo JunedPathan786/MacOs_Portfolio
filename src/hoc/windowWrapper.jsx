@@ -7,13 +7,15 @@ import { Draggable } from "gsap/Draggable";
 const windowWrapper = (Component, windowKey) => {
   const Wrapped = (props) => {
     const { focusWindow, windows } = useWindowStore();
-    const { isOpen, isMinimized, isMaximized, zIndex } = windows[windowKey]
-    const ref = useRef(null)
-    const draggableRef = useRef(null)
+    const { isOpen, isMinimized, isMaximized, zIndex } = windows[windowKey];
+    const ref = useRef(null);
+    const draggableRef = useRef(null);
 
     const getDockDelta = () => {
       const el = ref.current;
-      const dockIcon = document.querySelector(`[data-window-id="${windowKey}"]`);
+      const dockIcon = document.querySelector(
+        `[data-window-id="${windowKey}"]`,
+      );
 
       if (!el || !dockIcon) {
         return {
@@ -26,8 +28,14 @@ const windowWrapper = (Component, windowKey) => {
       const dockRect = dockIcon.getBoundingClientRect();
 
       return {
-        x: dockRect.left + dockRect.width / 2 - (windowRect.left + windowRect.width / 2),
-        y: dockRect.top + dockRect.height / 2 - (windowRect.top + windowRect.height / 2),
+        x:
+          dockRect.left +
+          dockRect.width / 2 -
+          (windowRect.left + windowRect.width / 2),
+        y:
+          dockRect.top +
+          dockRect.height / 2 -
+          (windowRect.top + windowRect.height / 2),
       };
     };
 
@@ -37,18 +45,22 @@ const windowWrapper = (Component, windowKey) => {
 
       el.style.display = "block";
 
-      gsap.fromTo(el, {
-        scale: 0.8,
-        opacity: 0,
-        y: 40
-      }, {
-        scale: 1,
-        opacity: 1,
-        y: 0,
-        duration: 0.2,
-        ease: "power3.out"
-      })
-    }, [isOpen])
+      gsap.fromTo(
+        el,
+        {
+          scale: 0.8,
+          opacity: 0,
+          y: 40,
+        },
+        {
+          scale: 1,
+          opacity: 1,
+          y: 0,
+          duration: 0.2,
+          ease: "power3.out",
+        },
+      );
+    }, [isOpen]);
 
     useGSAP(() => {
       const el = ref.current;
@@ -65,26 +77,30 @@ const windowWrapper = (Component, windowKey) => {
           ease: "power3.inOut",
           onComplete: () => {
             el.style.display = "none";
-          }
+          },
         });
       } else {
         const delta = getDockDelta();
         el.style.display = "block";
-        gsap.fromTo(el, {
-          scale: 0.15,
-          opacity: 0,
-          x: delta.x,
-          y: delta.y,
-        }, {
-          scale: 1,
-          opacity: 1,
-          y: 0,
-          x: 0,
-          duration: 0.4,
-          ease: "power3.out"
-        });
+        gsap.fromTo(
+          el,
+          {
+            scale: 0.15,
+            opacity: 0,
+            x: delta.x,
+            y: delta.y,
+          },
+          {
+            scale: 1,
+            opacity: 1,
+            y: 0,
+            x: 0,
+            duration: 0.4,
+            ease: "power3.out",
+          },
+        );
       }
-    }, [isMinimized])
+    }, [isMinimized]);
 
     useGSAP(() => {
       const el = ref.current;
@@ -98,8 +114,8 @@ const windowWrapper = (Component, windowKey) => {
       });
       draggableRef.current = instance;
 
-      return () => instance.kill()
-    }, [])
+      return () => instance.kill();
+    }, []);
 
     useLayoutEffect(() => {
       const el = ref.current;
@@ -111,7 +127,7 @@ const windowWrapper = (Component, windowKey) => {
       }, 320);
 
       return () => clearTimeout(timeout);
-    }, [isMaximized])
+    }, [isMaximized]);
 
     useLayoutEffect(() => {
       const instance = draggableRef.current;
@@ -119,14 +135,14 @@ const windowWrapper = (Component, windowKey) => {
 
       if (isMaximized) instance.disable();
       else instance.enable();
-    }, [isMaximized])
+    }, [isMaximized]);
 
     useLayoutEffect(() => {
       const el = ref.current;
       if (!el) return;
 
       el.style.display = isOpen ? "block" : "none";
-    }, [isOpen])
+    }, [isOpen]);
 
     return (
       <section
@@ -134,16 +150,16 @@ const windowWrapper = (Component, windowKey) => {
         ref={ref}
         style={{ zIndex }}
         className={`window absolute${isMaximized ? " window-maximized" : ""}`}
+        onPointerDown={() => focusWindow(windowKey)}
       >
         <Component {...props} />
       </section>
-    )
-  }
+    );
+  };
 
-  Wrapped.displayName = `WindowWrapper(${Component.displayName || Component.name || 'Component'})`
+  Wrapped.displayName = `WindowWrapper(${Component.displayName || Component.name || "Component"})`;
 
   return Wrapped;
+};
 
-}
-
-export default windowWrapper
+export default windowWrapper;
