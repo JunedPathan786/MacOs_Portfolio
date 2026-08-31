@@ -12,12 +12,15 @@ const Text = () => {
 
   return (
     <>
-      <div id="window-header">
+      <div id="window-header" className="shrink-0">
         <WindowControls target="txtfile" />
-        <h2>{name}</h2>
+        <h2 className="text-sm font-semibold text-center flex-1 text-gray-700 dark:text-gray-200 truncate px-2">
+          {name}
+        </h2>
+        <span className="w-12 shrink-0" aria-hidden="true" />
       </div>
 
-      <div className="p-5 space-y-6 bg-white">
+      <div className="p-5 space-y-6 bg-white dark:bg-neutral-950 flex-1 min-h-0 overflow-y-auto">
         {image ? (
           <div className="w-full">
             <img src={image} alt={name} className="w-full h-auto rounded" />

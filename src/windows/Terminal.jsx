@@ -6,9 +6,10 @@ import WindowControls from "#components/windowControls.jsx"
 const Terminal = () => {
   return (
     <>
-      <div id="window-header">
-        <WindowControls target="terminal"/>
-        <h2>Tech Stack</h2>
+      <div id="window-header" className="shrink-0">
+        <WindowControls target="terminal" />
+        <h2 className="text-sm font-semibold text-center flex-1 text-gray-700 dark:text-gray-200">Tech Stack</h2>
+        <span className="w-12 shrink-0" aria-hidden="true" />
       </div>
 
       <div className='techstack'>

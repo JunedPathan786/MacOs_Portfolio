@@ -6,8 +6,9 @@ const Contact = () => {
   return (
     <>
       <div id="window-header" className="shrink-0">
-        <WindowControls target="contact"/>
-        <h2>Contact Me!</h2>
+        <WindowControls target="contact" />
+        <h2 className="text-sm font-semibold text-center flex-1 text-gray-700 dark:text-gray-200">Contact Me!</h2>
+        <span className="w-12 shrink-0" aria-hidden="true" />
       </div>
       <div className="p-5 space-y-5 flex-1 overflow-y-auto min-h-0">
         <img src="/images/juned.png" alt="Juned" className="w-20 rounded-full" />

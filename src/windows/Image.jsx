@@ -12,17 +12,20 @@ const Image = memo(() => {
 
   return (
     <>
-      <div id="window-header" className="shrink-0 bg-white/10 backdrop-blur-md z-10 relative">
+      <div id="window-header" className="shrink-0">
         <WindowControls target="imgfile" />
-        <h2 className="text-sm font-medium pr-4 truncate">{name}</h2>
+        <h2 className="text-sm font-semibold text-center flex-1 text-gray-700 dark:text-gray-200 truncate px-2">
+          {name}
+        </h2>
+        <span className="w-12 shrink-0" aria-hidden="true" />
       </div>
 
-      <div className="flex-1 w-full bg-white/95 flex items-center justify-center p-4 min-h-0">
+      <div className="flex-1 w-full bg-gray-100 dark:bg-neutral-900 flex items-center justify-center p-6 min-h-0 overflow-hidden">
         {imageUrl ? (
           <img
             src={imageUrl}
             alt={name}
-            className="max-w-full max-h-full object-contain rounded drop-shadow-md"
+            className="max-w-full max-h-full object-contain rounded-lg shadow-md select-none"
             decoding="async"
           />
         ) : null}

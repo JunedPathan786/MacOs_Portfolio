@@ -8,8 +8,6 @@ import { useEffect, useState } from 'react'
 
 gsap.registerPlugin(Draggable)
 
-// Below this width the draggable-window desktop simulation gives way to a
-// dedicated touch-friendly (iOS-style) experience — see MobileApp.jsx.
 const MOBILE_QUERY = '(max-width: 768px)'
 
 const App = () => {
@@ -29,7 +27,7 @@ const App = () => {
 
   return (
     <>
-      {/* {
+      {
         loading && (
           <Loader
             onComplete={() => {
@@ -37,7 +35,7 @@ const App = () => {
             }}
           />
         )
-      } */}
+      }
       {isMobile ? (
         <MobileApp />
       ) : (

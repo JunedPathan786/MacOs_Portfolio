@@ -129,7 +129,7 @@ const Photos = () => {
         </div>
       </div>
 
-      <div className="flex h-full">
+      <div className="photos-body">
         <div className="sidebar">
           <h2>Photos</h2>
           <ul role="tablist" aria-label="Gallery categories">
