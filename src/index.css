@@ -424,7 +424,7 @@ body {
     }
 
     .dock-icon {
-      @apply size-14 3xl:size-20 cursor-pointer;
+      @apply size-14 3xl:size-20 cursor-pointer mb-2 transition-transform duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5;
 
       img {
         @apply object-cover object-center;
@@ -1022,7 +1022,10 @@ body {
     @apply relative z-0 max-sm:hidden;
 
     .desktop-projects {
-      @apply absolute left-6 top-20 flex flex-col gap-3;
+      @apply absolute left-6 top-20 grid gap-3;
+      grid-template-rows: repeat(4, 116px);
+      grid-auto-flow: column;
+      grid-auto-columns: 128px;
 
       li {
         @apply relative z-0 flex w-32 select-none flex-col items-center rounded-lg px-2 py-1 transition-colors;

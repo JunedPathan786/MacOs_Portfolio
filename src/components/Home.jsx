@@ -25,7 +25,7 @@ const Home = () => {
   return (
     <section id="home">
       <ul className="desktop-projects">
-        {projects.map((project) => (
+        {projects.slice(0,3).map((project) => (
           <li
             key={project.id}
             className={clsx(
