@@ -2,7 +2,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useRef, useState } from "react";
 
-const Loader = () => {
+const Loader = ({ onComplete } = {}) => {
   const containerRef = useRef(null);
   const svgRef = useRef(null);
   const [visible, setVisible] = useState(true);
@@ -19,6 +19,7 @@ const Loader = () => {
       delay: 0.4,
       onComplete: () => {
         setVisible(false);
+        onComplete?.();
       },
     });
 
@@ -74,7 +75,7 @@ const Loader = () => {
       {
         yPercent: -100,
         duration: 1.4,
-        ease: "power4.Out",
+        ease: "power4.out",
       },
       "-=0.35",
     );

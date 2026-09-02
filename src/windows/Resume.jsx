@@ -21,11 +21,11 @@ const Resume = () => {
         <WindowControls target="resume" />
         <h2>Resume.pdf</h2>
 
-        <a href="files/resume.pdf" download className='cursor-pointer' title='Download resume'>
+        <a href="/files/resume.pdf" download className='cursor-pointer' title='Download resume'>
           <Download className='icon' />
         </a>
       </div>
-      <Document file="files/resume.pdf">
+      <Document file="/files/resume.pdf">
         <Page
           pageNumber={1}
           height={RESUME_HEIGHT}

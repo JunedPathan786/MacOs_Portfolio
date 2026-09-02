@@ -491,9 +491,9 @@ const WORK_LOCATION = {
         },
       ],
     },
-    // ▶ Project 3
+    // ▶ Project 4 (Wishing Lake 2.0)
     {
-      id: 7,
+      id: 15,
       name: "Wishing Lake 2.0",
       icon: "/images/folder.png",
       kind: "folder",
@@ -916,26 +916,7 @@ const TRASH_LOCATION = {
   name: "Trash",
   icon: "/icons/trash.svg",
   kind: "folder",
-  children: [
-    {
-      id: 1,
-      name: "trash1.png",
-      icon: "/images/image.png",
-      kind: "file",
-      fileType: "img",
-      position: "top-10 left-10",
-      imageUrl: "/images/trash-1.png",
-    },
-    {
-      id: 2,
-      name: "trash2.png",
-      icon: "/images/image.png",
-      kind: "file",
-      fileType: "img",
-      position: "top-40 left-80",
-      imageUrl: "/images/trash-2.png",
-    },
-  ],
+  children: [],
 };
 
 export const locations = {
@@ -956,6 +937,40 @@ const WINDOW_CONFIG = {
   terminal: { isOpen: false, zIndex: INITIAL_Z_INDEX, data: null },
   txtfile: { isOpen: false, zIndex: INITIAL_Z_INDEX, data: null },
   imgfile: { isOpen: false, zIndex: INITIAL_Z_INDEX, data: null },
+  settings: { isOpen: false, isMinimized: false, isMaximized: false, zIndex: INITIAL_Z_INDEX, data: null },
 };
 
-export { INITIAL_Z_INDEX, WINDOW_CONFIG };
+const APP_WINDOW_MAP = {
+  about: "finder",
+  work: "finder",
+  "project-detail": "finder",
+  resume: "resume",
+  skills: "terminal",
+  contact: "contact",
+  trash: "finder",
+  settings: "settings",
+};
+
+const getAppLaunchTarget = (appId) => {
+  const windowKey = APP_WINDOW_MAP[appId];
+  if (!windowKey) return null;
+
+  if (windowKey !== "finder") return { windowKey };
+
+  if (appId === "about") return { windowKey, location: locations.about };
+  if (appId === "trash") return { windowKey, location: locations.trash };
+
+  if (appId === "project-detail") {
+    const firstProject = locations.work.children?.[0];
+    return {
+      windowKey,
+      location: firstProject ?? locations.work,
+      history: firstProject ? [locations.work] : [],
+    };
+  }
+
+  // "work" and any other finder-backed app default to the Work folder.
+  return { windowKey, location: locations.work };
+};
+
+export { INITIAL_Z_INDEX, WINDOW_CONFIG, APP_WINDOW_MAP, getAppLaunchTarget };

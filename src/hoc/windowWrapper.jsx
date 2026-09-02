@@ -1,4 +1,5 @@
 import useWindowStore from "#store/window.js";
+import { APP_WINDOW_MAP } from "#constants/index.js";
 import { useGSAP } from "@gsap/react";
 import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
@@ -13,9 +14,12 @@ const windowWrapper = (Component, windowKey) => {
 
     const getDockDelta = () => {
       const el = ref.current;
-      const dockIcon = document.querySelector(
-        `[data-window-id="${windowKey}"]`,
+      const dockAppId = Object.keys(APP_WINDOW_MAP).find(
+        (appId) => APP_WINDOW_MAP[appId] === windowKey,
       );
+      const dockIcon = dockAppId
+        ? document.querySelector(`[data-window-id="${dockAppId}"]`)
+        : null;
 
       if (!el || !dockIcon) {
         return {

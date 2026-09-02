@@ -29,7 +29,7 @@ const setupTextHover = (container, type) => {
   const animateLetter = (letter, weight, duration = 0.25) => {
     return gsap.to(letter, {
       duration,
-      ease: 'power2.Out',
+      ease: 'power2.out',
       fontVariationSettings: `"wght" ${weight}`,
     });
   };

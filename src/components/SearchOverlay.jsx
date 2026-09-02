@@ -12,7 +12,13 @@ import {
 import useSearchStore from "#store/search";
 import useWindowStore from "#store/window";
 import useLocationStore from "#store/location";
-import { navLinks, dockApps, socials, locations } from "#constants";
+import {
+  navLinks,
+  dockApps,
+  socials,
+  locations,
+  getAppLaunchTarget,
+} from "#constants";
 
 const getItemIcon = (item) => {
   if (item.icon) {
@@ -143,13 +149,13 @@ const SearchOverlay = () => {
     const q = query.trim().toLowerCase();
     const pool = q
       ? index.filter((item) =>
-        `${item.title} ${item.searchText} ${item.detail}`
-          .toLowerCase()
-          .includes(q),
-      )
+          `${item.title} ${item.searchText} ${item.detail}`
+            .toLowerCase()
+            .includes(q),
+        )
       : index.filter((item) =>
-        ["Apps", "Menu", "Projects"].includes(item.section),
-      );
+          ["Apps", "Menu", "Projects"].includes(item.section),
+        );
 
     return pool.slice(0, 8);
   }, [index, query]);
@@ -181,7 +187,18 @@ const SearchOverlay = () => {
   if (!isOpen) return null;
 
   const handleSelect = (item) => {
-    if (item.action === "app") openWindow(item.target);
+    if (item.action === "app") {
+      const launch = getAppLaunchTarget(item.target);
+      if (launch) {
+        const { windowKey, location, history } = launch;
+        if (location) setActiveLocation(location, { history: history ?? [] });
+        openWindow(windowKey);
+      } else {
+        // Menu items (Projects/Contact/Resume) already carry a real window
+        // key as their target.
+        openWindow(item.target);
+      }
+    }
     if (item.action === "location") {
       if (item.target.fileType === "pdf") {
         openWindow("resume");
@@ -247,9 +264,9 @@ const SearchOverlay = () => {
               ref={inputRef}
               value={query}
               onChange={(e) => {
-                setQuery(e.target.value)
-                setSelectedIndex(0)
-                setHoveredItem(null)
+                setQuery(e.target.value);
+                setSelectedIndex(0);
+                setHoveredItem(null);
               }}
               onKeyDown={handleKeyDown}
               placeholder="Search apps, projects, files, links..."
@@ -274,11 +291,13 @@ const SearchOverlay = () => {
             </button>
           </div>
 
-          <ul id="search-results" className="search-overlay__results" role="listbox">
+          <ul
+            id="search-results"
+            className="search-overlay__results"
+            role="listbox"
+          >
             {results.length === 0 && (
-              <li className="search-overlay__empty">
-                No results found.
-              </li>
+              <li className="search-overlay__empty">No results found.</li>
             )}
 
             {results.map((item, index) => (
@@ -288,24 +307,22 @@ const SearchOverlay = () => {
                 aria-selected={index === selectedIndex}
                 tabIndex={-1}
                 ref={(node) => {
-                  resultRefs.current[index] = node
+                  resultRefs.current[index] = node;
                 }}
                 onMouseEnter={() => {
-                  setSelectedIndex(index)
-                  setHoveredItem(item)
+                  setSelectedIndex(index);
+                  setHoveredItem(item);
                 }}
                 onMouseLeave={() => setHoveredItem(null)}
                 onClick={() => handleSelect(item)}
-                className={`search-overlay__result ${index === selectedIndex
-                  ? "is-selected"
-                  : ""
-                  }`}
+                className={`search-overlay__result ${
+                  index === selectedIndex ? "is-selected" : ""
+                }`}
               >
                 <span
-                  className={`search-overlay__result-icon ${index === selectedIndex
-                    ? "is-selected"
-                    : ""
-                    }`}
+                  className={`search-overlay__result-icon ${
+                    index === selectedIndex ? "is-selected" : ""
+                  }`}
                 >
                   {getItemIcon(item)}
                 </span>
@@ -316,20 +333,18 @@ const SearchOverlay = () => {
                   </span>
 
                   <span
-                    className={`search-overlay__result-detail ${index === selectedIndex
-                      ? "is-selected"
-                      : ""
-                      }`}
+                    className={`search-overlay__result-detail ${
+                      index === selectedIndex ? "is-selected" : ""
+                    }`}
                   >
                     {item.detail}
                   </span>
                 </span>
 
                 <span
-                  className={`search-overlay__result-type ${index === selectedIndex
-                    ? "is-selected"
-                    : ""
-                    }`}
+                  className={`search-overlay__result-type ${
+                    index === selectedIndex ? "is-selected" : ""
+                  }`}
                 >
                   {getItemType(item)}
                 </span>
@@ -367,7 +382,5 @@ const SearchOverlay = () => {
     </div>
   );
 };
-
-
 
 export default SearchOverlay;

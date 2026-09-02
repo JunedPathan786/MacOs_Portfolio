@@ -2,7 +2,7 @@ import gsap from 'gsap'
 import { Draggable } from 'gsap/Draggable'
 
 import { Navbar, Welcome, Dock, Home, Loader, SearchOverlay, MobileApp } from '#components'
-import { Terminal, Safari, Resume, Finder, Text, Image, Contact, Photos, } from '#windows'
+import { Terminal, Safari, Resume, Finder, Text, Image, Contact, Photos, Settings } from '#windows'
 import { useEffect, useState } from 'react'
 
 
@@ -52,6 +52,7 @@ const App = () => {
           <Contact />
           <Home />
           <Photos />
+          <Settings />
           <SearchOverlay />
         </main>
       )}

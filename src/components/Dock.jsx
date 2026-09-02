@@ -3,11 +3,13 @@ import { Tooltip } from "react-tooltip";
 import { useGSAP } from "@gsap/react";
 import gsap from 'gsap'
 
-import { dockApps } from "#constants/index.js";
+import { dockApps, getAppLaunchTarget } from "#constants/index.js";
 import usewindowstore from "#store/window.js";
+import useLocationStore from "#store/location.js";
 
 const Dock = () => {
   const { openWindow, closeWindow, focusWindow, windows } = usewindowstore()
+  const { activeLocation, setActiveLocation } = useLocationStore()
   const dockRef = useRef(null);
 
   useGSAP(() => {
@@ -63,15 +65,45 @@ const Dock = () => {
       return
     };
 
-    const window = windows[app.id];
-
-    if (window.isOpen && window.isMinimized) {
-      focusWindow(app.id);
-    } else if (window.isOpen) {
-      closeWindow(app.id);
-    } else {
-      openWindow(app.id)
+    const target = getAppLaunchTarget(app.id);
+    if (!target) {
+      console.error(`No launch target configured for app: ${app.id}`)
+      return
     }
+
+    const { windowKey, location, history } = target;
+    const win = windows[windowKey];
+    if (!win) {
+      console.error(`Window not found for key: ${windowKey}`)
+      return
+    }
+
+    if (location) {
+      setActiveLocation(location, { history: history ?? [] });
+      if (win.isOpen) {
+        focusWindow(windowKey);
+      } else {
+        openWindow(windowKey);
+      }
+      return;
+    }
+
+    if (win.isOpen && win.isMinimized) {
+      focusWindow(windowKey);
+    } else if (win.isOpen) {
+      closeWindow(windowKey);
+    } else {
+      openWindow(windowKey)
+    }
+  }
+
+  const isAppActive = (app) => {
+    const target = getAppLaunchTarget(app.id);
+    if (!target) return false;
+    const win = windows[target.windowKey];
+    if (!win?.isOpen) return false;
+    if (!target.location) return true;
+    return activeLocation === target.location;
   }
 
   return (
@@ -95,7 +127,7 @@ const Dock = () => {
                 loading="lazy"
                 className={canOpen ? "" : "opacity-60"} />
             </button>
-            {windows[id]?.isOpen && (
+            {isAppActive({ id }) && (
               <span className="dock-indicator" aria-hidden="true" />
             )}
           </div>

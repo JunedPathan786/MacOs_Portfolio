@@ -1,18 +1,25 @@
-import { useMemo, useState } from "react"
-import { ArrowLeft, ArrowRight, ChevronRight, Search, X } from "lucide-react"
-import { WindowControls } from "#components"
-import windowWrapper from "#hoc/windowWrapper"
-import { locations } from "#constants/index.js"
-import useLocationStore from "#store/location"
-import clsx from "clsx"
-import useWindowStore from "#store/window"
+import { useMemo, useState } from "react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  ChevronRight,
+  Folder,
+  Search,
+  X,
+} from "lucide-react";
+import { WindowControls } from "#components";
+import windowWrapper from "#hoc/windowWrapper";
+import { locations } from "#constants/index.js";
+import useLocationStore from "#store/location";
+import clsx from "clsx";
+import useWindowStore from "#store/window";
 
 const projectDirectory = locations.work.children?.find(
   (item) =>
     item.type === "projects" ||
     item.id === "projects" ||
     item.name === "Projects",
-)
+);
 
 const workDirectory = projectDirectory
   ? {
@@ -27,17 +34,17 @@ const workDirectory = projectDirectory
             : [item],
         ) ?? [],
     }
-  : locations.work
+  : locations.work;
 
 const finderDirectories = [
   workDirectory,
   locations.about,
   locations.resume,
   locations.trash,
-]
+];
 
 const Finder = () => {
-  const { openWindow } = useWindowStore()
+  const { openWindow } = useWindowStore();
   const {
     activeLocation,
     history,
@@ -46,119 +53,125 @@ const Finder = () => {
     setActiveLocation,
     goBack,
     goForward,
-  } = useLocationStore()
-  const [query, setQuery] = useState("")
-  const [selectedId, setSelectedId] = useState(null)
+  } = useLocationStore();
+  const [query, setQuery] = useState("");
+  const [selectedId, setSelectedId] = useState(null);
 
   const openItem = (item) => {
-    if (item.fileType === "pdf") return openWindow("resume")
+    if (item.fileType === "pdf") return openWindow("resume");
     if (item.kind === "folder") {
-      setQuery("")
-      return navigateTo(item)
+      setQuery("");
+      return navigateTo(item);
     }
     if (["fig", "url"].includes(item.fileType) && item.href) {
-      return window.open(item.href, "_blank", "noopener,noreferrer")
+      return window.open(item.href, "_blank", "noopener,noreferrer");
     }
-    openWindow(`${item.fileType}${item.kind}`, item)
-  }
+    openWindow(`${item.fileType}${item.kind}`, item);
+  };
 
   const displayedLocation =
-    activeLocation === locations.work ? workDirectory : activeLocation
+    activeLocation === locations.work ? workDirectory : activeLocation;
 
   const allItems = useMemo(() => {
-    const items = []
+    const items = [];
     const walk = (node, path = []) => {
-      if (!node || !Array.isArray(node.children)) return
-      const currentPath = [...path, node.name]
+      if (!node || !Array.isArray(node.children)) return;
+      const currentPath = [...path, node.name];
       node.children.forEach((child) => {
-        const itemPath = [...currentPath]
-        const uniqueKey = `${itemPath.join("/")}-${child.id}-${child.name}`
+        const itemPath = [...currentPath];
+        const uniqueKey = `${itemPath.join("/")}-${child.id}-${child.name}`;
         const enrichedItem = {
           ...child,
           _uniqueKey: uniqueKey,
           _path: itemPath.slice(1).join(" / "),
           _rootSection: node.name,
-        }
-        items.push(enrichedItem)
+        };
+        items.push(enrichedItem);
         if (child.kind === "folder") {
-          walk(child, itemPath)
+          walk(child, itemPath);
         }
-      })
-    }
-    finderDirectories.forEach((dir) => walk(dir, []))
-    return items
-  }, [])
+      });
+    };
+    finderDirectories.forEach((dir) => walk(dir, []));
+    return items;
+  }, []);
 
-  const trimmedQuery = query.trim().toLowerCase()
-  const isSearching = trimmedQuery.length > 0
+  const trimmedQuery = query.trim().toLowerCase();
+  const isSearching = trimmedQuery.length > 0;
 
   const visibleItems = useMemo(() => {
     if (!isSearching) {
       return (displayedLocation?.children ?? []).map((child) => ({
         ...child,
         _uniqueKey: `${displayedLocation?.name ?? "root"}-${child.id}-${child.name}`,
-      }))
+      }));
     }
 
     return allItems
       .map((item) => {
-        const nameLower = (item.name || "").toLowerCase()
-        const kindLower = (item.kind || "").toLowerCase()
-        const typeLower = (item.fileType || "").toLowerCase()
+        const nameLower = (item.name || "").toLowerCase();
+        const kindLower = (item.kind || "").toLowerCase();
+        const typeLower = (item.fileType || "").toLowerCase();
         const descText = Array.isArray(item.description)
           ? item.description.join(" ").toLowerCase()
-          : (item.description || "").toLowerCase()
-        const subtitleLower = (item.subtitle || "").toLowerCase()
+          : (item.description || "").toLowerCase();
+        const subtitleLower = (item.subtitle || "").toLowerCase();
 
-        let score = 0
+        let score = 0;
         if (nameLower === trimmedQuery) {
-          score = 100
+          score = 100;
         } else if (nameLower.startsWith(trimmedQuery)) {
-          score = 80
+          score = 80;
         } else if (nameLower.includes(trimmedQuery)) {
-          score = 60
-        } else if (typeLower === trimmedQuery || nameLower.endsWith("." + trimmedQuery)) {
-          score = 50
+          score = 60;
+        } else if (
+          typeLower === trimmedQuery ||
+          nameLower.endsWith("." + trimmedQuery)
+        ) {
+          score = 50;
         } else if (kindLower === trimmedQuery) {
-          score = 40
-        } else if (subtitleLower.includes(trimmedQuery) || descText.includes(trimmedQuery)) {
-          score = 30
+          score = 40;
+        } else if (
+          subtitleLower.includes(trimmedQuery) ||
+          descText.includes(trimmedQuery)
+        ) {
+          score = 30;
         }
 
-        return { item, score }
+        return { item, score };
       })
       .filter(({ score }) => score > 0)
       .sort((a, b) => b.score - a.score)
-      .map(({ item }) => item)
-  }, [allItems, displayedLocation, isSearching, trimmedQuery])
+      .map(({ item }) => item);
+  }, [allItems, displayedLocation, isSearching, trimmedQuery]);
 
   const getLocationPath = () => {
     if (
       displayedLocation === workDirectory ||
       displayedLocation === locations.work
     ) {
-      return [workDirectory]
+      return [workDirectory];
     }
 
     if (workDirectory.children?.some((item) => item === displayedLocation)) {
-      return [workDirectory, displayedLocation]
+      return [workDirectory, displayedLocation];
     }
 
-    const path = []
+    const path = [];
     const findPath = (node) => {
-      if (!node) return false
-      path.push(node)
-      if (node === activeLocation) return true
-      if (node.children?.some(findPath)) return true
-      path.pop()
-      return false
-    }
+      if (!node) return false;
+      path.push(node);
+      if (node === activeLocation) return true;
+      if (node.children?.some(findPath)) return true;
+      path.pop();
+      return false;
+    };
 
-    finderDirectories.some(findPath)
-    return path.length ? path : [displayedLocation]
-  }
+    finderDirectories.some(findPath);
+    return path.length ? path : [displayedLocation];
+  };
 
-  const locationPath = getLocationPath()
+  const locationPath = getLocationPath();
 
   const renderSidebarList = (name, items) => (
     <div className="finder-sidebar-section">
@@ -168,12 +181,12 @@ const Finder = () => {
           <li
             key={item.id}
             onClick={() => {
-              setQuery("")
-              setSelectedId(null)
+              setQuery("");
+              setSelectedId(null);
               if (item === workDirectory && activeLocation === locations.work) {
-                setActiveLocation(workDirectory, { history: [] })
+                setActiveLocation(workDirectory, { history: [] });
               } else {
-                navigateTo(item)
+                navigateTo(item);
               }
             }}
             className={clsx(
@@ -190,7 +203,7 @@ const Finder = () => {
         ))}
       </ul>
     </div>
-  )
+  );
 
   return (
     <>
@@ -205,9 +218,7 @@ const Finder = () => {
 
       <div className="finder-body">
         <aside className="sidebar" aria-label="Finder sidebar">
-          {renderSidebarList("Favorites", [
-            ...finderDirectories,
-          ])}
+          {renderSidebarList("Favorites", [...finderDirectories])}
           {renderSidebarList("Work", workDirectory.children)}
         </aside>
 
@@ -242,7 +253,8 @@ const Finder = () => {
                     <span>Search: &ldquo;{query.trim()}&rdquo;</span>
                   </span>
                   <span className="text-xs text-gray-400">
-                    ({visibleItems.length} {visibleItems.length === 1 ? "item" : "items"})
+                    ({visibleItems.length}{" "}
+                    {visibleItems.length === 1 ? "item" : "items"})
                   </span>
                 </div>
               ) : (
@@ -252,10 +264,12 @@ const Finder = () => {
                     <button
                       type="button"
                       onClick={() => {
-                        setSelectedId(null)
-                        setActiveLocation(location)
+                        setSelectedId(null);
+                        setActiveLocation(location);
                       }}
-                      className={index === locationPath.length - 1 ? "current" : ""}
+                      className={
+                        index === locationPath.length - 1 ? "current" : ""
+                      }
                     >
                       {location.name}
                     </button>
@@ -270,12 +284,12 @@ const Finder = () => {
                 type="text"
                 value={query}
                 onChange={(event) => {
-                  setQuery(event.target.value)
-                  setSelectedId(null)
+                  setQuery(event.target.value);
+                  setSelectedId(null);
                 }}
                 onKeyDown={(event) => {
                   if (event.key === "Escape") {
-                    setQuery("")
+                    setQuery("");
                   }
                 }}
                 placeholder="Search"
@@ -287,8 +301,8 @@ const Finder = () => {
                   aria-label="Clear search"
                   className="finder-search-clear"
                   onClick={() => {
-                    setQuery("")
-                    setSelectedId(null)
+                    setQuery("");
+                    setSelectedId(null);
                   }}
                 >
                   <X />
@@ -299,7 +313,10 @@ const Finder = () => {
 
           <div className="finder-content" aria-live="polite">
             {visibleItems.length ? (
-              <ul className="content" aria-label={`${displayedLocation?.name} contents`}>
+              <ul
+                className="content"
+                aria-label={`${displayedLocation?.name} contents`}
+              >
                 {visibleItems.map((item) => (
                   <li
                     key={item._uniqueKey}
@@ -312,7 +329,7 @@ const Finder = () => {
                     title={item.name}
                     tabIndex={0}
                     onKeyDown={(event) => {
-                      if (event.key === "Enter") openItem(item)
+                      if (event.key === "Enter") openItem(item);
                     }}
                   >
                     <span className="finder-item-icon">
@@ -325,13 +342,16 @@ const Finder = () => {
                   </li>
                 ))}
               </ul>
-            ) : (
+            ) : isSearching ? (
               <div className="finder-empty">
                 <div className="finder-empty-icon">
                   <Search aria-hidden="true" />
                 </div>
                 <p>No results found for &ldquo;{query}&rdquo;</p>
-                <span>Check your spelling or try searching for a different keyword or file extension.</span>
+                <span>
+                  Check your spelling or try searching for a different keyword
+                  or file extension.
+                </span>
                 <button
                   type="button"
                   className="finder-clear-search-btn"
@@ -340,14 +360,21 @@ const Finder = () => {
                   Clear search
                 </button>
               </div>
+            ) : (
+              <div className="finder-empty">
+                <div className="finder-empty-icon">
+                  <Folder aria-hidden="true" />
+                </div>
+                <p>This folder is empty</p>
+              </div>
             )}
           </div>
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-const FinderWindow = windowWrapper(Finder, "finder")
+const FinderWindow = windowWrapper(Finder, "finder");
 
-export default FinderWindow
+export default FinderWindow;
