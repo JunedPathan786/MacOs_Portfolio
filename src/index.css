@@ -104,33 +104,93 @@ body {
     @apply relative flex items-center;
   }
 
-  .mode-theme-menu {
-    @apply invisible absolute -right-10 top-full z-[9999] mt-2 grid w-max
-         origin-top-right translate-y-1 scale-95 items-center gap-1
-         rounded-xl border border-white/50 bg-white/90 p-1.5 text-xs
-         font-medium text-gray-800 opacity-0 shadow-2xl backdrop-blur-2xl
-         transition-[opacity,transform,visibility]
+  /* Right-side status dropdowns (Wi-Fi / Bluetooth / Battery / Control
+     Center) — right-anchored so the panel never overflows the screen
+     edge, matching where macOS docks these menu-bar extras. */
+  .status-menu {
+    @apply invisible absolute -right-2 top-full z-[9999] mt-2 flex w-max
+         min-w-[180px] origin-top-right translate-y-1 scale-95 flex-col
+         gap-0.5 rounded-xl border border-white/50 bg-white/90 p-1.5
+         text-[13px] font-medium text-gray-800 opacity-0 shadow-2xl
+         backdrop-blur-2xl transition-[opacity,transform,visibility]
          duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]
          dark:border-white/10 dark:bg-neutral-900/90 dark:text-white;
 
     transition-behavior: allow-discrete;
   }
 
-  .nav-icon-item:hover .mode-theme-menu,
-  .nav-icon-item:focus-within .mode-theme-menu {
+  .nav-icon-item:hover .status-menu,
+  .nav-icon-item:focus-within .status-menu {
     @apply visible translate-y-0 scale-100 opacity-100;
   }
 
-  .mode-theme-option {
-    @apply whitespace-nowrap rounded-lg px-3 py-1.5 transition-colors;
+  .control-center-panel {
+    @apply min-w-[220px];
   }
 
-  .mode-theme-option-active {
-    @apply bg-blue-600 text-white shadow-sm;
+  .status-menu-row {
+    @apply flex items-center justify-between gap-6 whitespace-nowrap rounded-lg px-3 py-1.5;
   }
 
-  .mode-theme-option-idle {
-    @apply hover:bg-black/5 dark:hover:bg-white/10;
+  .status-menu-hint {
+    @apply text-[11px] font-normal tracking-wide text-gray-400 dark:text-gray-500;
+  }
+
+  .status-menu-divider {
+    @apply my-1 h-px bg-black/10 dark:bg-white/10;
+  }
+
+  .status-menu-toggle-row {
+    @apply flex w-full items-center justify-between gap-6 rounded-lg px-3 py-1.5
+         text-left transition-colors hover:bg-black/5 dark:hover:bg-white/10;
+  }
+
+  /* Native-style switch used by the Control Center's Dark Mode control —
+     mirrors macOS's green "on" state rather than a custom two-button
+     picker, matching real Control Center toggles. */
+  .switch {
+    @apply relative inline-flex h-[18px] w-[32px] shrink-0 items-center
+         rounded-full bg-gray-300 transition-colors duration-200
+         dark:bg-neutral-700;
+  }
+
+  .switch-on {
+    @apply bg-green-500 dark:bg-green-500;
+  }
+
+  .switch-knob {
+    @apply absolute left-[2px] size-[14px] rounded-full bg-white shadow transition-transform duration-200;
+  }
+
+  /* Left-aligned macOS-style menu rows (View / Help / Edit), distinct from
+     the centered pill buttons used by the appearance toggle above: each
+     row spans the full dropdown width with the label on the left and an
+     optional keyboard-shortcut hint aligned to the right. */
+  .menu-dropdown {
+    @apply invisible absolute left-0 top-full z-[9999] mt-2 flex w-max
+         min-w-[200px] origin-top-left translate-y-1 scale-95 flex-col
+         gap-0.5 rounded-xl border border-white/50 bg-white/90 p-1.5
+         text-[13px] font-medium text-gray-800 opacity-0 shadow-2xl
+         backdrop-blur-2xl transition-[opacity,transform,visibility]
+         duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]
+         dark:border-white/10 dark:bg-neutral-900/90 dark:text-white;
+
+    transition-behavior: allow-discrete;
+  }
+
+  .nav-icon-item:hover .menu-dropdown,
+  .nav-icon-item:focus-within .menu-dropdown {
+    @apply visible translate-y-0 scale-100 opacity-100;
+  }
+
+  .menu-dropdown-option {
+    @apply flex w-full items-center justify-between gap-6 whitespace-nowrap
+         rounded-lg px-3 py-1.5 text-left transition-colors
+         hover:bg-black/5 dark:hover:bg-white/10;
+  }
+
+  .menu-dropdown-hint {
+    @apply text-[11px] font-normal tracking-wide text-gray-400 dark:text-gray-500;
   }
 
   /* =========================

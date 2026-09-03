@@ -13,7 +13,6 @@ import useSearchStore from "#store/search";
 import useWindowStore from "#store/window";
 import useLocationStore from "#store/location";
 import {
-  navLinks,
   dockApps,
   socials,
   locations,
@@ -53,18 +52,6 @@ const getItemType = (item) => {
 
 const buildIndex = () => {
   const items = [];
-
-  navLinks.forEach(({ id, name, type }) => {
-    items.push({
-      id: `nav-${id}`,
-      title: name,
-      section: "Menu",
-      detail: `Open ${name}`,
-      action: "app",
-      target: type,
-      searchText: `${name} menu ${type}`,
-    });
-  });
 
   dockApps
     .filter((app) => app.canOpen)

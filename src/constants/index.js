@@ -1,18 +1,56 @@
-const navLinks = [
+// Menu-bar dropdowns (View / Help / Edit). Each item's "action" maps to a
+// handler in Navbar.jsx — keeping the data here means the menu structure
+// can change without touching component code.
+const navMenus = [
   {
-    id: 1,
-    name: "Projects",
-    type: "finder",
+    id: "view",
+    name: "View",
+    items: [
+      {
+        id: "toggle-theme",
+        label: "Toggle Appearance",
+        hint: "Light / Dark",
+        action: "toggleTheme",
+      },
+      {
+        id: "minimize-all",
+        label: "Minimize All Windows",
+        action: "minimizeAll",
+      },
+    ],
   },
   {
-    id: 3,
-    name: "Contact",
-    type: "contact",
+    id: "help",
+    name: "Help",
+    items: [
+      {
+        id: "settings",
+        label: "Portfolio Settings",
+        action: "openSettings",
+      },
+      {
+        id: "source",
+        label: "View Source on GitHub",
+        action: "viewSource",
+      },
+    ],
   },
   {
-    id: 4,
-    name: "Resume",
-    type: "resume",
+    id: "edit",
+    name: "Edit",
+    items: [
+      {
+        id: "find",
+        label: "Find…",
+        hint: "⌘K",
+        action: "find",
+      },
+      {
+        id: "copy-email",
+        label: "Copy Email Address",
+        action: "copyEmail",
+      },
+    ],
   },
 ];
 
@@ -30,23 +68,28 @@ const PROFILE = {
 const navIcons = [
   {
     id: 1,
-    img: "/icons/battery.svg",
-    type: "battery",
-  },
-  {
-    id: 2,
-    img: "/icons/search.svg",
-    type: "search",
-  },
-  {
-    id: 3,
     img: "/icons/wifi.svg",
     type: "wifi",
   },
   {
+    id: 2,
+    img: "/icons/bluetooth.svg",
+    type: "bluetooth",
+  },
+  {
+    id: 3,
+    img: "/icons/battery.svg",
+    type: "battery",
+  },
+  {
     id: 4,
-    img: "/icons/mode.svg",
-    type: "mode",
+    img: "/icons/control-center.svg",
+    type: "control-center",
+  },
+  {
+    id: 5,
+    img: "/icons/search.svg",
+    type: "search",
   },
 ];
 
@@ -348,7 +391,7 @@ const gallery = {
 };
 
 export {
-  navLinks,
+  navMenus,
   navIcons,
   dockApps,
   blogPosts,
@@ -491,48 +534,6 @@ const WORK_LOCATION = {
         },
       ],
     },
-    // ▶ Project 4 (Wishing Lake 2.0)
-    {
-      id: 15,
-      name: "Wishing Lake 2.0",
-      icon: "/images/folder.png",
-      kind: "folder",
-      children: [
-        {
-          id: 1,
-          name: "Wishing Lake 2.0.txt",
-          icon: "/images/txt.png",
-          kind: "file",
-          fileType: "txt",
-          position: "top-5 left-10",
-          description: [
-            "A full-stack social and crowdfunding platform built with the MERN stack where users can create wishes, discover wishes from others, and contribute toward fulfilling them.",
-            "Implements user authentication, wish management, interactive user flows, payment functionality, and separate frontend and backend applications.",
-            "Includes RESTful APIs, MongoDB data management, authentication flows, payment integration, and API testing through a dedicated Postman collection.",
-            "The project evolved from the original Wishing Lake concept into a more structured full-stack application with dedicated testing documentation and production-oriented organization.",
-            "Tech stack: MongoDB, Express.js, React.js, Node.js, JWT, REST APIs, payment integration, Postman.",
-          ],
-        },
-        {
-          id: 2,
-          name: "Wishing-Lake-2.0",
-          icon: "/icons/github.svg",
-          kind: "file",
-          fileType: "url",
-          href: "https://github.com/JunedPathan786/Wishing-Lake-2.0",
-          position: "top-10 right-20",
-        },
-        {
-          id: 4,
-          name: "wishing-lake.png",
-          icon: "/images/image.png",
-          kind: "file",
-          fileType: "img",
-          position: "top-52 right-80",
-          imageUrl: "/images/project-3.png",
-        },
-      ],
-    },
 
     // ▶ Project 4
     {
@@ -580,13 +581,13 @@ const WORK_LOCATION = {
     // ▶ Project 5
     {
       id: 9,
-      name: "Urban Company Clone",
+      name: "Hyperlocal Service Marketplace ",
       icon: "/images/folder.png",
       kind: "folder",
       children: [
         {
           id: 1,
-          name: "Urban Company Clone.txt",
+          name: "Hyperlocal Service Marketplace .txt",
           icon: "/images/txt.png",
           kind: "file",
           fileType: "txt",
@@ -666,135 +667,6 @@ const WORK_LOCATION = {
     // ▶ Project 7
     {
       id: 11,
-      name: "Voltara Technologies",
-      icon: "/images/folder.png",
-      kind: "folder",
-      children: [
-        {
-          id: 1,
-          name: "Voltara Technologies.txt",
-          icon: "/images/txt.png",
-          kind: "file",
-          fileType: "txt",
-          position: "top-5 left-10",
-          description: [
-            "A production-oriented business website built with Next.js and React for presenting company services, projects, information, and contact experiences.",
-            "Implements dedicated contact and newsletter API routes with Resend integration for transactional email workflows.",
-            "Uses a structured application architecture with reusable components, features, data, constants, and utility modules to keep the codebase maintainable.",
-            "Includes responsive layouts, dynamic content, loading states, service and project sections, contact functionality, and Google Maps integration.",
-            "Tech stack: Next.js 16, React 19, JavaScript, Resend, Vercel, API Routes.",
-          ],
-        },
-        {
-          id: 2,
-          name: "voltaratechnology",
-          icon: "/icons/github.svg",
-          kind: "file",
-          fileType: "url",
-          href: "https://github.com/JunedPathan786/voltaratechnology",
-          position: "top-10 right-20",
-        },
-        {
-          id: 4,
-          name: "voltara-technologies.png",
-          icon: "/images/image.png",
-          kind: "file",
-          fileType: "img",
-          position: "top-52 right-80",
-          imageUrl: "/images/project-7.png",
-        },
-      ],
-    },
-
-    // ▶ Project 8
-    {
-      id: 12,
-      name: "Interactive macOS Portfolio",
-      icon: "/images/folder.png",
-      kind: "folder",
-      children: [
-        {
-          id: 1,
-          name: "Interactive macOS Portfolio.txt",
-          icon: "/images/txt.png",
-          kind: "file",
-          fileType: "txt",
-          position: "top-5 right-10",
-          description: [
-            "An interactive developer portfolio designed as a macOS-inspired desktop environment instead of a conventional portfolio website.",
-            "Features a desktop interface with Finder-style windows, Dock navigation, menu bar interactions, project folders, About, Skills, Resume, Contact, Settings, and Trash.",
-            "Built to demonstrate frontend engineering, interaction design, reusable UI components, responsive behavior, window management, and micro-interactions.",
-            "The portfolio treats personal information and projects as an interactive operating-system-style experience, making the website itself part of the portfolio.",
-            "Tech stack: React.js, Vite, JavaScript, CSS, Tailwind CSS, responsive UI, interactive window management.",
-          ],
-        },
-        {
-          id: 2,
-          name: "MacOs_Portfolio",
-          icon: "/icons/github.svg",
-          kind: "file",
-          fileType: "url",
-          href: "https://github.com/JunedPathan786/MacOs_Portfolio",
-          position: "top-20 left-20",
-        },
-        {
-          id: 4,
-          name: "macos-portfolio.png",
-          icon: "/images/image.png",
-          kind: "file",
-          fileType: "img",
-          position: "top-52 left-80",
-          imageUrl: "/images/project-8.png",
-        },
-      ],
-    },
-
-    // ▶ Project 9
-    {
-      id: 13,
-      name: "Backend Video Platform",
-      icon: "/images/folder.png",
-      kind: "folder",
-      children: [
-        {
-          id: 1,
-          name: "Backend Video Platform.txt",
-          icon: "/images/txt.png",
-          kind: "file",
-          fileType: "txt",
-          position: "top-5 left-10",
-          description: [
-            "A backend-focused video-sharing platform inspired by modern video hosting applications and built to practice scalable REST API development.",
-            "Implements user authentication, video management, likes, dislikes, comments, replies, subscriptions, and other social interactions.",
-            "Uses MongoDB and Mongoose for data modeling with JWT authentication and bcrypt-based password security.",
-            "The project focuses on backend architecture, database relationships, authentication flows, API design, and implementing social features around video content.",
-            "Tech stack: Node.js, Express.js, MongoDB, Mongoose, JWT, bcrypt, REST APIs.",
-          ],
-        },
-        {
-          id: 2,
-          name: "Backend",
-          icon: "/icons/github.svg",
-          kind: "file",
-          fileType: "url",
-          href: "https://github.com/JunedPathan786/Backend",
-          position: "top-10 right-20",
-        },
-        {
-          id: 4,
-          name: "backend-video-platform.png",
-          icon: "/images/image.png",
-          kind: "file",
-          fileType: "img",
-          position: "top-52 right-80",
-          imageUrl: "/images/project-9.png",
-        },
-      ],
-    },
-
-    // ▶ Project 10
-    {
-      id: 14,
       name: "3D DogStudio Experience",
       icon: "/images/folder.png",
       kind: "folder",
@@ -830,7 +702,7 @@ const WORK_LOCATION = {
           kind: "file",
           fileType: "img",
           position: "top-52 right-80",
-          imageUrl: "/images/project-10.png",
+          imageUrl: "/images/project-7.png",
         },
       ],
     },

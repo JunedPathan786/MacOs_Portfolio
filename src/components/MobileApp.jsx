@@ -1,47 +1,36 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import dayjs from "dayjs";
 import {
   ChevronLeft,
   Check,
   Flag,
-  Search,
   Download,
   Wifi,
   Signal,
   BatteryFull,
-  Folder,
-  Info,
-  MoveRight,
 } from "lucide-react";
 
 import {
   PROFILE,
   techStack,
-  blogPosts,
   socials,
-  gallery,
   locations,
   dockApps,
 } from "#constants/index.js";
+import { renderText, useTextHover } from "#hoc/useTextHover.jsx";
 
-const DOCK_APP_IDS = ["finder", "safari", "photos", "contact"];
-const dockScreenApps = dockApps.filter((app) => DOCK_APP_IDS.includes(app.id));
-
-const gridApps = [
-  { id: "resume", name: "Resume", icon: "/images/pdf.png" },
-  { id: "about", name: "About Me", icon: "/icons/info.svg" },
-  { id: "techstack", name: "Tech Stack", icon: "/images/terminal.png" },
-];
-
-const allPhotos = [
-  ...gallery.featured.map((item) => ({ ...item, key: `featured-${item.id}` })),
-  ...gallery.journey
-    .filter((item) => item.img)
-    .map((item) => ({ ...item, key: `journey-${item.id}` })),
-];
+// Mobile home screen mirrors the desktop dock (about, work, resume, skills,
+// contact) minus "trash" and "settings" (no mobile equivalent) and
+// "project-detail" (on mobile it showed the exact same project list as
+// "work", so it's dropped rather than kept as a duplicate entry point).
+// First 3 sit in the icon grid, the rest in the dock.
+const mobileApps = dockApps.filter(
+  (app) => !["trash", "settings", "project-detail"].includes(app.id),
+);
+const gridApps = mobileApps.slice(0, 3);
+const dockScreenApps = mobileApps.slice(3);
 
 const aboutFile = locations.about.children.find((c) => c.fileType === "txt");
-const resumeFile = locations.resume.children[0];
 
 const StatusBar = () => {
   const [time, setTime] = useState(dayjs().format("h:mm"));
@@ -108,9 +97,9 @@ const AboutScreen = () => (
   </div>
 );
 
-const TechStackScreen = () => (
+const SkillsScreen = () => (
   <div className="flex-1 overflow-y-auto p-5 space-y-4 font-roboto text-sm bg-white">
-    <p className="text-gray-500">Techstack</p>
+    <p className="text-gray-500">Skills</p>
     <div className="flex gap-6 border-b border-black/10 pb-2 text-gray-500">
       <p className="w-28">Category</p>
       <p>Technologies</p>
@@ -176,60 +165,6 @@ const ContactScreen = () => (
   </div>
 );
 
-const SafariScreen = () => (
-  <div className="flex-1 flex flex-col bg-white min-h-0">
-    <div className="flex-1 overflow-y-auto p-5">
-      <h2 className="text-red-500 font-bold text-lg mb-4">My Developer Blog</h2>
-      <div className="space-y-6">
-        {blogPosts.map(({ id, image, title, date, link }) => (
-          <div key={id} className="flex gap-3">
-            <img src={image} alt="" className="size-16 rounded-lg object-cover shrink-0" />
-            <div className="min-w-0 space-y-1">
-              <p className="text-xs text-gray-500">{date}</p>
-              <h3 className="text-sm font-semibold leading-snug">{title}</h3>
-              <a
-                href={link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-xs text-blue-500 inline-flex items-center gap-1"
-              >
-                Check out the full post <MoveRight size={12} />
-              </a>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-    <div className="shrink-0 border-t border-black/10 p-2">
-      <div className="flex items-center gap-2 rounded-lg bg-gray-100 px-3 py-2 text-gray-500 text-sm">
-        <Search size={15} />
-        <span>Search or enter website name</span>
-      </div>
-    </div>
-  </div>
-);
-
-const PhotosScreen = ({ onOpenImage }) => (
-  <div className="flex-1 overflow-y-auto p-1.5 bg-white">
-    <div className="grid grid-cols-2 gap-1.5">
-      {allPhotos.map((item) => (
-        <button
-          key={item.key}
-          type="button"
-          onClick={() => onOpenImage(item)}
-          className="aspect-square overflow-hidden rounded-md"
-        >
-          <img
-            src={item.img}
-            alt={item.title || ""}
-            className="w-full h-full object-cover"
-          />
-        </button>
-      ))}
-    </div>
-  </div>
-);
-
 const ImageScreen = ({ item }) => (
   <div className="flex-1 flex items-center justify-center bg-black p-4">
     <img
@@ -248,6 +183,29 @@ const FileDetailScreen = ({ item }) => (
     </div>
   </div>
 );
+
+const ProjectsListScreen = ({ onOpenProject }) => {
+  const projects = locations.work.children;
+
+  return (
+    <div className="flex-1 overflow-y-auto bg-white">
+      <ul className="divide-y divide-black/5">
+        {projects.map((project) => (
+          <li key={project.id}>
+            <button
+              type="button"
+              onClick={() => onOpenProject(project)}
+              className="w-full flex items-center gap-3 px-5 py-3.5 text-left active:bg-gray-50"
+            >
+              <img src="/images/folder.png" alt="" className="size-6 shrink-0" />
+              <span className="text-[15px] truncate">{project.name}</span>
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
 
 const ProjectScreen = ({ project, onOpenChild }) => (
   <div className="flex-1 overflow-y-auto bg-white">
@@ -287,77 +245,12 @@ const ResumeScreen = () => (
   </div>
 );
 
-const FinderScreen = ({ tab, onTab, onOpenProject, onOpenResume }) => {
-  const projects = locations.work.children;
-
-  return (
-    <div className="flex-1 flex flex-col min-h-0 bg-white">
-      <div className="flex-1 overflow-y-auto">
-        {tab === "work" ? (
-          <ul className="divide-y divide-black/5">
-            {projects.map((project) => (
-              <li key={project.id}>
-                <button
-                  type="button"
-                  onClick={() => onOpenProject(project)}
-                  className="w-full flex items-center gap-3 px-5 py-3.5 text-left active:bg-gray-50"
-                >
-                  <img src="/images/folder.png" alt="" className="size-6 shrink-0" />
-                  <span className="text-[15px] truncate">{project.name}</span>
-                </button>
-              </li>
-            ))}
-            {resumeFile ? (
-              <li>
-                <button
-                  type="button"
-                  onClick={onOpenResume}
-                  className="w-full flex items-center gap-3 px-5 py-3.5 text-left active:bg-gray-50"
-                >
-                  <img src={resumeFile.icon} alt="" className="size-6 shrink-0" />
-                  <span className="text-[15px] truncate">{resumeFile.name}</span>
-                </button>
-              </li>
-            ) : null}
-          </ul>
-        ) : (
-          <AboutScreen />
-        )}
-      </div>
-      <div className="shrink-0 flex border-t border-black/10 bg-white">
-        <button
-          type="button"
-          onClick={() => onTab("work")}
-          className={`flex-1 flex flex-col items-center gap-0.5 py-2 text-xs ${
-            tab === "work" ? "text-blue-500" : "text-gray-400"
-          }`}
-        >
-          <Folder size={20} />
-          Work
-        </button>
-        <button
-          type="button"
-          onClick={() => onTab("about")}
-          className={`flex-1 flex flex-col items-center gap-0.5 py-2 text-xs ${
-            tab === "about" ? "text-blue-500" : "text-gray-400"
-          }`}
-        >
-          <Info size={20} />
-          About Me
-        </button>
-      </div>
-    </div>
-  );
-};
-
 const TITLES = {
   about: "About Me",
-  techstack: "Tech Stack",
-  contact: "Contact Me",
-  safari: "Safari",
-  photos: "All Photos",
+  work: "Work",
   resume: "Resume",
-  finder: "Work",
+  skills: "Skills",
+  contact: "Contact Me",
 };
 
 // ---------- Root ----------
@@ -365,21 +258,17 @@ const TITLES = {
 const MobileApp = () => {
   const [stack, setStack] = useState([]);
   const current = stack[stack.length - 1];
+  const heroKickerRef = useRef(null);
+  const heroTitleRef = useRef(null);
 
   const push = (entry) => setStack((s) => [...s, entry]);
   const back = () => setStack((s) => s.slice(0, -1));
-  const updateTop = (patch) =>
-    setStack((s) => {
-      if (!s.length) return s;
-      const copy = [...s];
-      copy[copy.length - 1] = { ...copy[copy.length - 1], ...patch };
-      return copy;
-    });
+  const openHomeApp = (id) => push({ id });
 
-  const openHomeApp = (id) => {
-    if (id === "finder") return push({ id: "finder", tab: "work" });
-    push({ id });
-  };
+  // Same per-letter variable-weight hover effect as the desktop hero text.
+  // No-op on touch (no hover), but active for mouse/trackpad input.
+  useTextHover(heroKickerRef, "subtitle");
+  useTextHover(heroTitleRef, "title");
 
   let title = "";
   let body = null;
@@ -390,40 +279,25 @@ const MobileApp = () => {
         title = TITLES.about;
         body = <AboutScreen />;
         break;
-      case "techstack":
-        title = TITLES.techstack;
-        body = <TechStackScreen />;
+      case "skills":
+        title = TITLES.skills;
+        body = <SkillsScreen />;
         break;
       case "contact":
         title = TITLES.contact;
         body = <ContactScreen />;
         break;
-      case "safari":
-        title = TITLES.safari;
-        body = <SafariScreen />;
-        break;
-      case "photos":
-        title = TITLES.photos;
+      case "work":
+        title = TITLES.work;
         body = (
-          <PhotosScreen
-            onOpenImage={(item) => push({ id: "file-image", item })}
+          <ProjectsListScreen
+            onOpenProject={(project) => push({ id: "project", project })}
           />
         );
         break;
       case "resume":
         title = TITLES.resume;
         body = <ResumeScreen />;
-        break;
-      case "finder":
-        title = TITLES.finder;
-        body = (
-          <FinderScreen
-            tab={current.tab}
-            onTab={(tab) => updateTop({ tab })}
-            onOpenProject={(project) => push({ id: "project", project })}
-            onOpenResume={() => push({ id: "resume" })}
-          />
-        );
         break;
       case "project":
         title = current.project.name;
@@ -475,7 +349,7 @@ const MobileApp = () => {
             {gridApps.map((app) => (
               <HomeIcon
                 key={app.id}
-                icon={app.icon}
+                icon={`/images/${app.icon}`}
                 name={app.name}
                 onClick={() => openHomeApp(app.id)}
               />
@@ -483,11 +357,15 @@ const MobileApp = () => {
           </div>
 
           <div className="flex-1 flex flex-col items-center justify-center px-8 text-center text-white">
-            <p className="text-sm font-medium opacity-90 drop-shadow">
-              Hey, I'm {PROFILE.name.split(" ")[0]}.
+            <p ref={heroKickerRef} className="opacity-90 drop-shadow">
+              {renderText(
+                `Hey, I'm ${PROFILE.name.split(" ")[0]}.`,
+                "text-sm font-georama",
+                100,
+              )}
             </p>
-            <h1 className="mt-2 text-3xl font-bold leading-tight drop-shadow-lg">
-              {PROFILE.role}
+            <h1 ref={heroTitleRef} className="mt-2 leading-tight drop-shadow-lg">
+              {renderText(PROFILE.role, "text-3xl font-georama")}
             </h1>
             <p className="mt-3 max-w-xs text-sm opacity-90 drop-shadow">
               Building scalable web applications and AI-powered products.

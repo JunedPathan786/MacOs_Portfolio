@@ -333,7 +333,13 @@ const Finder = () => {
                     }}
                   >
                     <span className="finder-item-icon">
-                      <img src={item.icon} alt="" />
+                      <img
+                        src={item.icon}
+                        alt=""
+                        className={
+                          item.icon === "/icons/github.svg" ? "dark:invert" : undefined
+                        }
+                      />
                     </span>
                     <p>{item.name}</p>
                     {isSearching && item._path && (
