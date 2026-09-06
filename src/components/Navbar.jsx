@@ -2,14 +2,17 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import dayjs from 'dayjs'
 
-import { navMenus, navIcons } from '#constants'
+import { navMenus, navIcons, PROFILE, socials } from '#constants'
 import useWindowStore from '#store/window'
 import useSearchStore from '#store/search'
 import useThemeStore from '#store/theme'
 
 
 const PORTFOLIO_REPO = "https://github.com/JunedPathan786/MacOs_Portfolio"
-const CONTACT_EMAIL = "junedp068@gmail.com"
+const GITHUB_URL = socials.find((s) => s.text.toLowerCase().includes("github"))?.link || "https://github.com/JunedPathan786"
+const LINKEDIN_URL = socials.find((s) => s.text.toLowerCase().includes("linkedin"))?.link || "https://www.linkedin.com/in/junedpathan/"
+const CONTACT_EMAIL = PROFILE.email || "junedp068@gmail.com"
+const CONTACT_PHONE = PROFILE.phone || "+91 8830026164"
 
 const Navbar = () => {
   const { windows, openWindow, closeWindow, minimizeWindow } = useWindowStore()
@@ -19,9 +22,38 @@ const Navbar = () => {
 
   const [activeMenu, setActiveMenu] = useState(null)
   const [focusedIndex, setFocusedIndex] = useState(-1)
+  const [toast, setToast] = useState(null)
   const navContainerRef = useRef(null)
-  const menuButtonRefs = useRef({})
-  const itemRefs = useRef([])
+  const toastTimerRef = useRef(null)
+
+  useEffect(() => {
+    return () => {
+      if (toastTimerRef.current) clearTimeout(toastTimerRef.current)
+    }
+  }, [])
+
+  const showToast = useCallback((message, type = "success") => {
+    if (toastTimerRef.current) clearTimeout(toastTimerRef.current)
+    setToast({ message, type })
+    toastTimerRef.current = setTimeout(() => {
+      setToast(null)
+    }, 2500)
+  }, [])
+
+  const copyToClipboard = useCallback((text, label) => {
+    if (typeof navigator !== "undefined" && navigator.clipboard?.writeText) {
+      navigator.clipboard
+        .writeText(text)
+        .then(() => {
+          showToast(`Copied ${label} to clipboard!`, "success")
+        })
+        .catch(() => {
+          showToast(`Failed to copy ${label}`, "error")
+        })
+    } else {
+      showToast(`Clipboard not supported`, "error")
+    }
+  }, [showToast])
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -86,10 +118,24 @@ const Navbar = () => {
   }, [windows, minimizeWindow])
 
   const handleCopyEmail = useCallback(() => {
-    if (typeof navigator !== "undefined" && navigator.clipboard) {
-      navigator.clipboard.writeText(CONTACT_EMAIL).catch(() => {})
-    }
-  }, [])
+    copyToClipboard(CONTACT_EMAIL, "Email")
+  }, [copyToClipboard])
+
+  const handleCopyPhone = useCallback(() => {
+    copyToClipboard(CONTACT_PHONE, "Phone")
+  }, [copyToClipboard])
+
+  const handleCopyLinkedIn = useCallback(() => {
+    copyToClipboard(LINKEDIN_URL, "LinkedIn URL")
+  }, [copyToClipboard])
+
+  const handleCopyGitHub = useCallback(() => {
+    copyToClipboard(GITHUB_URL, "GitHub URL")
+  }, [copyToClipboard])
+
+  const handleSearchPortfolio = useCallback(() => {
+    openSearch()
+  }, [openSearch])
 
   const handleViewSource = useCallback(() => {
     window.open(PORTFOLIO_REPO, "_blank", "noopener,noreferrer")
@@ -103,30 +149,32 @@ const Navbar = () => {
     closeAllWindows: handleCloseAllWindows,
     downloadResume: handleDownloadResume,
     quitPortfolio: handleQuitPortfolio,
+    searchPortfolio: handleSearchPortfolio,
+    find: handleSearchPortfolio,
+    copyEmail: handleCopyEmail,
+    copyPhone: handleCopyPhone,
+    copyLinkedIn: handleCopyLinkedIn,
+    copyGitHub: handleCopyGitHub,
     toggleTheme: toggleMode,
     minimizeAll: handleMinimizeAll,
     openSettings: () => openWindow("settings"),
     viewSource: handleViewSource,
-    find: () => openSearch(),
-    copyEmail: handleCopyEmail,
   }), [
     handleNewWindow,
     handleCloseWindow,
     handleCloseAllWindows,
     handleDownloadResume,
     handleQuitPortfolio,
+    handleSearchPortfolio,
+    handleCopyEmail,
+    handleCopyPhone,
+    handleCopyLinkedIn,
+    handleCopyGitHub,
     toggleMode,
     handleMinimizeAll,
     openWindow,
     handleViewSource,
-    openSearch,
-    handleCopyEmail,
   ])
-
-  const menuActionsRef = useRef(menuActions)
-  useEffect(() => {
-    menuActionsRef.current = menuActions
-  }, [menuActions])
 
   const handleMenuClick = (menuId) => {
     if (activeMenu === menuId) {
@@ -145,15 +193,15 @@ const Navbar = () => {
     }
   }
 
-  const handleItemClick = (item) => {
+  const handleItemClick = useCallback((item) => {
     if (!item || item.disabled || !item.action) return
-    const actionFn = menuActionsRef.current[item.action]
+    const actionFn = menuActions[item.action]
     if (typeof actionFn === "function") {
       actionFn()
       setActiveMenu(null)
       setFocusedIndex(-1)
     }
-  }
+  }, [menuActions])
 
   // Close when clicking outside of the menu container
   useEffect(() => {
@@ -185,7 +233,7 @@ const Navbar = () => {
         const closedId = activeMenu
         setActiveMenu(null)
         setFocusedIndex(-1)
-        menuButtonRefs.current[closedId]?.focus()
+        document.getElementById(`menu-btn-${closedId}`)?.focus()
         return
       }
 
@@ -196,7 +244,7 @@ const Navbar = () => {
         const nextMenu = navMenus[nextMenuIdx]
         setActiveMenu(nextMenu.id)
         setFocusedIndex(-1)
-        menuButtonRefs.current[nextMenu.id]?.focus()
+        document.getElementById(`menu-btn-${nextMenu.id}`)?.focus()
         return
       }
 
@@ -207,7 +255,7 @@ const Navbar = () => {
         const prevMenu = navMenus[prevMenuIdx]
         setActiveMenu(prevMenu.id)
         setFocusedIndex(-1)
-        menuButtonRefs.current[prevMenu.id]?.focus()
+        document.getElementById(`menu-btn-${prevMenu.id}`)?.focus()
         return
       }
 
@@ -236,7 +284,7 @@ const Navbar = () => {
           nextIdx = navigableIndices[currentPos + 1]
         }
         setFocusedIndex(nextIdx)
-        itemRefs.current[nextIdx]?.focus()
+        document.getElementById(`menu-item-${activeMenu}-${nextIdx}`)?.focus()
         return
       }
 
@@ -250,7 +298,7 @@ const Navbar = () => {
           prevIdx = navigableIndices[currentPos - 1]
         }
         setFocusedIndex(prevIdx)
-        itemRefs.current[prevIdx]?.focus()
+        document.getElementById(`menu-item-${activeMenu}-${prevIdx}`)?.focus()
         return
       }
 
@@ -269,7 +317,7 @@ const Navbar = () => {
     return () => {
       document.removeEventListener("keydown", handleKeyDown)
     }
-  }, [activeMenu, focusedIndex])
+  }, [activeMenu, focusedIndex, handleItemClick])
 
   return (
     <nav>
@@ -284,10 +332,8 @@ const Navbar = () => {
             return (
               <li key={menu.id} className="nav-icon-item" role="none">
                 <button
+                  id={`menu-btn-${menu.id}`}
                   type="button"
-                  ref={(el) => {
-                    menuButtonRefs.current[menu.id] = el
-                  }}
                   className={`menu-nav-btn ${isOpen ? "is-active" : ""}`}
                   onClick={() => handleMenuClick(menu.id)}
                   onMouseEnter={() => handleMenuMouseEnter(menu.id)}
@@ -321,19 +367,13 @@ const Navbar = () => {
                       )
                     }
 
-                    const isDisabled = Boolean(
-                      item.disabled || (!item.action && !menuActions[item.action])
-                    )
+                    const isDisabled = Boolean(item.disabled || !item.action)
                     const isFocused = isOpen && focusedIndex === idx
 
                     return (
                       <button
+                        id={`menu-item-${menu.id}-${idx}`}
                         key={item.id || idx}
-                        ref={(el) => {
-                          if (isOpen) {
-                            itemRefs.current[idx] = el
-                          }
-                        }}
                         type="button"
                         role="menuitem"
                         disabled={isDisabled}
@@ -463,6 +503,25 @@ const Navbar = () => {
           {time}
         </time>
       </div>
+
+      {toast && (
+        <div
+          role="status"
+          aria-live="polite"
+          className={`fixed top-11 right-5 z-[99999] flex items-center gap-2.5 rounded-xl border px-3.5 py-2 text-xs font-medium shadow-2xl backdrop-blur-2xl transition-all duration-200 pointer-events-none ${
+            toast.type === "error"
+              ? "border-red-500/30 bg-red-500/15 text-red-600 dark:text-red-400"
+              : "border-black/10 bg-white/95 text-gray-800 dark:border-white/10 dark:bg-neutral-900/95 dark:text-white"
+          }`}
+        >
+          <span
+            className={`size-2 rounded-full ${
+              toast.type === "error" ? "bg-red-500" : "bg-emerald-500"
+            }`}
+          />
+          <span>{toast.message}</span>
+        </div>
+      )}
     </nav>
   )
 }

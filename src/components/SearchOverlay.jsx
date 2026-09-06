@@ -150,6 +150,14 @@ const SearchOverlay = () => {
   useEffect(() => {
     const onKeyDown = (e) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        const target = e.target;
+        const isEditable =
+          target instanceof HTMLElement &&
+          (target.tagName === "INPUT" ||
+            target.tagName === "TEXTAREA" ||
+            target.isContentEditable);
+
+        if (isEditable && target !== inputRef.current) return;
         e.preventDefault();
         toggle();
       }

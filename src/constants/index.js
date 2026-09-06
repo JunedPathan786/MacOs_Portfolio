@@ -67,11 +67,6 @@ const navMenus = [
         disabled: true,
       },
       {
-        id: "copy-email",
-        label: "Copy Email Address",
-        action: "copyEmail",
-      },
-      {
         id: "paste",
         label: "Paste",
         hint: "⌘V",
@@ -85,10 +80,31 @@ const navMenus = [
       },
       { type: "separator" },
       {
-        id: "find",
-        label: "Find…",
+        id: "search-portfolio",
+        label: "Search Portfolio",
         hint: "⌘K",
-        action: "find",
+        action: "searchPortfolio",
+      },
+      { type: "separator" },
+      {
+        id: "copy-email",
+        label: "Copy Email",
+        action: "copyEmail",
+      },
+      {
+        id: "copy-phone",
+        label: "Copy Phone",
+        action: "copyPhone",
+      },
+      {
+        id: "copy-linkedin",
+        label: "Copy LinkedIn",
+        action: "copyLinkedIn",
+      },
+      {
+        id: "copy-github",
+        label: "Copy GitHub",
+        action: "copyGitHub",
       },
     ],
   },
@@ -219,7 +235,8 @@ const PROFILE = {
   name: "Juned Pathan",
   role: "Full-Stack Developer",
   location: "Maharashtra, India",
-  email: "junedp068@gamil.com",
+  email: "junedp068@gmail.com",
+  phone: "+91 8830026164",
   avatar: "/images/juned.png",
   summary:
     "Full-stack developer focused on scalable MERN applications, AI-powered products, clean interfaces, and production-minded backend architecture.",
