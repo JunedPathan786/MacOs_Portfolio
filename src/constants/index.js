@@ -1,7 +1,97 @@
-// Menu-bar dropdowns (View / Help / Edit). Each item's "action" maps to a
-// handler in Navbar.jsx — keeping the data here means the menu structure
-// can change without touching component code.
 const navMenus = [
+  {
+    id: "file",
+    name: "File",
+    items: [
+      {
+        id: "new-window",
+        label: "New Window",
+        hint: "⌘N",
+        action: "newWindow",
+      },
+      { type: "separator" },
+      {
+        id: "close-window",
+        label: "Close Window",
+        hint: "⌘W",
+        action: "closeWindow",
+      },
+      {
+        id: "close-all-windows",
+        label: "Close All Windows",
+        hint: "⌥⌘W",
+        action: "closeAllWindows",
+      },
+      { type: "separator" },
+      {
+        id: "download-resume",
+        label: "Download Resume",
+        action: "downloadResume",
+      },
+      { type: "separator" },
+      {
+        id: "quit-portfolio",
+        label: "Quit Portfolio",
+        hint: "⌘Q",
+        action: "quitPortfolio",
+      },
+    ],
+  },
+  {
+    id: "edit",
+    name: "Edit",
+    items: [
+      {
+        id: "undo",
+        label: "Undo",
+        hint: "⌘Z",
+        disabled: true,
+      },
+      {
+        id: "redo",
+        label: "Redo",
+        hint: "⇧⌘Z",
+        disabled: true,
+      },
+      { type: "separator" },
+      {
+        id: "cut",
+        label: "Cut",
+        hint: "⌘X",
+        disabled: true,
+      },
+      {
+        id: "copy",
+        label: "Copy",
+        hint: "⌘C",
+        disabled: true,
+      },
+      {
+        id: "copy-email",
+        label: "Copy Email Address",
+        action: "copyEmail",
+      },
+      {
+        id: "paste",
+        label: "Paste",
+        hint: "⌘V",
+        disabled: true,
+      },
+      {
+        id: "select-all",
+        label: "Select All",
+        hint: "⌘A",
+        disabled: true,
+      },
+      { type: "separator" },
+      {
+        id: "find",
+        label: "Find…",
+        hint: "⌘K",
+        action: "find",
+      },
+    ],
+  },
   {
     id: "view",
     name: "View",
@@ -12,10 +102,98 @@ const navMenus = [
         hint: "Light / Dark",
         action: "toggleTheme",
       },
+      { type: "separator" },
+      {
+        id: "as-icons",
+        label: "As Icons",
+        hint: "⌘1",
+        disabled: true,
+      },
+      {
+        id: "as-list",
+        label: "As List",
+        hint: "⌘2",
+        disabled: true,
+      },
+      {
+        id: "as-columns",
+        label: "As Columns",
+        hint: "⌘3",
+        disabled: true,
+      },
+      { type: "separator" },
+      {
+        id: "enter-fullscreen",
+        label: "Enter Full Screen",
+        hint: "⌃⌘F",
+        disabled: true,
+      },
+    ],
+  },
+  {
+    id: "go",
+    name: "Go",
+    items: [
+      {
+        id: "back",
+        label: "Back",
+        hint: "⌘[",
+        disabled: true,
+      },
+      {
+        id: "forward",
+        label: "Forward",
+        hint: "⌘]",
+        disabled: true,
+      },
+      { type: "separator" },
+      {
+        id: "applications",
+        label: "Applications",
+        hint: "⇧⌘A",
+        disabled: true,
+      },
+      {
+        id: "documents",
+        label: "Documents",
+        hint: "⇧⌘O",
+        disabled: true,
+      },
+      {
+        id: "desktop",
+        label: "Desktop",
+        hint: "⇧⌘D",
+        disabled: true,
+      },
+      {
+        id: "downloads",
+        label: "Downloads",
+        hint: "⌥⌘L",
+        disabled: true,
+      },
+    ],
+  },
+  {
+    id: "window",
+    name: "Window",
+    items: [
+      {
+        id: "minimize",
+        label: "Minimize",
+        hint: "⌘M",
+        disabled: true,
+      },
       {
         id: "minimize-all",
         label: "Minimize All Windows",
+        hint: "⌥⌘M",
         action: "minimizeAll",
+      },
+      { type: "separator" },
+      {
+        id: "bring-all-to-front",
+        label: "Bring All to Front",
+        disabled: true,
       },
     ],
   },
@@ -32,23 +210,6 @@ const navMenus = [
         id: "source",
         label: "View Source on GitHub",
         action: "viewSource",
-      },
-    ],
-  },
-  {
-    id: "edit",
-    name: "Edit",
-    items: [
-      {
-        id: "find",
-        label: "Find…",
-        hint: "⌘K",
-        action: "find",
-      },
-      {
-        id: "copy-email",
-        label: "Copy Email Address",
-        action: "copyEmail",
       },
     ],
   },

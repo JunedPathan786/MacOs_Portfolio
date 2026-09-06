@@ -162,12 +162,23 @@ body {
     @apply absolute left-[2px] size-[14px] rounded-full bg-white shadow transition-transform duration-200;
   }
 
-  /* Left-aligned macOS-style menu rows (View / Help / Edit), distinct from
-     the centered pill buttons used by the appearance toggle above: each
-     row spans the full dropdown width with the label on the left and an
-     optional keyboard-shortcut hint aligned to the right. */
+  /* macOS-style top menu bar list and buttons */
+  .menu-bar-list {
+    @apply flex items-center gap-1 max-sm:hidden;
+  }
+
+  .menu-nav-btn {
+    @apply inline-flex px-2 py-0.5 items-center justify-center rounded-md cursor-pointer text-sm font-medium opacity-80 transition-all duration-150 hover:opacity-100 hover:bg-black/10 dark:hover:bg-white/10;
+  }
+
+  .menu-nav-btn.is-active {
+    @apply opacity-100 bg-black/15 dark:bg-white/20;
+  }
+
+  /* Left-aligned macOS-style menu dropdowns (File / Edit / View / Go / Window / Help):
+     controlled by activeMenu state (.is-open) rather than hover, matching macOS behavior. */
   .menu-dropdown {
-    @apply invisible absolute left-0 top-full z-[9999] mt-2 flex w-max
+    @apply invisible pointer-events-none absolute left-0 top-full z-[9999] mt-2 flex w-max
          min-w-[200px] origin-top-left translate-y-1 scale-95 flex-col
          gap-0.5 rounded-xl border border-white/50 bg-white/90 p-1.5
          text-[13px] font-medium text-gray-800 opacity-0 shadow-2xl
@@ -178,15 +189,27 @@ body {
     transition-behavior: allow-discrete;
   }
 
-  .nav-icon-item:hover .menu-dropdown,
-  .nav-icon-item:focus-within .menu-dropdown {
-    @apply visible translate-y-0 scale-100 opacity-100;
+  .menu-dropdown.is-open {
+    @apply visible pointer-events-auto translate-y-0 scale-100 opacity-100;
+  }
+
+  .menu-dropdown-divider {
+    @apply my-1 h-px bg-black/10 dark:bg-white/10;
   }
 
   .menu-dropdown-option {
     @apply flex w-full items-center justify-between gap-6 whitespace-nowrap
-         rounded-lg px-3 py-1.5 text-left transition-colors
+         rounded-lg px-3 py-1.5 text-left transition-colors outline-none
          hover:bg-black/5 dark:hover:bg-white/10;
+  }
+
+  .menu-dropdown-option:disabled,
+  .menu-dropdown-option.is-disabled {
+    @apply opacity-40 cursor-default text-gray-400 dark:text-gray-500 hover:bg-transparent dark:hover:bg-transparent;
+  }
+
+  .menu-dropdown-option.is-focused {
+    @apply bg-black/10 dark:bg-white/15;
   }
 
   .menu-dropdown-hint {
