@@ -16,8 +16,25 @@ const LINKEDIN_URL = socials.find((s) => s.text.toLowerCase().includes("linkedin
 const CONTACT_EMAIL = PROFILE.email || "junedp068@gmail.com"
 const CONTACT_PHONE = PROFILE.phone || "+91 8830026164"
 
+const WINDOW_NAMES = {
+  finder: "Finder",
+  terminal: "Terminal",
+  contact: "Contact",
+  resume: "Resume",
+  safari: "Safari",
+  photos: "Photos",
+  txtfile: "Text File",
+  imgfile: "Image Preview",
+  settings: "Settings",
+}
+
+const getWindowDisplayName = (key, win) => {
+  if (win?.data?.name) return win.data.name
+  return WINDOW_NAMES[key] || key.charAt(0).toUpperCase() + key.slice(1)
+}
+
 const Navbar = () => {
-  const { windows, openWindow, closeWindow, focusWindow, minimizeWindow } = useWindowStore()
+  const { windows, openWindow, closeWindow, focusWindow, minimizeWindow, maximizeWindow } = useWindowStore()
   const { resetActiveLocation, navigateTo, goBack, goForward } = useLocationStore()
   const { open: openSearch } = useSearchStore()
   const { mode, toggleMode } = useThemeStore()
@@ -26,6 +43,7 @@ const Navbar = () => {
   const [activeMenu, setActiveMenu] = useState(null)
   const [focusedIndex, setFocusedIndex] = useState(-1)
   const [toast, setToast] = useState(null)
+  const [isWindowListOpen, setIsWindowListOpen] = useState(false)
   const navContainerRef = useRef(null)
   const toastTimerRef = useRef(null)
 
@@ -264,6 +282,38 @@ const Navbar = () => {
     }
   }, [goForward, windows.finder?.isOpen, focusWindow, openWindow])
 
+  const handleMinimize = useCallback(() => {
+    const activeEntry = Object.entries(windows)
+      .filter(([, win]) => win.isOpen && !win.isMinimized)
+      .sort((a, b) => b[1].zIndex - a[1].zIndex)[0]
+
+    if (activeEntry) {
+      minimizeWindow(activeEntry[0])
+    }
+  }, [windows, minimizeWindow])
+
+  const handleZoom = useCallback(() => {
+    const activeEntry = Object.entries(windows)
+      .filter(([, win]) => win.isOpen && !win.isMinimized)
+      .sort((a, b) => b[1].zIndex - a[1].zIndex)[0]
+
+    if (activeEntry) {
+      maximizeWindow(activeEntry[0])
+    }
+  }, [windows, maximizeWindow])
+
+  const handleBringAllToFront = useCallback(() => {
+    Object.entries(windows).forEach(([key, win]) => {
+      if (win.isOpen) {
+        focusWindow(key)
+      }
+    })
+  }, [windows, focusWindow])
+
+  const handleShowWindowList = useCallback(() => {
+    setIsWindowListOpen(true)
+  }, [])
+
   // Maps each menu item's declarative "action" (defined in constants) to
   // its actual behavior, so the menu-bar layout stays pure data.
   const menuActions = useMemo(() => ({
@@ -302,6 +352,13 @@ const Navbar = () => {
     back: handleBack,
     goForward: handleForward,
     forward: handleForward,
+    minimize: handleMinimize,
+    zoom: handleZoom,
+    close: handleCloseWindow,
+    bringAllToFront: handleBringAllToFront,
+    bringAll: handleBringAllToFront,
+    showWindowList: handleShowWindowList,
+    windowList: handleShowWindowList,
   }), [
     handleNewWindow,
     handleCloseWindow,
@@ -328,6 +385,10 @@ const Navbar = () => {
     handleGoTrash,
     handleBack,
     handleForward,
+    handleMinimize,
+    handleZoom,
+    handleBringAllToFront,
+    handleShowWindowList,
   ])
 
   const handleMenuClick = (menuId) => {
@@ -347,15 +408,48 @@ const Navbar = () => {
     }
   }
 
+  const getMenuItems = useCallback((menu) => {
+    if (!menu) return []
+    if (menu.id !== "window") return menu.items
+
+    const openWindows = Object.entries(windows)
+      .filter(([, win]) => win.isOpen)
+      .sort((a, b) => b[1].zIndex - a[1].zIndex)
+
+    if (openWindows.length === 0) return menu.items
+
+    return [
+      ...menu.items,
+      { type: "separator" },
+      ...openWindows.map(([key, win], i) => {
+        const isTop = i === 0 && !win.isMinimized
+        const name = getWindowDisplayName(key, win)
+        return {
+          id: `window-item-${key}`,
+          label: isTop ? `✓ ${name}` : `   ${name}`,
+          action: `focus_${key}`,
+          windowKey: key,
+          hint: win.isMinimized ? "(minimized)" : "",
+        }
+      }),
+    ]
+  }, [windows])
+
   const handleItemClick = useCallback((item) => {
-    if (!item || item.disabled || !item.action) return
+    if (!item || item.disabled || (!item.action && !item.windowKey)) return
+    if (item.windowKey) {
+      focusWindow(item.windowKey)
+      setActiveMenu(null)
+      setFocusedIndex(-1)
+      return
+    }
     const actionFn = menuActions[item.action]
     if (typeof actionFn === "function") {
       actionFn()
       setActiveMenu(null)
       setFocusedIndex(-1)
     }
-  }, [menuActions])
+  }, [menuActions, focusWindow])
 
   // Close when clicking outside of the menu container
   useEffect(() => {
@@ -378,8 +472,9 @@ const Navbar = () => {
   useEffect(() => {
     if (!activeMenu) return
 
-    const currentMenu = navMenus.find((m) => m.id === activeMenu)
-    if (!currentMenu) return
+    const rawMenu = navMenus.find((m) => m.id === activeMenu)
+    if (!rawMenu) return
+    const currentItems = getMenuItems(rawMenu)
 
     const handleKeyDown = (e) => {
       if (e.key === "Escape") {
@@ -413,16 +508,16 @@ const Navbar = () => {
         return
       }
 
-      const enabledIndices = currentMenu.items
+      const enabledIndices = currentItems
         .map((item, idx) =>
-          item.type !== "separator" && !item.disabled && item.action ? idx : null
+          item.type !== "separator" && !item.disabled && (item.action || item.windowKey) ? idx : null
         )
         .filter((idx) => idx !== null)
 
       const navigableIndices =
         enabledIndices.length > 0
           ? enabledIndices
-          : currentMenu.items
+          : currentItems
               .map((item, idx) => (item.type !== "separator" ? idx : null))
               .filter((idx) => idx !== null)
 
@@ -458,8 +553,8 @@ const Navbar = () => {
 
       if (e.key === "Enter" || e.key === " ") {
         if (focusedIndex >= 0) {
-          const item = currentMenu.items[focusedIndex]
-          if (item && !item.disabled && item.action) {
+          const item = currentItems[focusedIndex]
+          if (item && !item.disabled && (item.action || item.windowKey)) {
             e.preventDefault()
             handleItemClick(item)
           }
@@ -471,7 +566,18 @@ const Navbar = () => {
     return () => {
       document.removeEventListener("keydown", handleKeyDown)
     }
-  }, [activeMenu, focusedIndex, handleItemClick])
+  }, [activeMenu, focusedIndex, handleItemClick, getMenuItems])
+
+  useEffect(() => {
+    if (!isWindowListOpen) return
+    const handleEscape = (e) => {
+      if (e.key === "Escape") {
+        setIsWindowListOpen(false)
+      }
+    }
+    document.addEventListener("keydown", handleEscape)
+    return () => document.removeEventListener("keydown", handleEscape)
+  }, [isWindowListOpen])
 
   return (
     <nav>
@@ -482,6 +588,7 @@ const Navbar = () => {
         <ul ref={navContainerRef} className="menu-bar-list" role="menubar">
           {navMenus.map((menu) => {
             const isOpen = activeMenu === menu.id
+            const menuItems = getMenuItems(menu)
 
             return (
               <li key={menu.id} className="nav-icon-item" role="none">
@@ -510,7 +617,7 @@ const Navbar = () => {
                   aria-label={menu.name}
                   className={`menu-dropdown ${isOpen ? "is-open" : ""}`}
                 >
-                  {menu.items.map((item, idx) => {
+                  {menuItems.map((item, idx) => {
                     if (item.type === "separator") {
                       return (
                         <div
@@ -521,7 +628,7 @@ const Navbar = () => {
                       )
                     }
 
-                    const isDisabled = Boolean(item.disabled || !item.action)
+                    const isDisabled = Boolean(item.disabled || (!item.action && !item.windowKey))
                     const isFocused = isOpen && focusedIndex === idx
 
                     return (
@@ -674,6 +781,57 @@ const Navbar = () => {
             }`}
           />
           <span>{toast.message}</span>
+        </div>
+      )}
+
+      {isWindowListOpen && (
+        <div
+          className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/40 backdrop-blur-sm"
+          onClick={() => setIsWindowListOpen(false)}
+          role="dialog"
+          aria-label="Window List"
+        >
+          <div
+            className="w-80 rounded-xl bg-white/95 dark:bg-gray-800/95 shadow-2xl border border-gray-200 dark:border-gray-700 p-4 text-gray-800 dark:text-gray-100 animate-in fade-in duration-150"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between pb-3 border-b border-gray-200 dark:border-gray-700">
+              <h3 className="text-sm font-semibold">Currently Open Windows</h3>
+              <button
+                type="button"
+                className="text-xs px-2 py-1 rounded hover:bg-gray-200 dark:bg-gray-700 transition"
+                onClick={() => setIsWindowListOpen(false)}
+                aria-label="Close dialog"
+              >
+                ✕
+              </button>
+            </div>
+            <div className="mt-3 space-y-1 max-h-60 overflow-y-auto">
+              {Object.entries(windows).filter(([, win]) => win.isOpen).length === 0 ? (
+                <p className="text-xs text-gray-400 py-3 text-center">No open windows</p>
+              ) : (
+                Object.entries(windows)
+                  .filter(([, win]) => win.isOpen)
+                  .sort((a, b) => b[1].zIndex - a[1].zIndex)
+                  .map(([key, win]) => (
+                    <button
+                      key={key}
+                      type="button"
+                      className="w-full flex items-center justify-between px-3 py-2 text-xs rounded-lg hover:bg-blue-500 hover:text-white transition text-left group"
+                      onClick={() => {
+                        focusWindow(key)
+                        setIsWindowListOpen(false)
+                      }}
+                    >
+                      <span className="font-medium">{getWindowDisplayName(key, win)}</span>
+                      <span className="text-[10px] text-gray-400 group-hover:text-white/80">
+                        {win.isMinimized ? "Minimized" : "Active"}
+                      </span>
+                    </button>
+                  ))
+              )}
+            </div>
+          </div>
         </div>
       )}
     </nav>
