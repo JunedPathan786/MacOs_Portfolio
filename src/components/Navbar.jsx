@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 
 import dayjs from 'dayjs'
 import gsap from 'gsap'
@@ -120,18 +121,6 @@ const Navbar = () => {
     document.body.removeChild(link)
   }, [])
 
-  const handleQuitPortfolio = useCallback(() => {
-    if (typeof window !== "undefined") {
-      const confirmed = window.confirm("Are you sure you want to quit the portfolio?")
-      if (confirmed) {
-        Object.entries(windows).forEach(([key, win]) => {
-          if (win.isOpen) {
-            closeWindow(key)
-          }
-        })
-      }
-    }
-  }, [windows, closeWindow])
 
   const handleMinimizeAll = useCallback(() => {
     Object.entries(windows).forEach(([key, win]) => {
@@ -334,7 +323,6 @@ const Navbar = () => {
     closeWindow: handleCloseWindow,
     closeAllWindows: handleCloseAllWindows,
     downloadResume: handleDownloadResume,
-    quitPortfolio: handleQuitPortfolio,
     searchPortfolio: handleSearchPortfolio,
     find: handleSearchPortfolio,
     copyEmail: handleCopyEmail,
@@ -385,7 +373,6 @@ const Navbar = () => {
     handleCloseWindow,
     handleCloseAllWindows,
     handleDownloadResume,
-    handleQuitPortfolio,
     handleSearchPortfolio,
     handleCopyEmail,
     handleCopyPhone,
@@ -879,7 +866,7 @@ const Navbar = () => {
         </div>
       )}
 
-      {isWindowListOpen && (
+      {isWindowListOpen && createPortal(
         <div
           className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/40 backdrop-blur-sm"
           onClick={() => setIsWindowListOpen(false)}
@@ -887,7 +874,7 @@ const Navbar = () => {
           aria-label="Window List"
         >
           <div
-            className="w-80 rounded-xl bg-white/95 dark:bg-gray-800/95 shadow-2xl border border-gray-200 dark:border-gray-700 p-4 text-gray-800 dark:text-gray-100 animate-in fade-in duration-150"
+            className="w-80 rounded-xl bg-white/95 dark:bg-gray-800/95 shadow-2xl border border-gray-200 dark:border-gray-700 p-4 text-gray-800 dark:text-gray-100"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between pb-3 border-b border-gray-200 dark:border-gray-700">
@@ -927,9 +914,10 @@ const Navbar = () => {
               )}
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
-      {activeHelpModal === "about" && (
+      {activeHelpModal === "about" && createPortal(
         <div
           className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/40 backdrop-blur-sm"
           onClick={() => setActiveHelpModal(null)}
@@ -937,7 +925,7 @@ const Navbar = () => {
           aria-label="About This Portfolio"
         >
           <div
-            className="w-96 rounded-2xl bg-white/95 dark:bg-neutral-900/95 shadow-2xl border border-gray-200 dark:border-white/10 p-6 text-gray-800 dark:text-gray-100 animate-in fade-in zoom-in-95 duration-150 relative text-center"
+            className="w-96 rounded-2xl bg-white/95 dark:bg-neutral-900/95 shadow-2xl border border-gray-200 dark:border-white/10 p-6 text-gray-800 dark:text-gray-100 relative text-center"
             onClick={(e) => e.stopPropagation()}
           >
             <button
@@ -961,28 +949,28 @@ const Navbar = () => {
               macOS Web Experience &bull; Version 1.0.0
             </p>
 
-            <div className="mt-4 p-3.5 rounded-xl bg-gray-50 dark:bg-neutral-800/60 border border-gray-200/60 dark:border-neutral-700/60 text-left text-xs space-y-2">
-              <div className="flex justify-between">
+            <div className="mt-4 p-3.5 rounded-xl bg-gray-50 dark:bg-neutral-800/60 border border-gray-200/60 dark:border-neutral-700/60 text-left text-xs flex flex-col gap-2">
+              <div className="w-full flex flex-row items-center justify-between">
                 <span className="text-gray-500 dark:text-gray-400">Developer</span>
                 <span className="font-medium text-gray-800 dark:text-gray-200">{PROFILE.name}</span>
               </div>
-              <div className="flex justify-between">
+              <div className="w-full flex flex-row items-center justify-between">
                 <span className="text-gray-500 dark:text-gray-400">Role</span>
                 <span className="font-medium text-gray-800 dark:text-gray-200">{PROFILE.role}</span>
               </div>
-              <div className="flex justify-between">
+              <div className="w-full flex flex-row items-center justify-between">
                 <span className="text-gray-500 dark:text-gray-400">Core Stack</span>
                 <span className="font-medium text-gray-800 dark:text-gray-200">React 19 &bull; Vite</span>
               </div>
-              <div className="flex justify-between">
+              <div className="w-full flex flex-row items-center justify-between">
                 <span className="text-gray-500 dark:text-gray-400">Styling</span>
                 <span className="font-medium text-gray-800 dark:text-gray-200">Tailwind CSS v4</span>
               </div>
-              <div className="flex justify-between">
+              <div className="w-full flex flex-row items-center justify-between">
                 <span className="text-gray-500 dark:text-gray-400">Animation</span>
                 <span className="font-medium text-gray-800 dark:text-gray-200">GSAP &bull; Draggable</span>
               </div>
-              <div className="flex justify-between">
+              <div className="w-full flex flex-row items-center justify-between">
                 <span className="text-gray-500 dark:text-gray-400">State</span>
                 <span className="font-medium text-gray-800 dark:text-gray-200">Zustand &bull; Immer</span>
               </div>
@@ -1008,10 +996,11 @@ const Navbar = () => {
               </button>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
-      {activeHelpModal === "shortcuts" && (
+      {activeHelpModal === "shortcuts" && createPortal(
         <div
           className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/40 backdrop-blur-sm"
           onClick={() => setActiveHelpModal(null)}
@@ -1072,10 +1061,11 @@ const Navbar = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
-      {activeHelpModal === "guide" && (
+      {activeHelpModal === "guide" && createPortal(
         <div
           className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/40 backdrop-blur-sm"
           onClick={() => setActiveHelpModal(null)}
@@ -1169,7 +1159,8 @@ const Navbar = () => {
               </button>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </nav>
   )

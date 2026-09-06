@@ -28,13 +28,6 @@ const navMenus = [
         label: "Download Resume",
         action: "downloadResume",
       },
-      { type: "separator" },
-      {
-        id: "quit-portfolio",
-        label: "Quit Portfolio",
-        hint: "⌘Q",
-        action: "quitPortfolio",
-      },
     ],
   },
   {
@@ -50,7 +43,7 @@ const navMenus = [
       {
         id: "redo",
         label: "Redo",
-        hint: "⇧⌘Z",
+        hint: "⇧⌘Y",
         disabled: true,
       },
       { type: "separator" },
