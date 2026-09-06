@@ -36,7 +36,7 @@ const getWindowDisplayName = (key, win) => {
 const Navbar = () => {
   const { windows, openWindow, closeWindow, focusWindow, minimizeWindow, maximizeWindow } = useWindowStore()
   const { resetActiveLocation, navigateTo, goBack, goForward } = useLocationStore()
-  const { open: openSearch } = useSearchStore()
+  const { open: openSearch, toggle: toggleSearch } = useSearchStore()
   const { mode, toggleMode } = useThemeStore()
   const [time, setTime] = useState(dayjs().format("ddd MMM D h:mm A"))
 
@@ -603,6 +603,76 @@ const Navbar = () => {
     document.addEventListener("keydown", handleEscape)
     return () => document.removeEventListener("keydown", handleEscape)
   }, [isWindowListOpen, activeHelpModal])
+
+  // Global keyboard shortcuts
+  useEffect(() => {
+    const handleGlobalShortcuts = (e) => {
+      const isCmdOrCtrl = e.metaKey || e.ctrlKey
+      if (!isCmdOrCtrl) return
+
+      const key = e.key?.toLowerCase()
+      if (!key) return
+
+      const target = e.target
+      const isEditable =
+        target instanceof HTMLElement &&
+        (target.tagName === "INPUT" ||
+          target.tagName === "TEXTAREA" ||
+          target.tagName === "SELECT" ||
+          target.isContentEditable)
+
+      // Cmd/Ctrl + Shift + W: Close all windows
+      if (e.shiftKey && !e.altKey && key === "w") {
+        if (isEditable) return
+        e.preventDefault()
+        handleCloseAllWindows()
+        return
+      }
+
+      // Cmd/Ctrl + Shift + F: Toggle full screen
+      if (e.shiftKey && !e.altKey && key === "f") {
+        if (isEditable) return
+        e.preventDefault()
+        handleToggleFullScreen()
+        return
+      }
+
+      // Cmd/Ctrl + K: Search
+      if (!e.shiftKey && !e.altKey && key === "k") {
+        if (isEditable && !target.closest("#search-overlay")) return
+        e.preventDefault()
+        toggleSearch()
+        return
+      }
+
+      // Cmd/Ctrl + W: Close active window
+      if (!e.shiftKey && !e.altKey && key === "w") {
+        if (isEditable) return
+        e.preventDefault()
+        handleCloseWindow()
+        return
+      }
+
+      // Cmd/Ctrl + M: Minimize active window
+      if (!e.shiftKey && !e.altKey && key === "m") {
+        if (isEditable) return
+        e.preventDefault()
+        handleMinimize()
+        return
+      }
+    }
+
+    document.addEventListener("keydown", handleGlobalShortcuts)
+    return () => {
+      document.removeEventListener("keydown", handleGlobalShortcuts)
+    }
+  }, [
+    handleCloseAllWindows,
+    handleToggleFullScreen,
+    toggleSearch,
+    handleCloseWindow,
+    handleMinimize,
+  ])
 
   return (
     <nav>

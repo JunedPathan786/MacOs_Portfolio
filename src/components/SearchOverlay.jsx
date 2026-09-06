@@ -122,7 +122,7 @@ const buildIndex = () => {
 };
 
 const SearchOverlay = () => {
-  const { isOpen, query, close, toggle, setQuery } = useSearchStore();
+  const { isOpen, query, close, setQuery } = useSearchStore();
   const { openWindow } = useWindowStore();
   const { setActiveLocation } = useLocationStore();
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -148,24 +148,13 @@ const SearchOverlay = () => {
   }, [index, query]);
 
   useEffect(() => {
+    if (!isOpen) return;
     const onKeyDown = (e) => {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
-        const target = e.target;
-        const isEditable =
-          target instanceof HTMLElement &&
-          (target.tagName === "INPUT" ||
-            target.tagName === "TEXTAREA" ||
-            target.isContentEditable);
-
-        if (isEditable && target !== inputRef.current) return;
-        e.preventDefault();
-        toggle();
-      }
       if (e.key === "Escape") close();
     };
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
-  }, [close, toggle]);
+  }, [isOpen, close]);
 
   useEffect(() => {
     if (isOpen) {
