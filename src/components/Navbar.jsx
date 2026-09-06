@@ -1,11 +1,13 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import dayjs from 'dayjs'
+import gsap from 'gsap'
 
 import { navMenus, navIcons, PROFILE, socials } from '#constants'
 import useWindowStore from '#store/window'
 import useSearchStore from '#store/search'
 import useThemeStore from '#store/theme'
+import useLocationStore from '#store/location'
 
 
 const PORTFOLIO_REPO = "https://github.com/JunedPathan786/MacOs_Portfolio"
@@ -15,7 +17,8 @@ const CONTACT_EMAIL = PROFILE.email || "junedp068@gmail.com"
 const CONTACT_PHONE = PROFILE.phone || "+91 8830026164"
 
 const Navbar = () => {
-  const { windows, openWindow, closeWindow, minimizeWindow } = useWindowStore()
+  const { windows, openWindow, closeWindow, focusWindow, minimizeWindow } = useWindowStore()
+  const { resetActiveLocation } = useLocationStore()
   const { open: openSearch } = useSearchStore()
   const { mode, toggleMode } = useThemeStore()
   const [time, setTime] = useState(dayjs().format("ddd MMM D h:mm A"))
@@ -117,6 +120,46 @@ const Navbar = () => {
     })
   }, [windows, minimizeWindow])
 
+  const handleShowAllWindows = useCallback(() => {
+    let hasRestored = false
+    Object.entries(windows).forEach(([key, win]) => {
+      if (win.isOpen && win.isMinimized) {
+        focusWindow(key)
+        hasRestored = true
+      }
+    })
+    if (!hasRestored) {
+      const anyOpen = Object.values(windows).some((w) => w.isOpen)
+      if (!anyOpen) {
+        openWindow("finder")
+      }
+    }
+  }, [windows, focusWindow, openWindow])
+
+  const handleToggleFullScreen = useCallback(() => {
+    if (typeof document === "undefined") return
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen?.().catch(() => {})
+    } else {
+      document.exitFullscreen?.().catch(() => {})
+    }
+  }, [])
+
+  const handleRefreshDesktop = useCallback(() => {
+    if (typeof window !== "undefined") {
+      gsap.to(".folder", {
+        x: 0,
+        y: 0,
+        duration: 0.25,
+        ease: "power2.out",
+        clearProps: "transform",
+      })
+      resetActiveLocation()
+      setTime(dayjs().format("ddd MMM D h:mm A"))
+      showToast("Desktop refreshed", "success")
+    }
+  }, [resetActiveLocation, showToast])
+
   const handleCopyEmail = useCallback(() => {
     copyToClipboard(CONTACT_EMAIL, "Email")
   }, [copyToClipboard])
@@ -157,6 +200,10 @@ const Navbar = () => {
     copyGitHub: handleCopyGitHub,
     toggleTheme: toggleMode,
     minimizeAll: handleMinimizeAll,
+    showAllWindows: handleShowAllWindows,
+    enterFullScreen: handleToggleFullScreen,
+    toggleFullScreen: handleToggleFullScreen,
+    refreshDesktop: handleRefreshDesktop,
     openSettings: () => openWindow("settings"),
     viewSource: handleViewSource,
   }), [
@@ -172,6 +219,9 @@ const Navbar = () => {
     handleCopyGitHub,
     toggleMode,
     handleMinimizeAll,
+    handleShowAllWindows,
+    handleToggleFullScreen,
+    handleRefreshDesktop,
     openWindow,
     handleViewSource,
   ])
