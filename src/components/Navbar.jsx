@@ -44,6 +44,7 @@ const Navbar = () => {
   const [focusedIndex, setFocusedIndex] = useState(-1)
   const [toast, setToast] = useState(null)
   const [isWindowListOpen, setIsWindowListOpen] = useState(false)
+  const [activeHelpModal, setActiveHelpModal] = useState(null)
   const navContainerRef = useRef(null)
   const toastTimerRef = useRef(null)
 
@@ -314,6 +315,18 @@ const Navbar = () => {
     setIsWindowListOpen(true)
   }, [])
 
+  const handlePortfolioGuide = useCallback(() => {
+    setActiveHelpModal("guide")
+  }, [])
+
+  const handleKeyboardShortcuts = useCallback(() => {
+    setActiveHelpModal("shortcuts")
+  }, [])
+
+  const handleAboutThisPortfolio = useCallback(() => {
+    setActiveHelpModal("about")
+  }, [])
+
   // Maps each menu item's declarative "action" (defined in constants) to
   // its actual behavior, so the menu-bar layout stays pure data.
   const menuActions = useMemo(() => ({
@@ -339,13 +352,14 @@ const Navbar = () => {
     goDesktop: handleGoDesktop,
     desktop: handleGoDesktop,
     goAbout: handleGoAbout,
-    about: handleGoAbout,
+    about: handleAboutThisPortfolio,
     goProjects: handleGoProjects,
     projects: handleGoProjects,
     goSkills: handleGoSkills,
     skills: handleGoSkills,
     goContact: handleGoContact,
     contact: handleGoContact,
+    contactMe: handleGoContact,
     goTrash: handleGoTrash,
     trash: handleGoTrash,
     goBack: handleBack,
@@ -359,6 +373,13 @@ const Navbar = () => {
     bringAll: handleBringAllToFront,
     showWindowList: handleShowWindowList,
     windowList: handleShowWindowList,
+    portfolioGuide: handlePortfolioGuide,
+    guide: handlePortfolioGuide,
+    keyboardShortcuts: handleKeyboardShortcuts,
+    shortcuts: handleKeyboardShortcuts,
+    viewSourceCode: handleViewSource,
+    aboutThisPortfolio: handleAboutThisPortfolio,
+    aboutPortfolio: handleAboutThisPortfolio,
   }), [
     handleNewWindow,
     handleCloseWindow,
@@ -389,6 +410,9 @@ const Navbar = () => {
     handleZoom,
     handleBringAllToFront,
     handleShowWindowList,
+    handlePortfolioGuide,
+    handleKeyboardShortcuts,
+    handleAboutThisPortfolio,
   ])
 
   const handleMenuClick = (menuId) => {
@@ -569,15 +593,16 @@ const Navbar = () => {
   }, [activeMenu, focusedIndex, handleItemClick, getMenuItems])
 
   useEffect(() => {
-    if (!isWindowListOpen) return
+    if (!isWindowListOpen && !activeHelpModal) return
     const handleEscape = (e) => {
       if (e.key === "Escape") {
         setIsWindowListOpen(false)
+        setActiveHelpModal(null)
       }
     }
     document.addEventListener("keydown", handleEscape)
     return () => document.removeEventListener("keydown", handleEscape)
-  }, [isWindowListOpen])
+  }, [isWindowListOpen, activeHelpModal])
 
   return (
     <nav>
@@ -830,6 +855,248 @@ const Navbar = () => {
                     </button>
                   ))
               )}
+            </div>
+          </div>
+        </div>
+      )}
+      {activeHelpModal === "about" && (
+        <div
+          className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/40 backdrop-blur-sm"
+          onClick={() => setActiveHelpModal(null)}
+          role="dialog"
+          aria-label="About This Portfolio"
+        >
+          <div
+            className="w-96 rounded-2xl bg-white/95 dark:bg-neutral-900/95 shadow-2xl border border-gray-200 dark:border-white/10 p-6 text-gray-800 dark:text-gray-100 animate-in fade-in zoom-in-95 duration-150 relative text-center"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              type="button"
+              className="absolute top-3.5 right-3.5 size-7 rounded-full flex items-center justify-center text-gray-400 hover:text-gray-700 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10 transition"
+              onClick={() => setActiveHelpModal(null)}
+              aria-label="Close dialog"
+            >
+              ✕
+            </button>
+
+            <img
+              src="/images/logo.svg"
+              alt="macOS Portfolio"
+              className="w-16 h-16 mx-auto mb-3 drop-shadow-md"
+            />
+            <h3 className="text-base font-bold tracking-tight">
+              {PROFILE.name}&rsquo;s Portfolio
+            </h3>
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+              macOS Web Experience &bull; Version 1.0.0
+            </p>
+
+            <div className="mt-4 p-3.5 rounded-xl bg-gray-50 dark:bg-neutral-800/60 border border-gray-200/60 dark:border-neutral-700/60 text-left text-xs space-y-2">
+              <div className="flex justify-between">
+                <span className="text-gray-500 dark:text-gray-400">Developer</span>
+                <span className="font-medium text-gray-800 dark:text-gray-200">{PROFILE.name}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-500 dark:text-gray-400">Role</span>
+                <span className="font-medium text-gray-800 dark:text-gray-200">{PROFILE.role}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-500 dark:text-gray-400">Core Stack</span>
+                <span className="font-medium text-gray-800 dark:text-gray-200">React 19 &bull; Vite</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-500 dark:text-gray-400">Styling</span>
+                <span className="font-medium text-gray-800 dark:text-gray-200">Tailwind CSS v4</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-500 dark:text-gray-400">Animation</span>
+                <span className="font-medium text-gray-800 dark:text-gray-200">GSAP &bull; Draggable</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-500 dark:text-gray-400">State</span>
+                <span className="font-medium text-gray-800 dark:text-gray-200">Zustand &bull; Immer</span>
+              </div>
+            </div>
+
+            <div className="mt-4 flex items-center justify-center gap-2">
+              <button
+                type="button"
+                className="px-3.5 py-1.5 rounded-lg text-xs font-medium bg-blue-600 hover:bg-blue-700 text-white transition shadow-sm"
+                onClick={handleViewSource}
+              >
+                View Source on GitHub
+              </button>
+              <button
+                type="button"
+                className="px-3.5 py-1.5 rounded-lg text-xs font-medium bg-gray-100 dark:bg-neutral-800 hover:bg-gray-200 dark:hover:bg-neutral-700 text-gray-700 dark:text-gray-200 transition"
+                onClick={() => {
+                  setActiveHelpModal(null)
+                  openWindow("settings")
+                }}
+              >
+                Settings
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {activeHelpModal === "shortcuts" && (
+        <div
+          className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/40 backdrop-blur-sm"
+          onClick={() => setActiveHelpModal(null)}
+          role="dialog"
+          aria-label="Keyboard Shortcuts"
+        >
+          <div
+            className="w-[440px] max-h-[85vh] flex flex-col rounded-2xl bg-white/95 dark:bg-neutral-900/95 shadow-2xl border border-gray-200 dark:border-white/10 p-5 text-gray-800 dark:text-gray-100 animate-in fade-in zoom-in-95 duration-150"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between pb-3 border-b border-gray-200 dark:border-neutral-800">
+              <div className="flex items-center gap-2">
+                <span className="text-lg">⌨️</span>
+                <h3 className="text-sm font-semibold">Keyboard Shortcuts</h3>
+              </div>
+              <button
+                type="button"
+                className="size-7 rounded-full flex items-center justify-center text-gray-400 hover:text-gray-700 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10 transition text-xs"
+                onClick={() => setActiveHelpModal(null)}
+                aria-label="Close dialog"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="mt-3 space-y-2 overflow-y-auto pr-1 text-xs">
+              <div className="grid grid-cols-2 gap-2">
+                {[
+                  { key: "⌘K", desc: "Search Portfolio" },
+                  { key: "⌘N", desc: "New Finder Window" },
+                  { key: "⌘W", desc: "Close Active Window" },
+                  { key: "⌥⌘W", desc: "Close All Windows" },
+                  { key: "⌘M", desc: "Minimize Window" },
+                  { key: "⌥⌘M", desc: "Minimize All Windows" },
+                  { key: "⌥⌘H", desc: "Show All Windows" },
+                  { key: "⌃⌘F", desc: "Toggle Full Screen" },
+                  { key: "⌘R", desc: "Refresh Desktop" },
+                  { key: "⌘[ / ⌘]", desc: "Back / Forward" },
+                  { key: "⇧⌘D", desc: "Desktop" },
+                  { key: "⇧⌘A", desc: "About Me" },
+                  { key: "⇧⌘P", desc: "Projects" },
+                  { key: "⇧⌘S", desc: "Skills (Terminal)" },
+                  { key: "⇧⌘C", desc: "Contact Window" },
+                  { key: "⇧⌘T", desc: "Trash" },
+                  { key: "⌘Q", desc: "Quit Portfolio" },
+                  { key: "Esc", desc: "Close Menus / Dialogs" },
+                ].map(({ key, desc }) => (
+                  <div
+                    key={key}
+                    className="flex items-center justify-between p-2 rounded-lg bg-gray-50 dark:bg-neutral-800/50 border border-gray-200/50 dark:border-neutral-700/50"
+                  >
+                    <span className="text-gray-600 dark:text-gray-300 truncate mr-2">{desc}</span>
+                    <kbd className="px-1.5 py-0.5 font-mono text-[10px] font-semibold rounded bg-white dark:bg-neutral-700 border border-gray-300 dark:border-neutral-600 text-gray-700 dark:text-gray-200 shadow-xs shrink-0">
+                      {key}
+                    </kbd>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {activeHelpModal === "guide" && (
+        <div
+          className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/40 backdrop-blur-sm"
+          onClick={() => setActiveHelpModal(null)}
+          role="dialog"
+          aria-label="Portfolio Guide"
+        >
+          <div
+            className="w-[460px] max-h-[85vh] flex flex-col rounded-2xl bg-white/95 dark:bg-neutral-900/95 shadow-2xl border border-gray-200 dark:border-white/10 p-5 text-gray-800 dark:text-gray-100 animate-in fade-in zoom-in-95 duration-150"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between pb-3 border-b border-gray-200 dark:border-neutral-800">
+              <div className="flex items-center gap-2">
+                <span className="text-lg">🧭</span>
+                <div>
+                  <h3 className="text-sm font-semibold">Portfolio Guide</h3>
+                  <p className="text-[11px] text-gray-400">How to navigate and explore</p>
+                </div>
+              </div>
+              <button
+                type="button"
+                className="size-7 rounded-full flex items-center justify-center text-gray-400 hover:text-gray-700 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10 transition text-xs"
+                onClick={() => setActiveHelpModal(null)}
+                aria-label="Close dialog"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="mt-3 space-y-3 overflow-y-auto pr-1 text-xs">
+              <div className="p-3 rounded-xl bg-gray-50 dark:bg-neutral-800/50 border border-gray-200/60 dark:border-neutral-700/60 flex items-start gap-3">
+                <span className="text-xl">🖥️</span>
+                <div>
+                  <h4 className="font-semibold text-gray-800 dark:text-gray-200">Desktop & Drag</h4>
+                  <p className="text-gray-500 dark:text-gray-400 mt-0.5 leading-relaxed">
+                    Interactive desktop with draggable project folders. Click any folder to inspect project details in Finder.
+                  </p>
+                </div>
+              </div>
+
+              <div className="p-3 rounded-xl bg-gray-50 dark:bg-neutral-800/50 border border-gray-200/60 dark:border-neutral-700/60 flex items-start gap-3">
+                <span className="text-xl">🚀</span>
+                <div>
+                  <h4 className="font-semibold text-gray-800 dark:text-gray-200">The Dock</h4>
+                  <p className="text-gray-500 dark:text-gray-400 mt-0.5 leading-relaxed">
+                    Hover for magnification physics. Click icons to open Finder, Terminal (Skills), Resume, Contact, Safari, Photos, and Settings.
+                  </p>
+                </div>
+              </div>
+
+              <div className="p-3 rounded-xl bg-gray-50 dark:bg-neutral-800/50 border border-gray-200/60 dark:border-neutral-700/60 flex items-start gap-3">
+                <span className="text-xl">🍎</span>
+                <div>
+                  <h4 className="font-semibold text-gray-800 dark:text-gray-200">Menu Bar</h4>
+                  <p className="text-gray-500 dark:text-gray-400 mt-0.5 leading-relaxed">
+                    Fully functional File, Edit, View, Go, Window, and Help menus with keyboard shortcuts and clipboard integration.
+                  </p>
+                </div>
+              </div>
+
+              <div className="p-3 rounded-xl bg-gray-50 dark:bg-neutral-800/50 border border-gray-200/60 dark:border-neutral-700/60 flex items-start gap-3">
+                <span className="text-xl">🔍</span>
+                <div>
+                  <h4 className="font-semibold text-gray-800 dark:text-gray-200">Instant Search</h4>
+                  <p className="text-gray-500 dark:text-gray-400 mt-0.5 leading-relaxed">
+                    Press <kbd className="px-1 py-0.5 text-[10px] bg-white dark:bg-neutral-700 rounded border">⌘K</kbd> anywhere to search across projects, skills, and documents.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-4 pt-3 border-t border-gray-200 dark:border-neutral-800 flex justify-end gap-2">
+              <button
+                type="button"
+                className="px-3.5 py-1.5 rounded-lg text-xs font-medium bg-blue-600 hover:bg-blue-700 text-white transition shadow-sm"
+                onClick={() => {
+                  setActiveHelpModal(null)
+                  handleGoProjects()
+                }}
+              >
+                Open Projects
+              </button>
+              <button
+                type="button"
+                className="px-3.5 py-1.5 rounded-lg text-xs font-medium bg-gray-100 dark:bg-neutral-800 hover:bg-gray-200 dark:hover:bg-neutral-700 text-gray-700 dark:text-gray-200 transition"
+                onClick={() => {
+                  setActiveHelpModal(null)
+                  openWindow("resume")
+                }}
+              >
+                View Resume
+              </button>
             </div>
           </div>
         </div>

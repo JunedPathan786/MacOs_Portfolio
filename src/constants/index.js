@@ -236,14 +236,32 @@ const navMenus = [
     name: "Help",
     items: [
       {
-        id: "settings",
-        label: "Portfolio Settings",
-        action: "openSettings",
+        id: "portfolio-guide",
+        label: "Portfolio Guide",
+        action: "portfolioGuide",
       },
       {
-        id: "source",
-        label: "View Source on GitHub",
-        action: "viewSource",
+        id: "keyboard-shortcuts",
+        label: "Keyboard Shortcuts",
+        hint: "⌘/",
+        action: "keyboardShortcuts",
+      },
+      { type: "separator" },
+      {
+        id: "view-source-code",
+        label: "View Source Code",
+        action: "viewSourceCode",
+      },
+      {
+        id: "about-this-portfolio",
+        label: "About This Portfolio",
+        action: "aboutThisPortfolio",
+      },
+      { type: "separator" },
+      {
+        id: "contact-me",
+        label: "Contact Me",
+        action: "contactMe",
       },
     ],
   },
