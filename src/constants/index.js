@@ -758,8 +758,6 @@ const RESUME_LOCATION = {
       icon: "/images/pdf.png",
       kind: "file",
       fileType: "pdf",
-      // you can add `href` if you want to open a hosted resume
-      // href: "/your/resume/path.pdf",
     },
   ],
 };
@@ -822,8 +820,6 @@ const getAppLaunchTarget = (appId) => {
       history: firstProject ? [locations.work] : [],
     };
   }
-
-  // "work" and any other finder-backed app default to the Work folder.
   return { windowKey, location: locations.work };
 };
 
