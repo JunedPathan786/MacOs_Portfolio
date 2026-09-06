@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import dayjs from 'dayjs'
 import gsap from 'gsap'
 
-import { navMenus, navIcons, PROFILE, socials } from '#constants'
+import { navMenus, navIcons, PROFILE, socials, locations } from '#constants'
 import useWindowStore from '#store/window'
 import useSearchStore from '#store/search'
 import useThemeStore from '#store/theme'
@@ -18,7 +18,7 @@ const CONTACT_PHONE = PROFILE.phone || "+91 8830026164"
 
 const Navbar = () => {
   const { windows, openWindow, closeWindow, focusWindow, minimizeWindow } = useWindowStore()
-  const { resetActiveLocation } = useLocationStore()
+  const { resetActiveLocation, navigateTo, goBack, goForward } = useLocationStore()
   const { open: openSearch } = useSearchStore()
   const { mode, toggleMode } = useThemeStore()
   const [time, setTime] = useState(dayjs().format("ddd MMM D h:mm A"))
@@ -184,6 +184,86 @@ const Navbar = () => {
     window.open(PORTFOLIO_REPO, "_blank", "noopener,noreferrer")
   }, [])
 
+  const handleGoDesktop = useCallback(() => {
+    Object.entries(windows).forEach(([key, win]) => {
+      if (win.isOpen && !win.isMinimized) {
+        minimizeWindow(key)
+      }
+    })
+    resetActiveLocation()
+    if (typeof document !== "undefined") {
+      const desktopEl = document.getElementById("home")
+      desktopEl?.focus?.()
+    }
+  }, [windows, minimizeWindow, resetActiveLocation])
+
+  const handleGoAbout = useCallback(() => {
+    if (locations?.about) {
+      navigateTo(locations.about)
+    }
+    if (windows.finder?.isOpen) {
+      focusWindow("finder")
+    } else {
+      openWindow("finder")
+    }
+  }, [navigateTo, windows.finder?.isOpen, focusWindow, openWindow])
+
+  const handleGoProjects = useCallback(() => {
+    if (locations?.work) {
+      navigateTo(locations.work)
+    }
+    if (windows.finder?.isOpen) {
+      focusWindow("finder")
+    } else {
+      openWindow("finder")
+    }
+  }, [navigateTo, windows.finder?.isOpen, focusWindow, openWindow])
+
+  const handleGoSkills = useCallback(() => {
+    if (windows.terminal?.isOpen) {
+      focusWindow("terminal")
+    } else {
+      openWindow("terminal")
+    }
+  }, [windows.terminal?.isOpen, focusWindow, openWindow])
+
+  const handleGoContact = useCallback(() => {
+    if (windows.contact?.isOpen) {
+      focusWindow("contact")
+    } else {
+      openWindow("contact")
+    }
+  }, [windows.contact?.isOpen, focusWindow, openWindow])
+
+  const handleGoTrash = useCallback(() => {
+    if (locations?.trash) {
+      navigateTo(locations.trash)
+    }
+    if (windows.finder?.isOpen) {
+      focusWindow("finder")
+    } else {
+      openWindow("finder")
+    }
+  }, [navigateTo, windows.finder?.isOpen, focusWindow, openWindow])
+
+  const handleBack = useCallback(() => {
+    goBack()
+    if (windows.finder?.isOpen) {
+      focusWindow("finder")
+    } else {
+      openWindow("finder")
+    }
+  }, [goBack, windows.finder?.isOpen, focusWindow, openWindow])
+
+  const handleForward = useCallback(() => {
+    goForward()
+    if (windows.finder?.isOpen) {
+      focusWindow("finder")
+    } else {
+      openWindow("finder")
+    }
+  }, [goForward, windows.finder?.isOpen, focusWindow, openWindow])
+
   // Maps each menu item's declarative "action" (defined in constants) to
   // its actual behavior, so the menu-bar layout stays pure data.
   const menuActions = useMemo(() => ({
@@ -206,6 +286,22 @@ const Navbar = () => {
     refreshDesktop: handleRefreshDesktop,
     openSettings: () => openWindow("settings"),
     viewSource: handleViewSource,
+    goDesktop: handleGoDesktop,
+    desktop: handleGoDesktop,
+    goAbout: handleGoAbout,
+    about: handleGoAbout,
+    goProjects: handleGoProjects,
+    projects: handleGoProjects,
+    goSkills: handleGoSkills,
+    skills: handleGoSkills,
+    goContact: handleGoContact,
+    contact: handleGoContact,
+    goTrash: handleGoTrash,
+    trash: handleGoTrash,
+    goBack: handleBack,
+    back: handleBack,
+    goForward: handleForward,
+    forward: handleForward,
   }), [
     handleNewWindow,
     handleCloseWindow,
@@ -224,6 +320,14 @@ const Navbar = () => {
     handleRefreshDesktop,
     openWindow,
     handleViewSource,
+    handleGoDesktop,
+    handleGoAbout,
+    handleGoProjects,
+    handleGoSkills,
+    handleGoContact,
+    handleGoTrash,
+    handleBack,
+    handleForward,
   ])
 
   const handleMenuClick = (menuId) => {
