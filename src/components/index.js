@@ -6,6 +6,7 @@ import Home from "#components/Home.jsx";
 import Loader from "#components/Loader.jsx";
 import SearchOverlay from "#components/SearchOverlay";
 import MobileApp from "#components/MobileApp.jsx";
+import SeoContent from "#components/SeoContent.jsx";
 
 export {
   Navbar,
@@ -16,4 +17,5 @@ export {
   Loader,
   SearchOverlay,
   MobileApp,
+  SeoContent,
 };

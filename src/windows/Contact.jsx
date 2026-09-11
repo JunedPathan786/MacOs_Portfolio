@@ -1,5 +1,5 @@
 import { WindowControls } from "#components";
-import { socials } from "#constants";
+import { socials, PROFILE } from "#constants";
 import WindowWrapper from "#hoc/windowWrapper"
 
 const Contact = () => {
@@ -11,7 +11,7 @@ const Contact = () => {
         <span className="w-12 shrink-0" aria-hidden="true" />
       </div>
       <div className="p-5 space-y-5 flex-1 overflow-y-auto min-h-0">
-        <img src="/images/juned.png" alt="Juned" className="w-20 rounded-full" />
+        <img src="/images/juned.png" alt={PROFILE.name} className="w-20 rounded-full" />
         <h3>Let's Connect</h3>
         <p>Got an idea? A bug to squash? Or just wanna talk tech? I'm in.</p>
         <p><a href="mailto:junedp068@gmail.com" target="_blank" className="text-indigo-600 hover:text-indigo-700 hover:font-bold transition-all duration-300 ease-in-out">

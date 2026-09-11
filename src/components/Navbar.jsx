@@ -664,7 +664,7 @@ const Navbar = () => {
   return (
     <nav>
       <div>
-        <img src="/images/logo.svg" alt="logo" />
+        <img src="/images/logo.svg" alt="logo" aria-hidden="true" />
         <p className='font-bold'>Juned's Portfolio</p>
 
         <ul ref={navContainerRef} className="menu-bar-list" role="menubar">

@@ -69,6 +69,21 @@ body {
 }
 
 @layer components {
+  /* Visually hides content while keeping it in the DOM and accessibility
+     tree, for assistive tech and search engine crawlers. Does not affect
+     any existing visual layout — used only by SeoContent.jsx. */
+  .seo-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
   .loader {
     @apply fixed
     inset-0

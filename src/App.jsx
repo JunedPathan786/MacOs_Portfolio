@@ -1,7 +1,7 @@
 import gsap from 'gsap'
 import { Draggable } from 'gsap/Draggable'
 
-import { Navbar, Welcome, Dock, Home, Loader, SearchOverlay, MobileApp } from '#components'
+import { Navbar, Welcome, Dock, Home, Loader, SearchOverlay, MobileApp, SeoContent } from '#components'
 import { Terminal, Safari, Resume, Finder, Text, Image, Contact, Photos, Settings } from '#windows'
 import { useEffect, useState } from 'react'
 
@@ -36,6 +36,7 @@ const App = () => {
           />
         )
       }
+      <SeoContent />
       {isMobile ? (
         <MobileApp />
       ) : (

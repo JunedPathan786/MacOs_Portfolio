@@ -2,9 +2,187 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/macbook.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Juned's Portfolio</title>
+
+    <!-- Primary SEO -->
+    <title>Juned Pathan | Full-Stack MERN Developer Portfolio</title>
+    <meta
+      name="description"
+      content="Portfolio of Juned Pathan, a Full-Stack Developer building scalable MERN and AI-powered web applications. Browse projects, skills, and experience in an interactive macOS-style desktop."
+    />
+    <meta name="author" content="Juned Pathan" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <link rel="canonical" href="https://your-domain.com/" />
+
+    <!-- Favicons -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" href="/images/juned.png" sizes="500x500" />
+    <link rel="apple-touch-icon" href="/images/juned.png" />
+
+    <!-- Theme color (matches the site's own light/dark mode) -->
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
+
+    <!-- Performance: the stylesheet imports Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Juned Pathan Portfolio" />
+    <meta property="og:title" content="Juned Pathan | Full-Stack MERN Developer Portfolio" />
+    <meta
+      property="og:description"
+      content="Full-Stack Developer building scalable MERN and AI-powered web applications. Browse projects, skills, and experience in an interactive macOS-style desktop."
+    />
+    <meta property="og:url" content="https://your-domain.com/" />
+    <meta property="og:image" content="https://your-domain.com/images/juned.png" />
+    <meta property="og:image:width" content="500" />
+    <meta property="og:image:height" content="500" />
+    <meta property="og:image:alt" content="Juned Pathan" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Juned Pathan | Full-Stack MERN Developer Portfolio" />
+    <meta
+      name="twitter:description"
+      content="Full-Stack Developer building scalable MERN and AI-powered web applications. Browse projects, skills, and experience in an interactive macOS-style desktop."
+    />
+    <meta name="twitter:image" content="https://your-domain.com/images/juned.png" />
+    <meta name="twitter:image:alt" content="Juned Pathan" />
+
+    <!-- Structured data: Person, WebSite, ProfilePage and Projects -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Person",
+            "@id": "https://your-domain.com/#person",
+            "name": "Juned Pathan",
+            "url": "https://your-domain.com/",
+            "image": "https://your-domain.com/images/juned.png",
+            "jobTitle": "Full-Stack Developer",
+            "description": "Full-stack developer focused on scalable MERN applications, AI-powered products, clean interfaces, and production-minded backend architecture.",
+            "email": "mailto:junedp068@gmail.com",
+            "telephone": "+91-8830026164",
+            "address": {
+              "@type": "PostalAddress",
+              "addressRegion": "Maharashtra",
+              "addressCountry": "IN"
+            },
+            "sameAs": [
+              "https://github.com/JunedPathan786",
+              "https://www.linkedin.com/in/junedpathan/",
+              "https://leetcode.com/u/juned_pathan/"
+            ],
+            "knowsAbout": [
+              "JavaScript", "TypeScript", "Python", "C", "C++", "SQL",
+              "React.js", "Redux Toolkit", "Tailwind CSS", "HTML5", "CSS3",
+              "Node.js", "Express.js", "REST APIs", "Socket.IO", "JWT Auth",
+              "Docker", "AWS EC2", "AWS ECS", "AWS ECR", "AWS IAM", "AWS VPC",
+              "MongoDB", "MySQL"
+            ]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://your-domain.com/#website",
+            "url": "https://your-domain.com/",
+            "name": "Juned Pathan Portfolio",
+            "description": "Interactive macOS-style desktop portfolio for Full-Stack Developer Juned Pathan.",
+            "publisher": { "@id": "https://your-domain.com/#person" },
+            "inLanguage": "en"
+          },
+          {
+            "@type": "ProfilePage",
+            "@id": "https://your-domain.com/#profilepage",
+            "url": "https://your-domain.com/",
+            "name": "Juned Pathan | Full-Stack MERN Developer Portfolio",
+            "isPartOf": { "@id": "https://your-domain.com/#website" },
+            "about": { "@id": "https://your-domain.com/#person" },
+            "mainEntity": { "@id": "https://your-domain.com/#person" }
+          },
+          {
+            "@type": "ItemList",
+            "@id": "https://your-domain.com/#projects",
+            "name": "Juned Pathan — Projects",
+            "itemListElement": [
+              {
+                "@type": "CreativeWork",
+                "position": 1,
+                "name": "Devin-AI Platform",
+                "description": "Full-stack AI developer platform built with MongoDB, Express.js, React.js, Node.js, and Socket.IO for real-time collaboration.",
+                "url": "https://github.com/JunedPathan786/Own_Software_Ai",
+                "codeRepository": "https://github.com/JunedPathan786/Own_Software_Ai",
+                "keywords": "MongoDB, Express.js, React.js, Node.js, Socket.IO, JWT, Google Gemini API, Tailwind CSS",
+                "creator": { "@id": "https://your-domain.com/#person" }
+              },
+              {
+                "@type": "CreativeWork",
+                "position": 2,
+                "name": "Scalable URL Shortener",
+                "description": "Production-ready URL shortener with JWT auth, custom aliases, Redis caching, and MongoDB indexing for low-latency lookups.",
+                "url": "https://github.com/JunedPathan786/Scalable-URL-Shortener",
+                "codeRepository": "https://github.com/JunedPathan786/Scalable-URL-Shortener",
+                "keywords": "React.js, Vite, Tailwind CSS, Node.js, Express.js, MongoDB, Redis, JWT, React Query, React Router, NanoID",
+                "creator": { "@id": "https://your-domain.com/#person" }
+              },
+              {
+                "@type": "CreativeWork",
+                "position": 3,
+                "name": "AI Interview Preparation Platform",
+                "description": "AI-powered interview prep platform that analyzes resumes and job descriptions to generate structured interview reports and questions.",
+                "url": "https://github.com/JunedPathan786/AI-Interview-Preparation-Platform",
+                "codeRepository": "https://github.com/JunedPathan786/AI-Interview-Preparation-Platform",
+                "keywords": "React.js, Node.js, Express.js, MongoDB, Google Gemini 2.5 Flash, Zod, Puppeteer, JWT, SCSS",
+                "creator": { "@id": "https://your-domain.com/#person" }
+              },
+              {
+                "@type": "CreativeWork",
+                "position": 4,
+                "name": "Niche E-Commerce Platform",
+                "description": "Full-stack marketplace connecting Indian artisans and handmade-product creators with customers, supporting multiple sellers and workflows.",
+                "url": "https://github.com/JunedPathan786/Niche-E-Commerce-Platform",
+                "codeRepository": "https://github.com/JunedPathan786/Niche-E-Commerce-Platform",
+                "keywords": "MongoDB, Express.js, React.js, Node.js, JWT, REST APIs, payment integration",
+                "creator": { "@id": "https://your-domain.com/#person" }
+              },
+              {
+                "@type": "CreativeWork",
+                "position": 5,
+                "name": "Hyperlocal Service Marketplace",
+                "description": "MERN-based hyperlocal service marketplace connecting customers with local service professionals, built during an internship at Infotact Solutions.",
+                "url": "https://github.com/JunedPathan786/Hyperlocal-Service-Backend",
+                "codeRepository": "https://github.com/JunedPathan786/Hyperlocal-Service-Backend",
+                "keywords": "MongoDB, Express.js, React.js, Node.js, JWT, Razorpay, REST APIs",
+                "creator": { "@id": "https://your-domain.com/#person" }
+              },
+              {
+                "@type": "CreativeWork",
+                "position": 6,
+                "name": "Zomato + Reels",
+                "description": "Full-stack food discovery and ordering platform combining restaurant discovery with short-form video content.",
+                "url": "https://github.com/JunedPathan786/Zomato-Reel-application",
+                "codeRepository": "https://github.com/JunedPathan786/Zomato-Reel-application",
+                "keywords": "React.js, Node.js, Express.js, MongoDB, REST APIs, JavaScript",
+                "creator": { "@id": "https://your-domain.com/#person" }
+              },
+              {
+                "@type": "CreativeWork",
+                "position": 7,
+                "name": "3D DogStudio Experience",
+                "description": "Creative 3D web experience using Three.js and React to explore immersive, WebGL-powered browser interactions.",
+                "url": "https://github.com/JunedPathan786/3D-DogStudio-Project",
+                "codeRepository": "https://github.com/JunedPathan786/3D-DogStudio-Project",
+                "keywords": "React.js, Three.js, Vite, JavaScript, WebGL",
+                "creator": { "@id": "https://your-domain.com/#person" }
+              }
+            ]
+          }
+        ]
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
